@@ -1,3 +1,26 @@
-<p>
-  users works!
-</p>
+<p>{{title}}</p>
+
+<table class='table' *ngIf='users && users.length'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Perfil</th>
+      <th>Nome</th>
+      <th>CPF/CNPJ</th>
+      <th>Email</th>
+      <th>Telefone</th>
+      <th><i>Status</i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td><img width="50" [src]="user.image" [title]="user.name"></td>
+      <td>{{ user.profile }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.code }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phone }}</td>
+      <td>{{ user.isActive ? 'Ativo' : 'Inativo' }}</td>
+    </tr>
+  </tbody>
+</table>
