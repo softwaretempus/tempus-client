@@ -1,22 +1,26 @@
 <p>{{title}}</p>
 
+<div>
+  <input type="text" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+</div>
+
 <table class='table' *ngIf='users && users.length'>
   <thead>
     <tr>
       <th></th>
-      <th>Perfil</th>
       <th>Nome</th>
-      <th>CPF/CNPJ</th>
+      <th>Perfil</th>
       <th>Email</th>
       <th>Telefone</th>
+      <th>CPF/CNPJ</th>
       <th><i>Status</i></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of filteredUsers">
       <td><img width="50" [src]="user.image" [title]="user.name"></td>
-      <td>{{ user.profile }}</td>
       <td>{{ user.name }}</td>
+      <td>{{ user.profile }}</td>
       <td>{{ user.code }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
