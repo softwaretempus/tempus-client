@@ -1,0 +1,36 @@
+<h2>{{title + ': ' + user.name }}</h2>
+
+<table>
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img width="180" [src]="user.image" [title]="user.name"></td>
+      <td>
+    </tr>
+    <tr>
+      <td>Cargo</td>
+      <td>{{ user.profile }}</td>
+    </tr>
+    <tr>
+      <td>CPF/CNPJ</td>
+      <td>{{ user.code }}</td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <td>Telefone</td>
+      <td>{{ user.phone }}</td>
+    </tr>
+    <tr>
+      <td>Ativo?</td>
+      <td>{{ user.isActive ? 'Sim' : 'Não' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn btn-outline-secondary" (click)="onBack()">
+  <i class="fa fa-chevron-left"></i> Back
+</button>

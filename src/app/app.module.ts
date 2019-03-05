@@ -7,12 +7,14 @@ import { RouterModule } from '@angular/router'
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
-    DashboardComponent
+    DashboardComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +23,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RouterModule.forRoot([
       { path: 'dashboard', component: DashboardComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'users/:id', component: UserDetailComponent },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
     ])
   ],

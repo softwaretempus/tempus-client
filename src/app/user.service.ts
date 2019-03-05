@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
-import { catchError, tap } from 'rxjs/operators'
+import { catchError, tap, map } from 'rxjs/operators'
 
 import { IUser } from './users/user'
 
@@ -19,6 +19,12 @@ export class UserService {
       tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
     )
+  }
+
+  getUser(id: number): Observable<IUser | undefined> {
+    return this.getUsers().pipe(
+      map((users: IUser[]) => users.find(p => p.id === id))
+    );
   }
 
   private handleError(err: HttpErrorResponse) {

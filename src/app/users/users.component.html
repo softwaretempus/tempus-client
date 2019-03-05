@@ -1,10 +1,10 @@
-<p>{{title}}</p>
+<h2>{{title}}</h2>
 
 <div>
   <input type="text" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
 </div>
 
-<table class='table' *ngIf='users && users.length'>
+<table *ngIf="users && users.length">
   <thead>
     <tr>
       <th></th>
@@ -19,11 +19,11 @@
   <tbody>
     <tr *ngFor="let user of filteredUsers">
       <td><img width="50" [src]="user.image" [title]="user.name"></td>
-      <td>{{ user.name }}</td>
+      <td><a [routerLink]="['/users', user.id]">{{ user.name }}</a></td>
       <td>{{ user.profile }}</td>
-      <td>{{ user.code }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
+      <td>{{ user.code }}</td>
       <td>{{ user.isActive ? 'Ativo' : 'Inativo' }}</td>
     </tr>
   </tbody>

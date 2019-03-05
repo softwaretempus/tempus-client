@@ -14,7 +14,7 @@
         "profile": "Analista",
         "name": "Michael Bolton",
         "code": "2800510000139",
-        "email": "michael-bolton@initech.com",
+        "email": "michael.bolton@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-michael-bolton.jpg",
         "isActive": true
@@ -24,7 +24,7 @@
         "profile": "Analista",
         "name": "Milton Waddams",
         "code": "2800510000139",
-        "email": "milton-waddams@initech.com",
+        "email": "milton.waddams@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-milton-waddams.jpg",
         "isActive": true
