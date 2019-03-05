@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "profile": "Coordenador",
+        "name": "Peter Gibbons",
+        "code": "2800510000139",
+        "email": "p.giggons@initech.com",
+        "phone": "21965755578",
+        "image": "./assets/images/user-peter-gibbons.jpg",
+        "isActive": true
+    },
+    {
+        "id": 2,
+        "profile": "Cliente",
+        "name": "TOTVs",
+        "businessName": "Totvs S.A.",
+        "code": "53113791000122",
+        "email": "mbolton@totvs.com.br",
+        "phone": "1120997773",
+        "owner": "Michael Bolton",
+        "image": "./assets/images/user-michael-bolton.jpg",
+        "isActive": false
+    }
+]

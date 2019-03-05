@@ -1,5 +1,6 @@
 # Tempus Software
 
+It is a system of resource allocation and generation of service orders for companies provide IT Outsourcing services.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.3.
 
 ## Development server
