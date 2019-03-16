@@ -1,30 +1,44 @@
-<h2>{{title}}</h2>
-
-<div>
-  <input type="text" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+<div class="row">
+  <div class="col">
+    <h1 class="bd-title">{{title}}</h1>
+  </div>
+  <div class="col">
+    <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+  </div>
 </div>
 
-<table *ngIf="users && users.length">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Nome</th>
-      <th>Perfil</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th>CPF/CNPJ</th>
-      <th><i>Status</i></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of filteredUsers">
-      <td><img width="50" [src]="user.image" [title]="user.name"></td>
-      <td><a [routerLink]="['/users', user.id]">{{ user.name }}</a></td>
-      <td>{{ user.profile }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.phone }}</td>
-      <td>{{ user.code }}</td>
-      <td>{{ user.isActive ? 'Ativo' : 'Inativo' }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col">
+    <div class="list-group" *ngIf="users && users.length">
+      <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action flex-column align-items-start"
+        *ngFor="let user of filteredUsers">
+
+        <div class="row">
+          <div class="col">
+            <img width="50" [src]="user.image" [title]="user.name">
+          </div>
+          <div class="col">
+            <small>{{ user.profile }}</small>
+            <h5 class="mb-1">{{ user.name }}</h5>
+          </div>
+          <div class="col">
+            <small>Email</small>
+            <p>{{ user.email }}</p>
+          </div>
+          <div class="col">
+            <small>Telefone</small>
+            <p>{{ user.phone }}</p>
+          </div>
+          <div class="col">
+            <small>CPF/CNPJ</small>
+            <p>{{ user.code }}</p>
+          </div>
+          <div class="col">
+            <small>Situação</small>
+            <p>{{ user.isActive ? 'Ativo' : 'Inativo' }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

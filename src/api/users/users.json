@@ -7,6 +7,7 @@
         "email": "bill.lumbergh@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-bill-lumbergh.jpg",
+        "chief": "",
         "isActive": true
     },
     {
@@ -17,6 +18,7 @@
         "email": "michael.bolton@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-michael-bolton.jpg",
+        "chief": "Peter Gibbons",
         "isActive": true
     },
     {
@@ -27,6 +29,7 @@
         "email": "milton.waddams@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-milton-waddams.jpg",
+        "chief": "Bill Lumbergh",
         "isActive": true
     },
     {
@@ -37,6 +40,7 @@
         "email": "peter.gibbons@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-peter-gibbons.jpg",
+        "chief": "Bill Lumbergh",
         "isActive": true
     },
     {
@@ -47,6 +51,7 @@
         "email": "samir.nagheenanajar@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-samir-nagheenanajar.jpg",
+        "chief": "Peter Gibbons",
         "isActive": true
     },
     {
@@ -57,6 +62,7 @@
         "email": "tom.smykowski@initech.com",
         "phone": "21965755578",
         "image": "./assets/images/user-tom-smykowski.jpg",
+        "chief": "Peter Gibbons",
         "isActive": true
     },
     {
