@@ -10,7 +10,7 @@ import { IUser } from './user'
 })
 export class UserService {
 
-  private userUrl = 'api/users/users.json'
+  private userUrl = 'http://localhost:3000/usuario'
 
   constructor(private http: HttpClient) { }
 

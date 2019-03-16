@@ -39,7 +39,7 @@ export class UserListComponent implements OnInit {
   performFilter(filterBy: string): IUser[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.users.filter((user: IUser) =>
-      user.name.toLocaleLowerCase().indexOf(filterBy) !== -1)
+      user.nome.toLocaleLowerCase().indexOf(filterBy) !== -1)
   }
 
 }

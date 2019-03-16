@@ -1,22 +1,18 @@
 <div class="row">
   <div class="col">
-    <h1 class="bd-title">{{ user.name }}</h1>
+    <h1 class="bd-title">{{ user.nome }}</h1>
   </div>
 </div>
 
 <div class="row mt-sm-3">
-  <div class="col-3">
-    <img width="180" [src]="user.image" [title]="user.name">
-  </div>
   <div class="col">
-    <p><small>Cargo</small><br>{{ user.profile }}</p>
-    <p><small>CPF/CNPJ</small><br>{{ user.code }}</p>
+    <p><small>Cargo</small><br>{{ user.perfil }}</p>
+    <p><small>CPF/CNPJ</small><br>{{ user.cpf }}</p>
     <p><small>Email</small><br>{{ user.email }}</p>
   </div>
   <div class="col">
-    <p><small>Telefone</small><br>{{ user.phone }}</p>
-    <p><small>Situação</small><br>{{ user.isActive ? 'Sim' : 'Não' }}</p>
-    <p><small>Superior</small><br>{{ user.chief ? user.chief : '--' }}</p>
+    <p><small>Endereço</small><br>{{ user.endereco }}</p>
+    <p><small>Situação</small><br>{{ user.status ? 'Ativo' : 'Inativo' }}</p>
   </div>
 </div>
 

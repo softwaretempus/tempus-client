@@ -15,27 +15,20 @@
 
         <div class="row">
           <div class="col">
-            <img width="50" [src]="user.image" [title]="user.name">
-          </div>
-          <div class="col">
-            <small>{{ user.profile }}</small>
-            <h5 class="mb-1">{{ user.name }}</h5>
+            <small>{{ user.status ? 'Ativo' : 'Inativo' }}</small>
+            <h5 class="mb-1">{{ user.nome }}</h5>
           </div>
           <div class="col">
             <small>Email</small>
             <p>{{ user.email }}</p>
           </div>
           <div class="col">
-            <small>Telefone</small>
-            <p>{{ user.phone }}</p>
+            <small>Endereço</small>
+            <p>{{ user.endereco }}</p>
           </div>
           <div class="col">
             <small>CPF/CNPJ</small>
-            <p>{{ user.code }}</p>
-          </div>
-          <div class="col">
-            <small>Situação</small>
-            <p>{{ user.isActive ? 'Ativo' : 'Inativo' }}</p>
+            <p>{{ user.cpf }}</p>
           </div>
         </div>
       </a>

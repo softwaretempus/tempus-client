@@ -1,10 +1,8 @@
 export interface IUser {
     id: number
-    profile: string
-    name: string
+    nome: string
+    endereco: string
     email: string
-    document: string
-    phone: string
-    image: string
-    isActive: boolean
+    status: boolean
+    perfil: string
 }
