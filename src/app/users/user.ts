@@ -4,5 +4,6 @@ export interface IUser {
     endereco: string
     email: string
     status: boolean
+    cpf: string
     perfil: string
 }

@@ -5,6 +5,11 @@
   <div class="col">
     <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
   </div>
+  <div class="col">
+    <button class="btn btn-primary mr-3" [routerLink]="['/users/0/edit']">
+      Novo Usuário
+    </button>
+  </div>
 </div>
 
 <div class="row">

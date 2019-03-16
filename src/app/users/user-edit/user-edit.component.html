@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col">
+    <h1 class="bd-title">{{title}}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <form novalidate (ngSubmit)="saveUser()" [formGroup]="userForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userNameId">Nome</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userNameId" type="text" formControlName="userName"
+            [ngClass]="{'is-invalid': displayMessage.userName }" />
+          <span class="invalid-feedback">
+            {{displayMessage.userName}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userAddressId">Endereço</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userAddressId" type="text" formControlName="userAddress"
+            [ngClass]="{'is-invalid': displayMessage.userAddress }" />
+          <span class="invalid-feedback">
+            {{displayMessage.userAddress}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userEmailId">Email</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userEmailId" type="text" formControlName="userEmail"
+            [ngClass]="{'is-invalid': displayMessage.userEmail }" />
+          <span class="invalid-feedback">
+            {{displayMessage.userEmail}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
+        <div class="col-md-8">
+          <select [ngClass]="{'is-invalid': displayMessage.userStatus }" id="userStatusId" formControlName="userStatus">
+            <option [ngValue]="false">false</option>
+            <option [ngValue]="true">true</option>
+          </select>
+          <span class="invalid-feedback">
+            {{displayMessage.userStatus}}
+          </span>
+          <span class="invalid-feedback">
+            {{displayMessage.userStatus}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userCodeId">CPF/CNPJ</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userCodeId" type="text" formControlName="userCode"
+            [ngClass]="{'is-invalid': displayMessage.userCode }" />
+          <span class="invalid-feedback">
+            {{displayMessage.userCode}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userProfileId" type="number" formControlName="userProfile"
+            [ngClass]="{'is-invalid': displayMessage.userProfile }" />
+          <span class="invalid-feedback">
+            {{displayMessage.userProfile}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-secondary mr-3" style="width:80px;" type="button" title="Cancelar edições"
+            [routerLink]="['/users']">
+            Cancelar
+          </button>
+          <button class="btn btn-primary mr-3" style="width:80px;" type="submit"
+            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-danger" style="width:80px" type="button" title="Delete this product"
+            (click)="deleteUser()">
+            Inativar
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+
+</div>
