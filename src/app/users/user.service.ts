@@ -65,10 +65,12 @@ export class UserService {
   updateUser(user: IUser): Observable<IUser> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.usersUrl}/${user.id}`;
+    console.log(url)
+    console.log(user)
+    console.log({headers: headers})
     return this.http.put<IUser>(url, user, { headers: headers })
       .pipe(
         tap(() => console.log('updateUser: ' + user.id)),
-        // Return the user on an update
         map(() => user),
         catchError(this.handleError)
       );
@@ -77,16 +79,16 @@ export class UserService {
   private handleError(err) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
-    let errorMessage = '';
+    let errorMessage: string;
     if (err.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       errorMessage = `An error occurred: ${err.error.message}`;
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
     }
-    console.error(errorMessage);
+    console.error(err);
     return throwError(errorMessage);
   }
 

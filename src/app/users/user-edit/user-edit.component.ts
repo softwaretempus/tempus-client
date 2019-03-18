@@ -39,40 +39,45 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private userService: UserService) {
 
-    // Defines all of the validation messages for the form.
-    // These could instead be retrieved from a file or database.
+    // Define todas as mensagens de validação para este formulários.
+    // TODO: Melhor se for instanciado de um outro arquivo.
     this.validationMessages = {
-      userName: {
-        required: 'Preenchimento do nome é obrigatório.',
+      nome: {
+        required: 'Informe seu nome.',
         minlength: 'O nome não pode ter menos que 3 caracteres.',
         maxlength: 'O nome não pode ter mais que 50 caracteres.'
       },
-      userCode: {
+      email: {
+        required: 'Informe seu e-mail',
+        email: 'email inválido'
+      },
+      cpf: {
         required: 'Informe o CPF ou CNPJ.'
       },
-      userProfile: {
+      perfil: {
         required: 'Informe um perfil.',
         min: 'Informe um número entre 1 e 5.',
         max: 'Informe um número entre 1 e 5.',
       }
     };
 
-    // Define an instance of the validator for use with this form,
-    // passing in this form's set of validation messages.
+    // Define uma instância do validador para user neste form,
+    // passando as mensagens de validação.
     this.genericValidator = new GenericValidator(this.validationMessages);
   }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      userAddress: ['', Validators.required],
-      userEmail: ['', Validators.required],
-      userStatus: ['', Validators.required],
-      userCode: ['', Validators.required],
-      userProfile: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
+      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      endereco: ['', Validators.required],
+      email: ['', Validators.required],
+      status: ['', Validators.required],
+      cpf: ['', Validators.required],
+      perfil: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
     });
 
-    // Read the user Id from the route parameter
+    // Lê o id do usuário do parâmetro da rota,
+    // e retorna dados da api
     this.sub = this.route.paramMap.subscribe(
       params => {
         const id = +params.get('id');
@@ -125,26 +130,25 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.user = user;
 
     if (this.user.id === 0) {
-      this.title = `Add User`;
+      this.title = `Novo usuário`;
     } else {
-      this.title = `Edit User: ${this.user.nome}`;
+      this.title = `Edição: ${this.user.nome}`;
     }
 
-    // Update the data on the form
+    // Atualiza os dados do formulário
     this.userForm.patchValue({
-      userName: this.user.nome,
-      userAddress: this.user.endereco,
-      userEmail: this.user.email,
-      userStatus: this.user.status,
-      userCode: this.user.cpf,
-      userProfile: this.user.perfil
+      nome: this.user.nome,
+      endereco: this.user.endereco,
+      email: this.user.email,
+      status: this.user.status,
+      cpf: this.user.cpf,
+      perfil: this.user.perfil
     });
     // this.userForm.setControl('tags', this.fb.array(this.user.tags || []));
   }
 
   deleteUser(): void {
     if (this.user.id === 0) {
-      // Don't delete, it was never saved.
       this.onSaveComplete();
     } else {
       if (confirm(`Deseja realmente excluir o usuário: ${this.user.nome}?`)) {
@@ -179,12 +183,11 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onSaveComplete();
       }
     } else {
-      this.errorMessage = 'Por favor, corrige os erros de validação.';
+      this.errorMessage = 'Por favor, corrija os erros de validação.';
     }
   }
 
   onSaveComplete(): void {
-    // Reset the form to clear the flags
     this.userForm.reset();
     this.router.navigate(['/users']);
   }

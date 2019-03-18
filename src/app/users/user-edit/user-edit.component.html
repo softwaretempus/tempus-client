@@ -10,10 +10,10 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userNameId">Nome</label>
         <div class="col-md-8">
-          <input class="form-control" id="userNameId" type="text" formControlName="userName"
-            [ngClass]="{'is-invalid': displayMessage.userName }" />
+          <input class="form-control" id="userNameId" type="text" formControlName="nome"
+            [ngClass]="{'is-invalid': displayMessage.nome }" />
           <span class="invalid-feedback">
-            {{displayMessage.userName}}
+            {{displayMessage.nome}}
           </span>
         </div>
       </div>
@@ -21,10 +21,10 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userAddressId">Endereço</label>
         <div class="col-md-8">
-          <input class="form-control" id="userAddressId" type="text" formControlName="userAddress"
-            [ngClass]="{'is-invalid': displayMessage.userAddress }" />
+          <input class="form-control" id="userAddressId" type="text" formControlName="endereco"
+            [ngClass]="{'is-invalid': displayMessage.endereco }" />
           <span class="invalid-feedback">
-            {{displayMessage.userAddress}}
+            {{displayMessage.endereco}}
           </span>
         </div>
       </div>
@@ -32,10 +32,10 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userEmailId">Email</label>
         <div class="col-md-8">
-          <input class="form-control" id="userEmailId" type="text" formControlName="userEmail"
-            [ngClass]="{'is-invalid': displayMessage.userEmail }" />
+          <input class="form-control" id="userEmailId" type="email" formControlName="email"
+            [ngClass]="{'is-invalid': displayMessage.email }" />
           <span class="invalid-feedback">
-            {{displayMessage.userEmail}}
+            {{displayMessage.email}}
           </span>
         </div>
       </div>
@@ -43,15 +43,11 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
         <div class="col-md-8">
-          <select [ngClass]="{'is-invalid': displayMessage.userStatus }" id="userStatusId" formControlName="userStatus">
-            <option [ngValue]="false">false</option>
-            <option [ngValue]="true">true</option>
-          </select>
+          <label class="form-check-label">Ativo</label>
+          <input class="form-check-input" id="userStatusId" type="checkbox" formControlName="status"
+            [ngClass]="{'is-invalid': displayMessage.status }">
           <span class="invalid-feedback">
-            {{displayMessage.userStatus}}
-          </span>
-          <span class="invalid-feedback">
-            {{displayMessage.userStatus}}
+            {{displayMessage.status}}
           </span>
         </div>
       </div>
@@ -59,10 +55,10 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userCodeId">CPF/CNPJ</label>
         <div class="col-md-8">
-          <input class="form-control" id="userCodeId" type="text" formControlName="userCode"
-            [ngClass]="{'is-invalid': displayMessage.userCode }" />
+          <input class="form-control" id="userCodeId" type="text" formControlName="cpf"
+            [ngClass]="{'is-invalid': displayMessage.cpf }" />
           <span class="invalid-feedback">
-            {{displayMessage.userCode}}
+            {{displayMessage.cpf}}
           </span>
         </div>
       </div>
@@ -70,10 +66,10 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
         <div class="col-md-8">
-          <input class="form-control" id="userProfileId" type="number" formControlName="userProfile"
-            [ngClass]="{'is-invalid': displayMessage.userProfile }" />
+          <input class="form-control" id="userProfileId" type="number" formControlName="perfil"
+            [ngClass]="{'is-invalid': displayMessage.perfil }" />
           <span class="invalid-feedback">
-            {{displayMessage.userProfile}}
+            {{displayMessage.perfil}}
           </span>
         </div>
       </div>
@@ -90,7 +86,7 @@
           </button>
           <button class="btn btn-danger" style="width:80px" type="button" title="Delete this product"
             (click)="deleteUser()">
-            Inativar
+            Remover
           </button>
         </div>
       </div>
