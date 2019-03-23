@@ -15,7 +15,7 @@
 <div class="row">
   <div class="col">
     <div class="list-group" *ngIf="users && users.length">
-      <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action flex-column align-items-start"
+      <a [routerLink]="['/users', user.id, 'edit']" class="list-group-item list-group-item-action flex-column align-items-start"
         *ngFor="let user of filteredUsers">
 
         <div class="row">

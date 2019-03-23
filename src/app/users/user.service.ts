@@ -23,12 +23,6 @@ export class UserService {
       )
   }
 
-  // getUser(id: number): Observable<IUser | undefined> {
-  //   return this.getUsers().pipe(
-  //     map((users: IUser[]) => users.find(p => p.id === id))
-  //   );
-  // }
-
   getUser(id: number): Observable<IUser> {
     if (id === 0) {
       return of(this.initializeUser());
