@@ -1,0 +1,6 @@
+.list-group-item:hover {
+    background-color: #fafafa
+}
+.list-group-item > .list-item:hover {
+    text-decoration: none
+}
