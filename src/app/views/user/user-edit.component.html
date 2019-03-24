@@ -73,11 +73,11 @@
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
-          <button class="btn btn-secondary mr-3" style="width:80px;" type="button" title="Cancelar edições"
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
             [routerLink]="['/usuarios']">
             Cancelar
           </button>
-          <button class="btn btn-primary mr-3" style="width:80px;" type="submit"
+          <button class="btn btn-primary mr-3" type="submit"
             [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">
             Salvar
           </button>

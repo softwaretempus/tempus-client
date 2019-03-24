@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 import { SkillComponent } from './skill.component';
+import { SkillEditComponent } from './skill-edit.component';
 import { SkillRoutingModule } from './skill-routing.module';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { SkillRoutingModule } from './skill-routing.module';
   ],
   declarations: [
     SkillComponent,
+    SkillEditComponent
   ]
 })
 export class SkillModule { }

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SkillComponent } from './skill.component';
+import { SkillEditComponent } from './skill-edit.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: SkillComponent,
     data: {
       title: 'Habilidades'
     },
@@ -17,10 +17,17 @@ const routes: Routes = [
         redirectTo: 'habilidades'
       },
       {
-        path: 'habilidade-edicao',
+        path: '',
         component: SkillComponent,
         data: {
-          title: 'Edição'
+          title: 'Consulta'
+        }
+      },
+      {
+        path: ':id/edicao',
+        component: SkillEditComponent,
+        data: {
+          title: 'Formulário'
         }
       }
     ]
