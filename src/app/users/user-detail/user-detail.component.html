@@ -1,36 +1,29 @@
-<h2>{{title + ': ' + user.name }}</h2>
+<div class="row">
+  <div class="col">
+    <h1 class="bd-title">{{ user.nome }}</h1>
+  </div>
+</div>
 
-<table>
-  <thead>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img width="180" [src]="user.image" [title]="user.name"></td>
-      <td>
-    </tr>
-    <tr>
-      <td>Cargo</td>
-      <td>{{ user.profile }}</td>
-    </tr>
-    <tr>
-      <td>CPF/CNPJ</td>
-      <td>{{ user.code }}</td>
-    </tr>
-    <tr>
-      <td>Email</td>
-      <td>{{ user.email }}</td>
-    </tr>
-    <tr>
-      <td>Telefone</td>
-      <td>{{ user.phone }}</td>
-    </tr>
-    <tr>
-      <td>Ativo?</td>
-      <td>{{ user.isActive ? 'Sim' : 'Não' }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="row mt-sm-3">
+  <div class="col">
+      <p><small>ID</small><br>{{ user.id }}</p>
+    <p><small>Cargo</small><br>{{ user.perfil }}</p>
+    <p><small>CPF/CNPJ</small><br>{{ user.cpf }}</p>
+    <p><small>Email</small><br>{{ user.email }}</p>
+  </div>
+  <div class="col">
+    <p><small>Endereço</small><br>{{ user.endereco }}</p>
+    <p><small>Situação</small><br>{{ user.status ? 'Ativo' : 'Inativo' }}</p>
+  </div>
+</div>
 
-<button class="btn btn-outline-secondary" (click)="onBack()">
-  <i class="fa fa-chevron-left"></i> Back
-</button>
+<div class="row mt-sm-3">
+  <div class="col">
+    <button class="btn btn-sm btn-outline-secondary mr-sm-2" (click)="onBack()">
+      <i class="fa fa-chevron-left"></i> Voltar
+    </button>
+    <button class="btn btn-sm btn-primary mr-sm-2" [routerLink]="['/users', user.id, 'edit']">
+      <i class="fa fa-pencil"></i> Editar
+    </button>
+  </div>
+</div>
