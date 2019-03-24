@@ -1,19 +1,17 @@
-<app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
-  [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 100, alt: 'CoreUI Logo'}"
-  [navbarBrandMinimized]="{src: 'assets/img/brand/logo-icon.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
+<app-header [navbarBrandRouterLink]="['/usuarios']" [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 100, alt: 'Tempus Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/logo-icon.svg', width: 30, height: 30, alt: 'Tempus Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
 
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="bottom right">
-      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-        dropdownToggle (click)="false">
-        <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" />
-      </a>
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false"></a>
     </li>
   </ul>
 </app-header>
+
 <div class="app-body">
-  
+
   <app-sidebar [fixed]="true" [display]="'lg'">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
@@ -23,10 +21,10 @@
     <cui-breadcrumb></cui-breadcrumb>
     <div class="container-fluid">
       <router-outlet></router-outlet>
-    </div><!-- /.container-fluid -->
+    </div>
   </main>
 
 </div>
 <app-footer>
-  <span><a href="#">Tempus</a> &copy; 2019 Grupo 1 - 2019.1</span>
+  <span><a href="#">Tempus</a> &copy; UVA SI 2019.1 Grupo 1</span>
 </app-footer>

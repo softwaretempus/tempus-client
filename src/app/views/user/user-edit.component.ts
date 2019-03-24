@@ -47,14 +47,18 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         maxlength: 'O nome não pode ter mais que 50 caracteres.'
       },
       email: {
-        required: 'Informe seu e-mail',
-        email: 'email inválido'
+        required: 'Informe seu e-mail.',
+        email: 'Informe um Email válido.'
+      },
+      endereco: {
+        required: 'Informe seu endereço completo',
+        minlength: 'Informe um endereço válido.',
       },
       cpf: {
-        required: 'Informe o CPF ou CNPJ.'
+        required: 'Informe o CPF ou CNPJ'
       },
       perfil: {
-        required: 'Informe um perfil.',
+        required: 'Informe o perfil.',
         min: 'Informe um número entre 1 e 5.',
         max: 'Informe um número entre 1 e 5.',
       }
@@ -68,9 +72,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.userForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      endereco: ['', Validators.required],
+      endereco: ['', [Validators.required, Validators.minLength(7)]],
       email: ['', Validators.required],
-      status: ['', Validators.required],
       cpf: ['', Validators.required],
       perfil: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
     });
@@ -127,9 +130,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.user = user;
 
     if (this.user.id === 0) {
-      this.title = `Novo usuário`;
+      this.title = `Formulário de cadastro`;
     } else {
-      this.title = `Edição: ${this.user.nome}`;
+      this.title = `Formulário de edição`;
     }
 
     // Atualiza os dados do formulário
