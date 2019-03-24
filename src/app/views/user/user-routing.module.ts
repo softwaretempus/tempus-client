@@ -28,7 +28,7 @@ const routes: Routes = [
         path: ':id/edicao',
         component: UserEditComponent,
         data: {
-          title: 'Edição'
+          title: 'Formulário'
         }
       }
     ]

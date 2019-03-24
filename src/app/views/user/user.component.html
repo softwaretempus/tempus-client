@@ -14,32 +14,43 @@
       </div>
     </div>
   </div>
-  <div class="list-group-item"
-    [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}"
-    *ngFor="let user of filteredUsers">
-    <a [routerLink]="['/usuarios', user.id, 'edicao']" class="list-item">
-      <div class="avatar float-right">
-        <img class="img-avatar" src="assets/img/avatars/user-bill-lumbergh.jpg">
-      </div>
-      <div>
-        {{user.perfil}}
-        <strong [ngClass]="{'text-muted': !user.status}">{{user.nome}}</strong>
-      </div>
-      <p class="mb-0">
-        <small class="text-muted">
-          <i class="cui-envelope-letter icons"></i> {{user.email}}
-        </small>
-      </p>
-      <p class="mb-0">
-        <small class="text-muted mr-3">
-          <i class="cui-location-pin icons"></i> {{user.endereco}}
-        </small>
-      </p>
-      <p class="mb-0">
-        <small class="text-muted mr-3">
-          <i class="cui-star icons"></i> 32 habilidades
-        </small>
-      </p>
-    </a>
+
+  <div *ngIf="users && users.length">
+    <div class="list-group-item"
+      [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}"
+      *ngFor="let user of filteredUsers">
+      <a [routerLink]="['/usuarios', user.id, 'edicao']" class="list-item">
+        <div class="avatar float-right">
+          <img class="img-avatar" src="assets/img/avatars/user-{{user.nome.replace(' ', '-') | lowercase}}.jpg">
+        </div>
+        <div>
+          {{user.perfil}}
+          <strong [ngClass]="{'text-muted': !user.status}">{{user.nome}}</strong>
+        </div>
+        <p class="mb-0">
+          <small class="text-muted">
+            <i class="cui-envelope-letter icons"></i> {{user.email}}
+          </small>
+        </p>
+        <p class="mb-0">
+          <small class="text-muted mr-3">
+            <i class="cui-location-pin icons"></i> {{user.endereco}}
+          </small>
+        </p>
+        <p class="mb-0">
+          <small class="text-muted mr-3">
+            <i class="cui-star icons"></i> 32 habilidades
+          </small>
+        </p>
+      </a>
+    </div>
   </div>
+
+  <div *ngIf="!users.length">
+    <div class="list-group-item text-center"
+      [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}">
+      Nenhum usuário cadastrado até o momento.
+    </div>
+  </div>
+
 </div>
