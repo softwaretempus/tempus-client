@@ -1,0 +1,51 @@
+<div class="card">
+  <div class="card-header">
+    <small>{{title | uppercase}}</small>
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveSkill()" [formGroup]="skillForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="skillNameId">Nome</label>
+        <div class="col-md-8">
+          <input class="form-control" id="skillNameId" type="text" formControlName="nome"
+            [ngClass]="{'is-invalid': displayMessage.nome }" />
+          <span class="invalid-feedback">
+            {{displayMessage.nome}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="skillDescriptionId">Descrição</label>
+        <div class="col-md-8">
+          <input class="form-control" id="skillDescriptionId" type="text" formControlName="descricao"
+            [ngClass]="{'is-invalid': displayMessage.descricao }" />
+          <span class="invalid-feedback">
+            {{displayMessage.descricao}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2 mt-4">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
+            [routerLink]="['/habilidades']">
+            Cancelar
+          </button>
+          <button class="btn btn-primary mr-3" type="submit"
+            [title]="skillForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'"
+            [disabled]="!skillForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-danger" type="button" (click)="deleteSkill()">
+            Remover
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>

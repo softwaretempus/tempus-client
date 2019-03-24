@@ -1,3 +1,39 @@
-<p>
-  skill works!
-</p>
+<div class="list-group list-group-accent">
+
+  <div
+    class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+    <div class="row">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
+        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <button class="btn btn-primary mr-3" [routerLink]="['/habilidades/0/edicao']">
+          <i class="fa fa-plus fa-lg"></i>
+          Nova Habilidade
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="skills && skills.length">
+    <div class="list-group-item list-group-item-accent-info" *ngFor="let skill of filteredSkills">
+      <a [routerLink]="['/habilidades', skill.id, 'edicao']" class="list-item">
+        <div>
+          <strong>{{skill.nome}}</strong>
+          <p class="mb-0">
+            <small class="text-muted">
+              {{skill.descricao}}
+            </small>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="!skills.length">
+    <div class="list-group-item text-center list-group-item-accent-secondary">
+      Nenhuma habilidade cadastrada até o momento.
+    </div>
+  </div>
+
+</div>
