@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 import { UserComponent } from './user.component';
+import { UserEditComponent } from './user-edit.component';
 import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { UserRoutingModule } from './user-routing.module';
   ],
   declarations: [
     UserComponent,
+    UserEditComponent
   ]
 })
 export class UserModule { }

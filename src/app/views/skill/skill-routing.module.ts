@@ -17,7 +17,7 @@ const routes: Routes = [
         redirectTo: 'habilidades'
       },
       {
-        path: 'edicao',
+        path: 'habilidade-edicao',
         component: SkillComponent,
         data: {
           title: 'Edição'

@@ -17,7 +17,7 @@
   <div class="list-group-item"
     [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}"
     *ngFor="let user of filteredUsers">
-    <a [routerLink]="['/usuarios', user.id, 'edit']" class="list-item">
+    <a [routerLink]="['/usuarios', user.id, 'edicao']" class="list-item">
       <div class="avatar float-right">
         <img class="img-avatar" src="assets/img/avatars/user-bill-lumbergh.jpg">
       </div>

@@ -12,7 +12,7 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'base',
+    redirectTo: 'usuarios',
     pathMatch: 'full',
   },
   {
@@ -58,7 +58,7 @@ export const routes: Routes = [
         loadChildren: './views/user/user.module#UserModule'
       },
       {
-        path: 'edicao',
+        path: 'usuario-edicao',
         loadChildren: './views/user/user.module#UserModule'
       },
     ]
