@@ -1,17 +1,23 @@
 {
-  "name": "@coreui/coreui-free-angular-admin-template",
-  "version": "2.4.5",
-  "description": "CoreUI Free Angular 2+ Admin Template",
+  "name": "tempus-client",
+  "version": "0.1.0",
+  "description": "",
   "author": {
-    "name": "Łukasz Holeczek",
-    "url": "http://holeczek.pl",
-    "github": "https://github.com/mrholek",
-    "twitter": "https://twitter.com/lukaszholeczek"
+    "name": "Grupo 1 - UVA SI 2019.1",
+    "github": "https://github.com/softwaretempus/"
   },
   "contributors": [
     {
-      "name": "Andrzej Kopański",
-      "url": "https://github.com/xidedix"
+      "name": "Bruno Calixto",
+      "url": "https://github.com/brunocalixto"
+    },
+    {
+      "name": "Bruno Sobral",
+      "url": "https://github.com/brunosobsil"
+    },
+    {
+      "name": "LenoM",
+      "url": "https://github.com/lenoM"
     }
   ],
   "homepage": "https://coreui.io/angular",

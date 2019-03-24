@@ -6,3 +6,40 @@
 
 // If you want to add something do it here
 @import "custom";
+
+.sidebar {
+    background: #FFF;
+    border-right: 1px solid #CCC;
+    .nav-link {
+        color: #333;
+        &.active {
+            background: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+            border-right: 1px solid #CCC
+        }
+        &:hover {
+            background: #09F;
+            color: #FFF;
+        }
+    }
+    .sidebar-minimizer {
+        background-color: #FFF;
+        border-top: 1px solid #EEE;
+        color: #777;
+        &:hover {
+            background: #09F;
+            color: #FFF;
+        }
+    }
+}
+
+.sidebar-minimized .sidebar .sidebar-minimizer {
+    background-color: #FFF;
+    border-top: 1px solid #EEE;
+    color: #777;
+    &:hover {
+        background: #09F;
+        color: #FFF;
+    }
+}

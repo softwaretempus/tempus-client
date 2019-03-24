@@ -12,7 +12,7 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'base',
     pathMatch: 'full',
   },
   {
@@ -30,20 +30,6 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page'
-    }
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page'
-    }
-  },
-  {
     path: '',
     component: DefaultLayoutComponent,
     data: {
@@ -51,37 +37,30 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'base',
-        loadChildren: './views/base/base.module#BaseModule'
+        path: 'usuarios',
+        loadChildren: './views/user/user.module#UserModule'
       },
       {
-        path: 'buttons',
-        loadChildren: './views/buttons/buttons.module#ButtonsModule'
+        path: 'habilidades',
+        loadChildren: './views/skill/skill.module#SkillModule'
+      },
+    ]
+  },
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    data: {
+      title: 'Usuarios'
+    },
+    children: [
+      {
+        path: 'usuarios',
+        loadChildren: './views/user/user.module#UserModule'
       },
       {
-        path: 'charts',
-        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+        path: 'edicao',
+        loadChildren: './views/user/user.module#UserModule'
       },
-      {
-        path: 'dashboard',
-        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
-      },
-      {
-        path: 'icons',
-        loadChildren: './views/icons/icons.module#IconsModule'
-      },
-      {
-        path: 'notifications',
-        loadChildren: './views/notifications/notifications.module#NotificationsModule'
-      },
-      {
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
     ]
   },
   { path: '**', component: P404Component }
