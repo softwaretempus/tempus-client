@@ -1,0 +1,49 @@
+<div class="list-group list-group-accent">
+
+  <div
+    class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+    <div class="row">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
+        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo assunto..." />
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <button class="btn btn-primary mr-3" [routerLink]="['/atendimento/0/edicao']">
+          <i class="fa fa-plus fa-lg"></i>
+          Agendar Atendimento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="users && users.length">
+    <div class="list-group-item"
+      [ngClass]="{'list-group-item-accent-info': atendimento.assunto, 'list-group-item-accent-secondary': !atendimento.assunto}"
+      *ngFor="let atendimento of filteredAtendimentos">
+      <a [routerLink]="['/atendimento', atendimento.id, 'edicao']" class="list-item">
+        <div>
+          {{user.perfil}}
+          <strong [ngClass]="{'text-muted': !atendimento.assunto}">{{atendimento.assunto}}</strong>
+        </div>
+        <p class="mb-0">
+          <small class="text-muted">
+            <i class="cui-envelope-letter icons"></i> {{atendimento.descricao}}
+          </small>
+        </p>
+        <p class="mb-0">
+          <small class="text-muted mr-3">
+            <i class="cui-location-pin icons"></i> {{atendimento.dataSugerida}}
+          </small>
+        </p>
+       
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="!atendimentos.length">
+    <div class="list-group-item text-center"
+      [ngClass]="{'list-group-item-accent-info': atendimento.assunto, 'list-group-item-accent-secondary': !atendimento.assunto}">
+      Nenhum Atendimento cadastrado até o momento.
+    </div>
+  </div>
+
+</div>
