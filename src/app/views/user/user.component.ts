@@ -13,6 +13,12 @@ export class UserComponent implements OnInit {
   users: IUser[] = []
   filteredUsers: IUser[]
   _listFilter: string = ''
+  perfis = [
+    {id: 1, descricao: 'Analista'},
+    {id: 2, descricao: 'Coordenador'},
+    {id: 3, descricao: 'Gerente'},
+    {id: 4, descricao: 'Cliente'}
+  ];
 
   get listFilter(): string {
     return this._listFilter
@@ -39,6 +45,14 @@ export class UserComponent implements OnInit {
     filterBy = filterBy.toLocaleLowerCase();
     return this.users.filter((user: IUser) =>
       user.nome.toLocaleLowerCase().indexOf(filterBy) !== -1)
+  }
+
+  getPerfilDesc(id: number): string{
+    let p = this.perfis.filter((perfil) =>{
+      return perfil.id === id;
+    });
+
+    return p[0].descricao;
   }
 
 }
