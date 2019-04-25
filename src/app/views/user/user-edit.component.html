@@ -99,7 +99,7 @@
               <tbody>
                 <tr *ngFor="let us of userSkills" >
                   <td>{{us.nome}}</td>
-                  <td>Inserir Rate Stars</td>
+                  <td><pm-star [rating]='us.nivel' (ratingClicked)='onRatingClicked($event)'></pm-star></td>
                 </tr>
               </tbody>
             </table>
