@@ -94,12 +94,13 @@
             <table class="table table-sm table-stripped table-bordered">
               <thead>
                 <th>Habilidade</th>
-                <th>N&iacute;vel</th>
+                <th>N&iacute;vel</th>                
               </thead>
               <tbody>
                 <tr *ngFor="let us of userSkills" >
                   <td>{{us.nome}}</td>
-                  <td><pm-star [rating]='us.nivel' (ratingClicked)='onRatingClicked($event)'></pm-star></td>
+                  <td><pm-star [rating]=5 [userRating]="us.nivel" [idHabilidade]="us.id" (ratingClicked)="onSelectNivel($event)"></pm-star></td>
+                  <td style="width: 45px;"><button class="btn btn-danger" (click)="removeSkill(us.id)" title="Remover">X</button></td>
                 </tr>
               </tbody>
             </table>

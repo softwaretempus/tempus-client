@@ -87,7 +87,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       email: ['', Validators.required],
       status: [true, null],
       cpf: ['', Validators.required],
-      perfil: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
+      perfil: ['', Validators.required]
     });
 
     // Lê o id do usuário do parâmetro da rota,
@@ -104,6 +104,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.skills = [...skills];
         this.skills = this.skills.map((s) =>{
           s.selected = false;
+          s.nivel = 1;
           return s;
         });        
       },
@@ -221,8 +222,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   addSkill(event): void{
     event.preventDefault();        
     let skill = this.skills.filter((s) => s.selected);
-    if(skill.length > 0)       
-      this.userSkills.push(skill[0]);    
+    if( skill.length > 0 && 
+        this.userSkills.filter((s) => s.id === skill[0].id).length === 0 )       
+        this.userSkills.push(skill[0]);    
   }
 
   onChangeSkill(newSkill): void{
@@ -233,6 +235,28 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         s.selected = false;      
       return s;        
     });        
+  }
+
+  onSelectNivel(habNivel) {
+    this.userSkills = this.userSkills.map((s) => {
+      if(s.id === habNivel.id_habilidade)
+        s.nivel = habNivel.nivel;
+      return s;
+    });
+
+  }
+
+  removeSkill(id){
+
+    let newSkills = [];
+    
+    for(let n =0; n < this.userSkills.length; n++){
+      if(this.userSkills[n].id !== id)
+        newSkills.push(this.userSkills[n]);
+    }
+
+    this.userSkills = newSkills;
+    
   }
 
 }
