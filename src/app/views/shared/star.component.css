@@ -1,0 +1,13 @@
+/* Não selecionado */
+.not-selected {
+  color: black;
+}
+
+/* selecionado */
+.selected {
+  color: #20a8d8 !important;
+}
+
+div {
+  cursor: pointer;
+}

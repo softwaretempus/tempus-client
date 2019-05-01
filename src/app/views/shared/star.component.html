@@ -1,0 +1,11 @@
+<div class="crop"
+     [style.width.px]="starWidth"
+     [title]="rating">
+  <div style="width: 100px">
+    <span class="fa fa-star not-selected" (click)="onClick(1)" title="Estagiário"   [ngClass]="{'selected': userRating >= 1}"></span>
+    <span class="fa fa-star not-selected" (click)="onClick(2)" title="Júnior"       [ngClass]="{'selected': userRating >= 2}"></span>
+    <span class="fa fa-star not-selected" (click)="onClick(3)" title="Pleno"        [ngClass]="{'selected': userRating >= 3}"></span>
+    <span class="fa fa-star not-selected" (click)="onClick(4)" title="Senior"       [ngClass]="{'selected': userRating >= 4}"></span>
+    <span class="fa fa-star not-selected" (click)="onClick(5)" title="Especialista" [ngClass]="{'selected': userRating >= 5}"></span>
+  </div>
+</div>

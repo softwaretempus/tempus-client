@@ -39,9 +39,8 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
-        <div class="col-md-8">
-          <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status"
-            [ngClass]="{'is-invalid': displayMessage.status }">
+        <div class="col-md-8">          
+          <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status" [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
           <label class="form-check-label">Ativo</label>
           <span class="invalid-feedback">
             {{displayMessage.status}}
@@ -63,14 +62,51 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
         <div class="col-md-8">
-          <input class="form-control" id="userProfileId" type="number" formControlName="perfil"
-            [ngClass]="{'is-invalid': displayMessage.perfil }" />
+          <select class="form-control" id="userProfileId" formControlName="perfil"
+            [ngClass]="{'is-invalid': displayMessage.perfil }">
+            <option *ngFor="let perfil of perfis" [ngValue]="perfil.id">
+              {{perfil.descricao}}
+            </option>
+          </select>
           <span class="invalid-feedback">
             {{displayMessage.perfil}}
           </span>
         </div>
       </div>
+      
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label">Habilidades</label>
+        <div class="col-md-8">
+          <select class="form-control" (change)="onChangeSkill($event.target.value)">
+              <option [ngValue]="undefined" selected>Selecione...</option>
+              <option *ngFor="let s of skills" [ngValue]="s" >
+                {{s.nome}}
+              </option>
+          </select>          
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" (click)="addSkill($event)">Adicionar</button>
+        </div>
+      </div>
 
+      <div class="form-group row">
+          <div class="col-md-10">
+            <table class="table table-sm table-stripped table-bordered">
+              <thead>
+                <th>Habilidade</th>
+                <th>N&iacute;vel</th>                
+              </thead>
+              <tbody>
+                <tr *ngFor="let us of userSkills" >
+                  <td>{{us.nome}}</td>
+                  <td><pm-star [rating]=5 [userRating]="us.nivel" [idHabilidade]="us.id" (ratingClicked)="onSelectNivel($event)"></pm-star></td>
+                  <td style="width: 45px;"><button class="btn btn-danger" (click)="removeSkill(us.id)" title="Remover">X</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
             <button class="btn btn-primary mr-3" type="submit"

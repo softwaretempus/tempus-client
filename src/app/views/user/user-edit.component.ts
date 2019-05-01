@@ -7,6 +7,8 @@ import { debounceTime } from 'rxjs/operators';
 
 import { IUser } from './User';
 import { UserService } from './user.service';
+import { ISkill } from '../skill/Skill';
+import { SkillService } from '../skill/skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
 
@@ -20,6 +22,14 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'User Edit';
   errorMessage: string;
   userForm: FormGroup;
+  perfis = [
+    {id: 1, descricao: 'Analista'},
+    {id: 2, descricao: 'Coordenador'},
+    {id: 3, descricao: 'Gerente'},
+    {id: 4, descricao: 'Cliente'}
+  ];
+  skills: any[] = [];
+  userSkills: any[] = [];  
 
   user: IUser;
   private sub: Subscription;
@@ -36,7 +46,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService) {
+    private userService: UserService,
+    private skillService: SkillService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -74,8 +85,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       endereco: ['', [Validators.required, Validators.minLength(7)]],
       email: ['', Validators.required],
+      status: [true, null],
       cpf: ['', Validators.required],
-      perfil: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
+      perfil: ['', Validators.required]
     });
 
     // Lê o id do usuário do parâmetro da rota,
@@ -87,6 +99,17 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
+    this.skillService.getSkills().subscribe(
+      skills => {        
+        this.skills = [...skills];
+        this.skills = this.skills.map((s) =>{
+          s.selected = false;
+          s.nivel = 1;
+          return s;
+        });        
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
   ngOnDestroy(): void {
@@ -190,6 +213,50 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   onSaveComplete(): void {
     this.userForm.reset();
     this.router.navigate(['/usuarios']);
+  }
+
+  getSkills(): Observable<ISkill[]>{    
+    return this.skillService.getSkills();    
+  }
+
+  addSkill(event): void{
+    event.preventDefault();        
+    let skill = this.skills.filter((s) => s.selected);
+    if( skill.length > 0 && 
+        this.userSkills.filter((s) => s.id === skill[0].id).length === 0 )       
+        this.userSkills.push(skill[0]);    
+  }
+
+  onChangeSkill(newSkill): void{
+    this.skills = this.skills.map((s) => {      
+      if(s.nome === newSkill) // pode melhorar....
+        s.selected = true;
+      else
+        s.selected = false;      
+      return s;        
+    });        
+  }
+
+  onSelectNivel(habNivel) {
+    this.userSkills = this.userSkills.map((s) => {
+      if(s.id === habNivel.id_habilidade)
+        s.nivel = habNivel.nivel;
+      return s;
+    });
+
+  }
+
+  removeSkill(id){
+
+    let newSkills = [];
+    
+    for(let n =0; n < this.userSkills.length; n++){
+      if(this.userSkills[n].id !== id)
+        newSkills.push(this.userSkills[n]);
+    }
+
+    this.userSkills = newSkills;
+    
   }
 
 }

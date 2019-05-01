@@ -24,7 +24,7 @@
           <img class="img-avatar" src="assets/img/avatars/user-{{user.nome.replace(' ', '-') | lowercase}}.jpg">
         </div>
         <div>
-          {{user.perfil}}
+          {{getPerfilDesc(user.perfil)}}
           <strong [ngClass]="{'text-muted': !user.status}">{{user.nome}}</strong>
         </div>
         <p class="mb-0">
