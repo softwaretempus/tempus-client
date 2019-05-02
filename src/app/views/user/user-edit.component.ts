@@ -9,6 +9,7 @@ import { IUser } from './User';
 import { UserService } from './user.service';
 import { ISkill } from '../skill/Skill';
 import { SkillService } from '../skill/skill.service';
+import { UserSkillService } from './user-skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
 
@@ -47,7 +48,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private skillService: SkillService) {
+    private skillService: SkillService,
+    private userSkillService: UserSkillService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -141,7 +143,19 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   getUser(id: number): void {
     this.userService.getUser(id)
       .subscribe(
-        (user: IUser) => this.displayUser(user),
+        (user: IUser) => {
+          this.userSkillService.getUserSkills(user.id)
+            .subscribe((userSkills) => {
+              let skills = userSkills.map((us) => {
+                let s = {...us.habilidade, nivel: us.nivel}
+                return s;
+              });
+              this.userSkills = skills;
+              this.displayUser(user);
+            },
+            (error: any) => this.errorMessage = <any>error
+          )    
+        },
         (error: any) => this.errorMessage = <any>error
       );
   }
@@ -191,14 +205,31 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (p.id === 0) {
           this.userService.createUser(p)
-            .subscribe(
-              () => this.onSaveComplete(),
+            .subscribe((result) => {
+              this.user.id = result.id; // id do usuario gerado na api.
+              if(this.userSkills.length > 0){
+                this.userSkillService
+                  .associateUserSkills(this.user, this.userSkills)
+                  .subscribe(() => this.onSaveComplete(), 
+                    (error: any) => this.errorMessage = <any>error )
+              }
+            } ,
               (error: any) => this.errorMessage = <any>error
             );
         } else {
           this.userService.updateUser(p)
             .subscribe(
-              () => this.onSaveComplete(),
+              () => { 
+                this.userSkillService.deleteUserSkills(this.user)
+                  .subscribe(() => {
+                    this.userSkillService
+                      .associateUserSkills(this.user, this.userSkills)
+                      .subscribe(() => this.onSaveComplete(), 
+                        (error: any) => this.errorMessage = <any>error )
+                      },
+                    (error: any) => this.errorMessage = <any>error  
+                  )
+              },
               (error: any) => this.errorMessage = <any>error
             );
         }
@@ -224,7 +255,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     let skill = this.skills.filter((s) => s.selected);
     if( skill.length > 0 && 
         this.userSkills.filter((s) => s.id === skill[0].id).length === 0 )       
-        this.userSkills.push(skill[0]);    
+        this.userSkills.push(skill[0]);
+        this.userForm.markAsDirty();    
   }
 
   onChangeSkill(newSkill): void{
@@ -243,6 +275,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         s.nivel = habNivel.nivel;
       return s;
     });
+    this.userForm.markAsDirty();
 
   }
 
@@ -256,6 +289,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.userSkills = newSkills;
+    this.userForm.markAsDirty();
     
   }
 
