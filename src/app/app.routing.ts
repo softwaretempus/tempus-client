@@ -48,6 +48,10 @@ export const routes: Routes = [
         path: 'atendimento',
         loadChildren: './views/atendimento/atendimento.module#AtendimentoModule'
       },
+      {
+        path: 'projetos',
+        loadChildren: './views/projetos/projeto.module#ProjetoModule'
+      },
      
     ]
   },
