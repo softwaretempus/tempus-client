@@ -59,12 +59,10 @@ export class UserService {
   updateUser(user: IUser): Observable<IUser> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.usersUrl}/${user.id}`;
-    console.log(url)
-    console.log(user)
-    console.log({headers: headers})
+    console.log(user);
     return this.http.put<IUser>(url, user, { headers: headers })
       .pipe(
-        tap(() => console.log('updateUser: ' + user.id)),
+        tap(() => console.log('updateUser: ' + user)),
         map(() => user),
         catchError(this.handleError)
       );
