@@ -9,6 +9,7 @@ import { ISkill } from './Skill';
 import { SkillService } from './skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-skill-edit',
@@ -36,7 +37,8 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private skillService: SkillService) {
+    private skillService: SkillService,
+    private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -127,13 +129,15 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteSkill(): void {
     if (this.skill.id === 0) {
       this.onSaveComplete();
+      this.showSuccess('Habilidade removida da base de dados.')
     } else {
       if (confirm(`Deseja realmente excluir a habilidade ${this.skill.nome}?`)) {
         this.skillService.deleteSkill(this.skill.id)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
+            (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
           );
+        this.showSuccess('Habilidade removida da base de dados.')
       }
     }
   }
@@ -147,14 +151,16 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
           this.skillService.createSkill(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
             );
+          this.showSuccess('Habilidade inserida na base de dados.')
         } else {
           this.skillService.updateSkill(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
             );
+          this.showSuccess('Habilidade alterada na base de dados.')
         }
       } else {
         this.onSaveComplete();
@@ -167,6 +173,14 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
   onSaveComplete(): void {
     this.skillForm.reset();
     this.router.navigate(['/habilidades']);
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
 }

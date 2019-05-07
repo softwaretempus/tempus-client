@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 import { SkillService } from './skill.service';
 import { ISkill } from './Skill';
@@ -24,7 +25,7 @@ export class SkillComponent implements OnInit {
     this.filteredSkills = this.listFilter ? this.performFilter(this.listFilter) : this.skills
   }
 
-  constructor(private skillService: SkillService) { }
+  constructor(private skillService: SkillService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.skillService.getSkills().subscribe(
@@ -40,6 +41,14 @@ export class SkillComponent implements OnInit {
     filterBy = filterBy.toLocaleLowerCase();
     return this.skills.filter((skill: ISkill) =>
       skill.nome.toLocaleLowerCase().indexOf(filterBy) !== -1)
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
 }
