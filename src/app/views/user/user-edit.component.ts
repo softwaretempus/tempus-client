@@ -12,6 +12,7 @@ import { SkillService } from '../skill/skill.service';
 import { UserSkillService } from './user-skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-edit',
@@ -24,13 +25,13 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   errorMessage: string;
   userForm: FormGroup;
   perfis = [
-    {id: 1, descricao: 'Analista'},
-    {id: 2, descricao: 'Coordenador'},
-    {id: 3, descricao: 'Gerente'},
-    {id: 4, descricao: 'Cliente'}
+    { id: 1, descricao: 'Analista' },
+    { id: 2, descricao: 'Coordenador' },
+    { id: 3, descricao: 'Gerente' },
+    { id: 4, descricao: 'Cliente' }
   ];
   skills: any[] = [];
-  userSkills: any[] = [];  
+  userSkills: any[] = [];
 
   user: IUser;
   private sub: Subscription;
@@ -49,7 +50,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private userService: UserService,
     private skillService: SkillService,
-    private userSkillService: UserSkillService) {
+    private userSkillService: UserSkillService,
+    private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -102,13 +104,13 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.skillService.getSkills().subscribe(
-      skills => {        
+      skills => {
         this.skills = [...skills];
-        this.skills = this.skills.map((s) =>{
+        this.skills = this.skills.map((s) => {
           s.selected = false;
           s.nivel = 1;
           return s;
-        });        
+        });
       },
       error => this.errorMessage = <any>error
     )
@@ -147,14 +149,14 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
           this.userSkillService.getUserSkills(user.id)
             .subscribe((userSkills) => {
               let skills = userSkills.map((us) => {
-                let s = {...us.habilidade, nivel: us.nivel}
+                let s = { ...us.habilidade, nivel: us.nivel }
                 return s;
               });
               this.userSkills = skills;
               this.displayUser(user);
             },
-            (error: any) => this.errorMessage = <any>error
-          )    
+              (error: any) => this.errorMessage = <any>error
+            )
         },
         (error: any) => this.errorMessage = <any>error
       );
@@ -206,28 +208,30 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (p.id === 0) {
           this.userService.createUser(p)
             .subscribe((result) => {
-              this.user.id = result.id; // id do usuario gerado na api.
-              if(this.userSkills.length > 0){
+              this.user.id = result.id;
+              if (this.userSkills.length > 0) {
                 this.userSkillService
                   .associateUserSkills(this.user, this.userSkills)
-                  .subscribe(() => this.onSaveComplete(), 
-                    (error: any) => this.errorMessage = <any>error )
+                  .subscribe(() => this.onSaveComplete(),
+                    (error: any) => this.errorMessage = <any>error)
+                this.showSuccess('Usuário inserido na base de dados')
               }
-            } ,
+            },
               (error: any) => this.errorMessage = <any>error
             );
         } else {
           this.userService.updateUser(p)
             .subscribe(
-              () => { 
+              () => {
                 this.userSkillService.deleteUserSkills(this.user)
                   .subscribe(() => {
                     this.userSkillService
                       .associateUserSkills(this.user, this.userSkills)
-                      .subscribe(() => this.onSaveComplete(), 
-                        (error: any) => this.errorMessage = <any>error )
-                      },
-                    (error: any) => this.errorMessage = <any>error  
+                      .subscribe(() => this.onSaveComplete(),
+                        (error: any) => this.errorMessage = <any>error)
+                      this.showSuccess('Dados do usuário foram atualizados.')
+                  },
+                    (error: any) => this.errorMessage = <any>error
                   )
               },
               (error: any) => this.errorMessage = <any>error
@@ -246,32 +250,32 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/usuarios']);
   }
 
-  getSkills(): Observable<ISkill[]>{    
-    return this.skillService.getSkills();    
+  getSkills(): Observable<ISkill[]> {
+    return this.skillService.getSkills();
   }
 
-  addSkill(event): void{
-    event.preventDefault();        
+  addSkill(event): void {
+    event.preventDefault();
     let skill = this.skills.filter((s) => s.selected);
-    if( skill.length > 0 && 
-        this.userSkills.filter((s) => s.id === skill[0].id).length === 0 )       
-        this.userSkills.push(skill[0]);
-        this.userForm.markAsDirty();    
+    if (skill.length > 0 &&
+      this.userSkills.filter((s) => s.id === skill[0].id).length === 0)
+      this.userSkills.push(skill[0]);
+    this.userForm.markAsDirty();
   }
 
-  onChangeSkill(newSkill): void{
-    this.skills = this.skills.map((s) => {      
-      if(s.nome === newSkill) // pode melhorar....
+  onChangeSkill(newSkill): void {
+    this.skills = this.skills.map((s) => {
+      if (s.nome === newSkill) // pode melhorar....
         s.selected = true;
       else
-        s.selected = false;      
-      return s;        
-    });        
+        s.selected = false;
+      return s;
+    });
   }
 
   onSelectNivel(habNivel) {
     this.userSkills = this.userSkills.map((s) => {
-      if(s.id === habNivel.id_habilidade)
+      if (s.id === habNivel.id_habilidade)
         s.nivel = habNivel.nivel;
       return s;
     });
@@ -279,18 +283,22 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  removeSkill(id){
+  removeSkill(id) {
 
     let newSkills = [];
-    
-    for(let n =0; n < this.userSkills.length; n++){
-      if(this.userSkills[n].id !== id)
+
+    for (let n = 0; n < this.userSkills.length; n++) {
+      if (this.userSkills[n].id !== id)
         newSkills.push(this.userSkills[n]);
     }
 
     this.userSkills = newSkills;
     this.userForm.markAsDirty();
-    
+
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
   }
 
 }

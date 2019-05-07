@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 import { UserService } from './user.service';
 import { IUser } from './User';
@@ -29,7 +30,7 @@ export class UserComponent implements OnInit {
     this.filteredUsers = this.listFilter ? this.performFilter(this.listFilter) : this.users
   }
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe(
