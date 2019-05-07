@@ -213,11 +213,11 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.userSkillService
                   .associateUserSkills(this.user, this.userSkills)
                   .subscribe(() => this.onSaveComplete(),
-                    (error: any) => this.errorMessage = <any>error)
-                this.showSuccess('Usuário inserido na base de dados')
+                    (error: any) => this.showError(error))
+                this.showSuccess('Usuário inserido na base de dados.')
               }
             },
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError(error)
             );
         } else {
           this.userService.updateUser(p)
@@ -229,12 +229,12 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
                       .associateUserSkills(this.user, this.userSkills)
                       .subscribe(() => this.onSaveComplete(),
                         (error: any) => this.errorMessage = <any>error)
-                      this.showSuccess('Dados do usuário foram atualizados.')
+                    this.showSuccess('Dados do usuário foram atualizados.')
                   },
-                    (error: any) => this.errorMessage = <any>error
+                    (error: any) => this.showError('Tente novamente mais tarde')
                   )
               },
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError('Tente novamente mais tarde')
             );
         }
       } else {
@@ -299,6 +299,10 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showSuccess(msg) {
     this.toastr.success(msg, 'Sucesso!');
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
 }
