@@ -1,0 +1,69 @@
+<div class="card">
+  <div class="card-header">
+    <small>{{title | uppercase}}</small>
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveProjeto()" [formGroup]="projetoForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="nomeId">Nome</label>
+        <div class="col-md-8">
+          <input class="form-control" id="nomeId" type="text" formControlName="nome"
+            [ngClass]="{'is-invalid': displayMessage.nome }" />
+          <span class="invalid-feedback">
+            {{displayMessage.nome}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="descricao_atividadesId">Descrição das Atividades</label>
+        <div class="col-md-8">
+          <input class="form-control" id="descricao_atividadesId" type="text" formControlName="descricao_atividades"
+            [ngClass]="{'is-invalid': displayMessage.descricao_atividades }" />
+          <span class="invalid-feedback">
+            {{displayMessage.descricao_atividades}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="horas_estimadasId">Horas Estimadas</label>
+        <div class="col-md-8">
+          <input class="form-control" id="horas_estimadasId" type="number" formControlName="horas_estimadas"
+            [ngClass]="{'is-invalid': displayMessage.horas_estimadas }" />
+          <span class="invalid-feedback">
+            {{displayMessage.horas_estimadas}}
+          </span>
+        </div>
+      </div>
+      
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="horas_realizadasId">Horas Realizadas</label>
+        <div class="col-md-8">
+          <input class="form-control"  id="horas_realizadasId" type="number" formControlName="horas_realizadas"
+            [ngClass]="{'is-invalid': displayMessage.dataSugerida }" />
+          <span class="invalid-feedback">
+            {{displayMessage.horas_realizadas}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2 mt-4">
+        <div class="offset-md-2 col-md-4">
+            <button class="btn btn-primary mr-3" type="submit"
+            [title]="projetoForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!projetoForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
+            [routerLink]="['/projeto']">
+            Cancelar
+          </button>       
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>

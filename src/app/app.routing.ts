@@ -44,6 +44,15 @@ export const routes: Routes = [
         path: 'habilidades',
         loadChildren: './views/skill/skill.module#SkillModule'
       },
+      {
+        path: 'atendimento',
+        loadChildren: './views/atendimento/atendimento.module#AtendimentoModule'
+      },
+      {
+        path: 'projetos',
+        loadChildren: './views/projetos/projeto.module#ProjetoModule'
+      },
+     
     ]
   },
   {

@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-header">
+    <small>{{title | uppercase}}</small>
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveAtendimento()" [formGroup]="atendimentoForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="assuntoId">Assunto</label>
+        <div class="col-md-8">
+          <input class="form-control" id="assuntoId" type="text" formControlName="assunto"
+            [ngClass]="{'is-invalid': displayMessage.nome }" />
+          <span class="invalid-feedback">
+            {{displayMessage.assunto}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="descricaoId">Descrição</label>
+        <div class="col-md-8">
+          <input class="form-control" id="descricaoId" type="text" formControlName="descricao"
+            [ngClass]="{'is-invalid': displayMessage.descricao }" />
+          <span class="invalid-feedback">
+            {{displayMessage.descricao}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="dataSugeridaId">Data Sugerida</label>
+        <div class="col-md-8">
+          <input class="form-control"  id="dataSugeridaId" type="date" formControlName="dataSugerida"
+            [ngClass]="{'is-invalid': displayMessage.dataSugerida }" />
+          <span class="invalid-feedback">
+            {{displayMessage.dataSugerida}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2 mt-4">
+        <div class="offset-md-2 col-md-4">
+            <button class="btn btn-primary mr-3" type="submit"
+            [title]="atendimentoForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!atendimentoForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
+            [routerLink]="['/atendimento']">
+            Cancelar
+          </button>       
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
