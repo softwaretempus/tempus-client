@@ -21,7 +21,7 @@
       *ngFor="let user of filteredUsers">
       <a [routerLink]="['/usuarios', user.id, 'edicao']" class="list-item">
         <div class="avatar float-right">
-          <img class="img-avatar" src="assets/img/avatars/user-{{user.nome.replace(' ', '-') | lowercase}}.jpg">
+          <!-- <img class="img-avatar" src="assets/img/avatars/user-{{user.nome.replace(' ', '-') | lowercase}}.jpg"> -->
         </div>
         <div>
           {{getPerfilDesc(user.perfil)}}
@@ -50,9 +50,8 @@
   </div>
 
   <div *ngIf="!users.length">
-    <div class="list-group-item text-center"
-      [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}">
-      Nenhum usuário cadastrado até o momento.
+    <div class="list-group-item list-group-item-accent-secondary text-center">
+      Nenhum usuário cadastrado.
     </div>
   </div>
 

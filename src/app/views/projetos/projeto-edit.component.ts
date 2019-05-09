@@ -9,6 +9,7 @@ import { IProjeto } from './Projeto';
 import { ProjetoService } from './projeto.service';
 
 import { GenericValidator } from '../shared/generic.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-projeto-edit',
@@ -36,7 +37,8 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private projetoService: ProjetoService) {
+    private projetoService: ProjetoService,
+    private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -53,11 +55,10 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       horas_estimadas: {
         required: 'Informe as horas estimadas.',
-        minlength: 'Informe as horas estimadas.',
+        min: 'Quantidade mínima de horas: 1.',
       },
       horas_realizadas: {
-        required: 'Informe as horas realizadas.',
-        minlength: 'Informe as horas realizadas.',
+        required: 'Informe as horas realizadas.'
       },
 
     };
@@ -71,8 +72,8 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.projetoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       descricao_atividades: ['', [Validators.required, Validators.minLength(7)]],
-      horas_estimadas: ['', Validators.required],   
-      horas_realizadas: ['', Validators.required],   
+      horas_estimadas: ['', [Validators.required, Validators.min(1)]],
+      horas_realizadas: ['', Validators.required],
     });
 
     // Lê o id do atendimento do parâmetro da rota,
@@ -156,7 +157,7 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  saveUser(): void {
+  saveProjeto(): void {
     if (this.projetoForm.valid) {
       if (this.projetoForm.dirty) {
         const p = { ...this.projeto, ...this.projetoForm.value };
@@ -165,26 +166,36 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
           this.projetoService.createProjeto(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError(error)
             );
+          this.showSuccess('Projeto inserido na base de dados.')
         } else {
           this.projetoService.updateProjeto(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError(error)
             );
+          this.showSuccess('Dados do projeto foram atualizados.')
         }
       } else {
         this.onSaveComplete();
       }
     } else {
-      this.errorMessage = 'Por favor, corrija os erros de validação.';
+      this.showError("Por favor, corrija os erros de validação.")
     }
   }
 
   onSaveComplete(): void {
     this.projetoForm.reset();
-    this.router.navigate(['/projeto']);
+    this.router.navigate(['/projetos']);
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
 }

@@ -15,34 +15,58 @@
     </div>
   </div>
 
-  <div *ngIf="users && users.length">
+  <div *ngIf="projetos && projetos.length">
     <div class="list-group-item"
       [ngClass]="{'list-group-item-accent-info': projeto.nome, 'list-group-item-accent-secondary': !projeto.nome}"
       *ngFor="let projeto of filteredProjetos">
-      <a [routerLink]="['/projetos', projeto.id, 'edicao']" class="list-item">
-        <div>
-          {{user.perfil}}
-          <strong [ngClass]="{'text-muted': !projeto.nome}">{{projeto.nome}}</strong>
+      <a [routerLink]="['/projetos', projeto.id, 'edicao']" class="list-item text-muted">
+
+
+        <div class="row">
+          <div class="col-xs-6 col-sm-8 col-md-4 col-lg-4">
+            <strong [ngClass]="{'text-muted': !projeto.nome}">
+              {{ projeto.nome ? projeto.nome : 'Nome não informado' }}
+            </strong>
+            <p class="mb-0">
+              <small class="text-muted">
+                {{ projeto.descricao_atividades ? projeto.descricao_atividades : 'Descrição não informada' }}
+              </small>
+            </p>
+          </div>
+          <div class="col-xs-6 col-sm-8 col-md-4 col-lg-4">
+            <div class="row">
+              <div class="col-2">
+                <i class="fa fa-calendar-minus-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
+              </div>
+              <div class="col-10">
+                <p>
+                  <span class="text-muted">Horas estimadas</span><br>
+                  <span>{{ projeto.horas_estimadas ? projeto.horas_estimadas : 'Nenhuma hora estipulada' }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-8 col-md-4 col-lg-4">
+            <div class="row">
+              <div class="col-2">
+                <i class="fa fa-calendar-check-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
+              </div>
+              <div class="col-10">
+                <p>
+                  <span class="text-muted">Horas realizadas</span><br>
+                  <span>{{ projeto.horas_realizadas ? projeto.horas_realizadas : 'Nenhuma hora realizadas' }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <p class="mb-0">
-          <small class="text-muted">
-            <i class="cui-envelope-letter icons"></i> {{projeto.descricao_atividades}}
-          </small>
-        </p>
-        <p class="mb-0">
-          <small class="text-muted mr-3">
-            <i class="cui-location-pin icons"></i> {{projeto.horas_estimadas}}
-          </small>
-        </p>
-       
       </a>
     </div>
   </div>
 
   <div *ngIf="!projetos.length">
-    <div class="list-group-item text-center"
-      [ngClass]="{'list-group-item-accent-info': projeto.nome, 'list-group-item-accent-secondary': !projeto.nome}">
-      Nenhum Projeto cadastrado até o momento.
+    <div class="list-group-item list-group-item-accent-secondary text-center">
+      Nenhum Projeto cadastrado.
     </div>
   </div>
 

@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div *ngIf="users && users.length">
+  <div *ngIf="atendimento && atendimentos.length">
     <div class="list-group-item"
       [ngClass]="{'list-group-item-accent-info': atendimento.assunto, 'list-group-item-accent-secondary': !atendimento.assunto}"
       *ngFor="let atendimento of filteredAtendimentos">
@@ -40,9 +40,8 @@
   </div>
 
   <div *ngIf="!atendimentos.length">
-    <div class="list-group-item text-center"
-      [ngClass]="{'list-group-item-accent-info': atendimento.assunto, 'list-group-item-accent-secondary': !atendimento.assunto}">
-      Nenhum Atendimento cadastrado até o momento.
+    <div class="list-group-item list-group-item-accent-secondary text-center">
+      Nenhum Atendimento cadastrado.
     </div>
   </div>
 

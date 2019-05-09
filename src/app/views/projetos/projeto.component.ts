@@ -11,7 +11,7 @@ export class ProjetoComponent implements OnInit {
   title: string = 'Projeto'
   errorMessage: string
   projetos: IProjeto[] = []
-  filteredUsers: IProjeto[]
+  filteredProjetos: IProjeto[]
   _listFilter: string = ''
 
   get listFilter(): string {
@@ -20,7 +20,7 @@ export class ProjetoComponent implements OnInit {
 
   set listFilter(value: string) {
     this._listFilter = value
-    this.filteredUsers = this.listFilter ? this.performFilter(this.listFilter) : this.projetos
+    this.filteredProjetos = this.listFilter ? this.performFilter(this.listFilter) : this.projetos
   }
 
   constructor(private projetoService: ProjetoService) { }
@@ -29,7 +29,7 @@ export class ProjetoComponent implements OnInit {
     this.projetoService.getProjetos().subscribe(
       projetos => {
         this.projetos = projetos
-        this.filteredUsers = this.projetos
+        this.filteredProjetos = this.projetos
       },
       error => this.errorMessage = <any>error
     )

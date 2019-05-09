@@ -93,7 +93,8 @@ export class AtendimentoService {
       usuario: null,
       assunto: null,
       descricao: null,
-      dataSugerida: null
+      dataSugerida: null,
+      habilidade: null
     };
   }
 

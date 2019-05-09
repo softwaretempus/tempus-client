@@ -53,12 +53,11 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
         maxlength: 'O nome não pode ter mais que 50 caracteres.'
       },
       descricao: {
-        required: 'Informe a  descrição.',
-        descricao: 'Informe um Email válido.'
+        required: 'Informe a descrição.',
+        minlength: 'A descrição não pode ter menos que 7 caracteres.',
       },
       dataSugerida: {
-        required: 'Informe a data',
-        minlength: 'Informe um endereço válido.',
+        required: 'Informe a data'
       },
 
     };
@@ -72,7 +71,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     this.atendimentoForm = this.fb.group({
       assunto: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       descricao: ['', [Validators.required, Validators.minLength(7)]],
-      dataSugerida: ['', Validators.required],    
+      dataSugerida: ['', Validators.required],
     });
 
     this.userService.getUsers().subscribe(
@@ -178,7 +177,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-  saveUser(): void {
+  saveAtendimento(): void {
     if (this.atendimentoForm.valid) {
       if (this.atendimentoForm.dirty) {
         const p = { ...this.atendimento, ...this.atendimentoForm.value };
@@ -216,6 +215,16 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
       else
         u.selected = false;
       return u;
+    });
+  }
+
+  onChangeSkill(skillSel): void {
+    this.habilidades = this.habilidades.map((h) => {
+      if (h.nome === skillSel)
+        h.selected = true;
+      else
+        h.selected = false;
+      return h;
     });
   }
 
