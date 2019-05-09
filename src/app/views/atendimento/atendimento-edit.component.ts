@@ -7,6 +7,8 @@ import { debounceTime } from 'rxjs/operators';
 
 import { IAtendimento } from './Atendimento';
 import { AtendimentoService } from './atendimento.service';
+import { UserService } from '../user/user.service';
+import { SkillService } from '../skill/skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
 
@@ -22,6 +24,8 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
   atendimentoForm: FormGroup;
 
   atendimento: IAtendimento;
+  usuarios: any[];
+  habilidades: any[];
   private sub: Subscription;
 
   // Use with the generic validation message class
@@ -36,7 +40,9 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private atendimentoService: AtendimentoService) {
+    private atendimentoService: AtendimentoService,
+    private userService: UserService,
+    private skillService: SkillService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -68,6 +74,28 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
       descricao: ['', [Validators.required, Validators.minLength(7)]],
       dataSugerida: ['', Validators.required],    
     });
+
+    this.userService.getUsers().subscribe(
+      users => {
+        this.usuarios = [...users];
+        this.usuarios = this.usuarios.map((u) => {
+          u.selected = false;
+          return u;
+        }).filter((u) => u.perfil === 4);
+      },
+      error => this.errorMessage = <any>error
+    )
+
+    this.skillService.getSkills().subscribe(
+      skills => {
+        this.habilidades = [...skills];
+        this.habilidades = this.habilidades.map((s) => {
+          s.selected = false;
+          return s;
+        });
+      },
+      error => this.errorMessage = <any>error
+    )
 
     // Lê o id do atendimento do parâmetro da rota,
     // e retorna dados da api
@@ -128,6 +156,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
 
     // Atualiza os dados do atendimento
     this.atendimentoForm.patchValue({
+      usuario: this.atendimento.usuario,
       assunto: this.atendimento.assunto,
       descricao: this.atendimento.descricao,
       dataSugerida: this.atendimento.dataSugerida
@@ -178,6 +207,16 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
   onSaveComplete(): void {
     this.atendimentoForm.reset();
     this.router.navigate(['/atendimento']);
+  }
+
+  onChangeUser(userSel): void {
+    this.usuarios = this.usuarios.map((u) => {
+      if (u.nome === userSel) // pode melhorar....
+        u.selected = true;
+      else
+        u.selected = false;
+      return u;
+    });
   }
 
 }

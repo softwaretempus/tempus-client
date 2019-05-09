@@ -26,7 +26,7 @@ export class AtendimentoService {
 
   getAtendimento(id: number): Observable<IAtendimento> {
     if (id === 0) {
-      return of(this.initializeUser());
+      return of(this.initializeAtendimento());
     }
     const url = `${this.atendimentosUrl}/${id}`;
     return this.http.get<IAtendimento>(url)
@@ -86,10 +86,11 @@ export class AtendimentoService {
     return throwError(errorMessage);
   }
 
-  private initializeUser(): IAtendimento {
+  private initializeAtendimento(): IAtendimento {
     // Return an initialized object
     return {
       id: 0,
+      usuario: null,
       assunto: null,
       descricao: null,
       dataSugerida: null

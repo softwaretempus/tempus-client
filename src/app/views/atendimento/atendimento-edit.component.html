@@ -4,6 +4,19 @@
   </div>
   <div class="card-body">
     <form novalidate (ngSubmit)="saveAtendimento()" [formGroup]="atendimentoForm">
+      
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label">Usuario Solicitante</label>
+        <div class="col-md-8">
+          <select class="form-control" (change)="onChangeUser($event.target.value)">
+              <option [ngValue]="undefined" selected>Selecione...</option>
+              <option *ngFor="let u of usuarios" [ngValue]="u" >
+                {{u.nome}}
+              </option>
+          </select>          
+        </div>
+      </div>
+      
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="assuntoId">Assunto</label>
         <div class="col-md-8">
@@ -18,8 +31,8 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="descricaoId">Descrição</label>
         <div class="col-md-8">
-          <input class="form-control" id="descricaoId" type="text" formControlName="descricao"
-            [ngClass]="{'is-invalid': displayMessage.descricao }" />
+          <textarea class="form-control" rows="5" id="descricaoId" formControlName="descricao"
+            [ngClass]="{'is-invalid': displayMessage.descricao }"></textarea>
           <span class="invalid-feedback">
             {{displayMessage.descricao}}
           </span>
@@ -37,6 +50,18 @@
         </div>
       </div>
 
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label">Habilidade Necessária</label>
+        <div class="col-md-8">
+          <select class="form-control" (change)="onChangeSkill($event.target.value)">
+              <option [ngValue]="undefined" selected>Selecione...</option>
+              <option *ngFor="let h of habilidades" [ngValue]="h" >
+                {{h.nome}}
+              </option>
+          </select>          
+        </div>
+      </div>
+
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
             <button class="btn btn-primary mr-3" type="submit"
@@ -44,7 +69,7 @@
             Salvar
           </button>
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
-            [routerLink]="['/atendimento']">
+            [routerLink]="['/atendimentos']">
             Cancelar
           </button>       
         </div>

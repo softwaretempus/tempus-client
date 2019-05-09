@@ -42,12 +42,12 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Atendimentos',
-    url: '/atendimento',
-    icon: 'icon-calendar',
+    url: '/atendimentos',
+    icon: 'icon-phone',
   },
   {
     name: 'Projetos',
     url: '/projetos',
-    icon: 'icon-calendar',
+    icon: 'icon-chart',
   }
 ];
