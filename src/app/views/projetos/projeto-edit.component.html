@@ -36,11 +36,11 @@
           </span>
         </div>
       </div>
-      
+
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="horas_realizadasId">Horas Realizadas</label>
         <div class="col-md-8">
-          <input class="form-control"  id="horas_realizadasId" type="number" formControlName="horas_realizadas"
+          <input class="form-control" id="horas_realizadasId" type="number" formControlName="horas_realizadas"
             [ngClass]="{'is-invalid': displayMessage.dataSugerida }" />
           <span class="invalid-feedback">
             {{displayMessage.horas_realizadas}}
@@ -49,15 +49,19 @@
       </div>
 
       <div class="form-group row mb-2 mt-4">
-        <div class="offset-md-2 col-md-4">
-            <button class="btn btn-primary mr-3" type="submit"
-            [title]="projetoForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!projetoForm.valid">
+        <div class="offset-md-2 col-md-8">
+          <button class="btn btn-primary mr-3" type="submit"
+            [title]="projetoForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'"
+            [disabled]="!projetoForm.valid">
             Salvar
           </button>
-          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
-            [routerLink]="['/projetos']">
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/projetos']">
             Cancelar
-          </button>       
+          </button>
+          <button class="btn text-danger float-right" type="button" (click)="deleteProjeto()">
+            <i class="fa fa-trash"></i>
+            Remover
+          </button>
         </div>
       </div>
 

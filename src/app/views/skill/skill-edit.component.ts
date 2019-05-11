@@ -134,7 +134,7 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.skillService.deleteSkill(this.skill.id)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
+            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
           );
         this.showSuccess('Habilidade removida da base de dados.')
       }
@@ -150,14 +150,14 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
           this.skillService.createSkill(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
+              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
             );
           this.showSuccess('Habilidade inserida na base de dados.')
         } else {
           this.skillService.updateSkill(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) =>  this.showSuccess('Algo está errado. Tente mais tarde.')
+              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
             );
           this.showSuccess('Habilidade alterada na base de dados.')
         }

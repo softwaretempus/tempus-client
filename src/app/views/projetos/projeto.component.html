@@ -9,7 +9,7 @@
       <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
         <button class="btn btn-primary mr-3" [routerLink]="['/projetos/0/edicao']">
           <i class="fa fa-plus fa-lg"></i>
-          Novo Projeto
+          Incluir
         </button>
       </div>
     </div>
@@ -20,8 +20,6 @@
       [ngClass]="{'list-group-item-accent-info': projeto.nome, 'list-group-item-accent-secondary': !projeto.nome}"
       *ngFor="let projeto of filteredProjetos">
       <a [routerLink]="['/projetos', projeto.id, 'edicao']" class="list-item text-muted">
-
-
         <div class="row">
           <div class="col-xs-6 col-sm-8 col-md-4 col-lg-4">
             <strong [ngClass]="{'text-muted': !projeto.nome}">

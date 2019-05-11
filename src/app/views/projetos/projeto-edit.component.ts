@@ -185,6 +185,21 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  deleteProjeto(): void {
+    if (this.projeto.id === 0) {
+      this.onSaveComplete();
+    } else {
+      if (confirm(`Deseja realmente excluir o projeto "${this.projeto.nome}"?`)) {
+        this.projetoService.deleteProjeto(this.projeto.id)
+          .subscribe(
+            () => this.onSaveComplete(),
+            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+          );
+        this.showSuccess('Projeto removida da base de dados.')
+      }
+    }
+  }
+
   onSaveComplete(): void {
     this.projetoForm.reset();
     this.router.navigate(['/projetos']);

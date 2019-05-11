@@ -74,27 +74,8 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
       dataSugerida: ['', Validators.required],
     });
 
-    this.userService.getUsers().subscribe(
-      users => {
-        this.usuarios = [...users];
-        this.usuarios = this.usuarios.map((u) => {
-          u.selected = false;
-          return u;
-        }).filter((u) => u.perfil === 4);
-      },
-      error => this.errorMessage = <any>error
-    )
-
-    this.skillService.getSkills().subscribe(
-      skills => {
-        this.habilidades = [...skills];
-        this.habilidades = this.habilidades.map((s) => {
-          s.selected = false;
-          return s;
-        });
-      },
-      error => this.errorMessage = <any>error
-    )
+    this.getUsers()
+    this.getSkills()
 
     // Lê o id do atendimento do parâmetro da rota,
     // e retorna dados da api
@@ -161,6 +142,32 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
       dataSugerida: this.atendimento.dataSugerida
     });
     // this.userForm.setControl('tags', this.fb.array(this.user.tags || []));
+  }
+
+  getUsers(): void {
+    this.userService.getUsers().subscribe(
+      users => {
+        this.usuarios = [...users];
+        this.usuarios = this.usuarios.map((u) => {
+          u.selected = false;
+          return u;
+        }).filter((u) => u.perfil === 4);
+      },
+      error => this.errorMessage = <any>error
+    )
+  }
+
+  getSkills(): void {
+    this.skillService.getSkills().subscribe(
+      skills => {
+        this.habilidades = [...skills];
+        this.habilidades = this.habilidades.map((s) => {
+          s.selected = false;
+          return s;
+        });
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
   deleteUser(): void {
