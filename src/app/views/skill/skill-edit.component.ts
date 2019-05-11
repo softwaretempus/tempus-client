@@ -129,9 +129,8 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteSkill(): void {
     if (this.skill.id === 0) {
       this.onSaveComplete();
-      this.showSuccess('Habilidade removida da base de dados.')
     } else {
-      if (confirm(`Deseja realmente excluir a habilidade ${this.skill.nome}?`)) {
+      if (confirm(`Deseja realmente excluir a habilidade "${this.skill.nome}"?`)) {
         this.skillService.deleteSkill(this.skill.id)
           .subscribe(
             () => this.onSaveComplete(),

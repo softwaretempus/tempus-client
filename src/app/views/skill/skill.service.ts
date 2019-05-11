@@ -59,9 +59,6 @@ export class SkillService {
   updateSkill(skill: ISkill): Observable<ISkill> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.skillsUrl}/${skill.id}`;
-    console.log(url)
-    console.log(skill)
-    console.log({headers: headers})
     return this.http.put<ISkill>(url, skill, { headers: headers })
       .pipe(
         tap(() => console.log('updateSkill: ' + skill.id)),

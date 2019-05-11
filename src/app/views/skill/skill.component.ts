@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { SkillService } from './skill.service';
@@ -25,9 +26,42 @@ export class SkillComponent implements OnInit {
     this.filteredSkills = this.listFilter ? this.performFilter(this.listFilter) : this.skills
   }
 
-  constructor(private skillService: SkillService, private toastr: ToastrService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private skillService: SkillService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
+    this.getSkills()
+  }
+
+  performFilter(filterBy: string): ISkill[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.skills.filter((skill: ISkill) =>
+      skill.nome.toLocaleLowerCase().indexOf(filterBy) !== -1)
+  }
+
+  async deleteSkill(skill: ISkill) {
+    if (confirm(`Deseja realmente excluir a habilidade "${skill.nome}"?`)) {
+      await this.skillService.deleteSkill(skill.id)
+        .subscribe(
+          () => this.onSaveComplete(),
+          (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+        );
+      this.showSuccess('Habilidade removida da base de dados.')
+      this.skills.splice(skill.id, 1);
+      console.log(this.skills)
+    }
+  }
+
+  onSaveComplete(): void {
+    this.router.navigate(['/habilidades'])
+    this.getSkills()
+  }
+
+  getSkills(): void {
     this.skillService.getSkills().subscribe(
       skills => {
         this.skills = skills
@@ -35,12 +69,6 @@ export class SkillComponent implements OnInit {
       },
       error => this.errorMessage = <any>error
     )
-  }
-
-  performFilter(filterBy: string): ISkill[] {
-    filterBy = filterBy.toLocaleLowerCase();
-    return this.skills.filter((skill: ISkill) =>
-      skill.nome.toLocaleLowerCase().indexOf(filterBy) !== -1)
   }
 
   showSuccess(msg) {
