@@ -1,9 +1,26 @@
+<!-- https://stackblitz.com/edit/angular-qihhhh?file=src%2Fapp%2Fapp.component.ts -->
 <div class="card">
   <div class="card-header">
     <small>{{title | uppercase}}</small>
   </div>
   <div class="card-body">
     <form novalidate (ngSubmit)="saveUser()" [formGroup]="userForm">
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
+        <div class="col-md-8">
+          <select class="form-control" id="userProfileId" formControlName="perfil" (change)="onChangeUserProfile($event)" [ngClass]="{'is-invalid': displayMessage.perfil }">
+            <option [ngValue]="null">Selecione...</option>
+            <option *ngFor="let perfil of perfis" [ngValue]="perfil.id">
+              {{perfil.descricao}}
+            </option>
+          </select>
+          <span class="invalid-feedback">
+            {{displayMessage.perfil}}
+          </span>
+        </div>
+      </div>
+
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userNameId">Nome</label>
         <div class="col-md-8">
@@ -39,8 +56,9 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
-        <div class="col-md-8">          
-          <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status" [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
+        <div class="col-md-8">
+          <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status"
+            [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
           <label class="form-check-label">Ativo</label>
           <span class="invalid-feedback">
             {{displayMessage.status}}
@@ -51,7 +69,7 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userCodeId">CPF/CNPJ</label>
         <div class="col-md-8">
-          <input class="form-control" id="userCodeId" type="text" formControlName="cpf"
+          <input class="form-control" id="userCodeId" type="text" formControlName="cpf" [textMask]="{mask: cpfcnpjmask}"
             [ngClass]="{'is-invalid': displayMessage.cpf }" />
           <span class="invalid-feedback">
             {{displayMessage.cpf}}
@@ -59,62 +77,50 @@
         </div>
       </div>
 
-      <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
-        <div class="col-md-8">
-          <select class="form-control" id="userProfileId" formControlName="perfil"
-            [ngClass]="{'is-invalid': displayMessage.perfil }">
-            <option *ngFor="let perfil of perfis" [ngValue]="perfil.id">
-              {{perfil.descricao}}
-            </option>
-          </select>
-          <span class="invalid-feedback">
-            {{displayMessage.perfil}}
-          </span>
-        </div>
-      </div>
-      
-      <div class="form-group row mb-2">
+      <div class="form-group row mb-2" *ngIf="!isClientSelected">
         <label class="col-md-2 col-form-label">Habilidades</label>
         <div class="col-md-8">
           <select class="form-control" (change)="onChangeSkill($event.target.value)">
-              <option [ngValue]="undefined" selected>Selecione...</option>
-              <option *ngFor="let s of skills" [ngValue]="s" >
-                {{s.nome}}
-              </option>
-          </select>          
+            <option [ngValue]="undefined" selected>Selecione...</option>
+            <option *ngFor="let s of skills" [ngValue]="s">
+              {{s.nome}}
+            </option>
+          </select>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-primary" (click)="addSkill($event)">Adicionar</button>
+          <button class="btn btn-primary" (click)="addSkill($event)">Adicionar</button>
         </div>
       </div>
 
-      <div class="form-group row">
-          <div class="col-md-10">
-            <table class="table table-sm table-stripped table-bordered">
-              <thead>
-                <th>Habilidade</th>
-                <th>N&iacute;vel</th>                
-              </thead>
-              <tbody>
-                <tr *ngFor="let us of userSkills" >
-                  <td>{{us.nome}}</td>
-                  <td><pm-star [rating]=5 [userRating]="us.nivel" [idHabilidade]="us.id" (ratingClicked)="onSelectNivel($event)"></pm-star></td>
-                  <td style="width: 45px;"><button class="btn btn-danger" (click)="removeSkill(us.id)" title="Remover">X</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="form-group row" *ngIf="!isClientSelected">
+        <div class="col-md-10">
+          <table class="table table-sm table-stripped table-bordered">
+            <thead>
+              <th>Habilidade</th>
+              <th>N&iacute;vel</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let us of userSkills">
+                <td>{{us.nome}}</td>
+                <td>
+                  <pm-star [rating]=5 [userRating]="us.nivel" [idHabilidade]="us.id"
+                    (ratingClicked)="onSelectNivel($event)"></pm-star>
+                </td>
+                <td style="width: 45px;"><button class="btn btn-danger" (click)="removeSkill(us.id)"
+                    title="Remover">X</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      
+
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
-            <button class="btn btn-primary mr-3" type="submit"
+          <button class="btn btn-primary mr-3" type="submit"
             [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">
             Salvar
           </button>
-          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições"
-            [routerLink]="['/usuarios']">
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/usuarios']">
             Cancelar
           </button>
         </div>

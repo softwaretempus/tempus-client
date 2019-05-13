@@ -28,15 +28,13 @@
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-8">
-          <button class="btn btn-primary mr-3" type="submit"
-            [title]="skillForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'"
-            [disabled]="!skillForm.valid">
+          <button class="btn btn-primary mr-3" type="submit" [title]="skillForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!skillForm.valid">
             Salvar
           </button>
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/habilidades']">
             Cancelar
           </button>
-          <button class="btn text-danger float-right" type="button" (click)="deleteSkill()">
+          <button class="btn text-danger float-right" type="button" (click)="deleteSkill()" *ngIf="skill.id > 0">
             <i class="fa fa-trash"></i>
             Remover
           </button>

@@ -24,6 +24,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'User Edit';
   errorMessage: string;
   userForm: FormGroup;
+  isClientSelected: boolean;
   perfis = [
     { id: 1, descricao: 'Analista' },
     { id: 2, descricao: 'Coordenador' },
@@ -204,7 +205,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.userForm.valid) {
       if (this.userForm.dirty) {
         const p = { ...this.user, ...this.userForm.value };
-        
+
         if (p.id === 0) {
           this.userService.createUser(p)
             .subscribe((result) => {
@@ -263,6 +264,15 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userForm.markAsDirty();
   }
 
+  onChangeUserProfile(event) {
+    let selected = event.target.value;
+    if (selected == '4: 4') {
+      this.isClientSelected = true;
+    } else {
+      this.isClientSelected = false;
+    }
+  }
+
   onChangeSkill(newSkill): void {
     this.skills = this.skills.map((s) => {
       if (s.nome === newSkill) // pode melhorar....
@@ -303,6 +313,19 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showError(msg) {
     this.toastr.error(msg, 'Ops! Algo está errado!');
+  }
+
+  cpfcnpjmask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    if (numberLength <= 11) {
+      return [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+    } else {
+      return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+    }
   }
 
 }
