@@ -1,4 +1,3 @@
-<!-- https://stackblitz.com/edit/angular-qihhhh?file=src%2Fapp%2Fapp.component.ts -->
 <div class="card">
   <div class="card-header">
     <small>{{title | uppercase}}</small>
@@ -9,7 +8,8 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userProfileId">Perfil</label>
         <div class="col-md-8">
-          <select class="form-control" id="userProfileId" formControlName="perfil" (change)="onChangeUserProfile($event)" [ngClass]="{'is-invalid': displayMessage.perfil }">
+          <select class="form-control" id="userProfileId" formControlName="perfil"
+            (change)="onChangeUserProfile($event)" [ngClass]="{'is-invalid': displayMessage.perfil }">
             <option [ngValue]="null">Selecione...</option>
             <option *ngFor="let perfil of perfis" [ngValue]="perfil.id">
               {{perfil.descricao}}
@@ -50,6 +50,18 @@
             [ngClass]="{'is-invalid': displayMessage.email }" />
           <span class="invalid-feedback">
             {{displayMessage.email}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userSenhaId">Senha</label>
+        <div class="col-md-8">
+          <show-hide-password size="default" btnStyle="default" [btnOutline]="true">
+            <input type="password" class="form-control" id="userSenhaId" formControlName="senha" [ngClass]="{'is-invalid': displayMessage.senha }" />
+          </show-hide-password>
+          <span class="invalid-feedback">
+            {{displayMessage.senha}}
           </span>
         </div>
       </div>

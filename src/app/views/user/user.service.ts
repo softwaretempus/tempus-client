@@ -93,7 +93,8 @@ export class UserService {
       email: null,
       status: null,
       cpf: null,
-      perfil: null
+      perfil: null,
+      senha: null
     };
   }
 

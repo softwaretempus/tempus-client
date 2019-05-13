@@ -5,5 +5,6 @@ export interface IUser {
     email: string
     status: boolean
     cpf: string
-    perfil: number    
+    perfil: number
+    senha: string
 }

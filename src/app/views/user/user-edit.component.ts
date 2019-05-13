@@ -14,6 +14,7 @@ import { UserSkillService } from './user-skill.service';
 import { GenericValidator } from '../shared/generic.validator';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
@@ -77,6 +78,10 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         required: 'Informe o perfil.',
         min: 'Informe um número entre 1 e 5.',
         max: 'Informe um número entre 1 e 5.',
+      },
+      senha: {
+        required: 'Informe a senha do usuário.',
+        minlength: 'Deve conter pelo meno 4 caracteres',
       }
     };
 
@@ -92,7 +97,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       email: ['', Validators.required],
       status: [true, null],
       cpf: ['', Validators.required],
-      perfil: ['', Validators.required]
+      perfil: ['', Validators.required],
+      senha: ['', [Validators.required, Validators.minLength(4)]],
     });
 
     // Lê o id do usuário do parâmetro da rota,
@@ -182,7 +188,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       email: this.user.email,
       status: this.user.status,
       cpf: this.user.cpf,
-      perfil: this.user.perfil
+      perfil: this.user.perfil,
+      senha: this.user.senha
     });
     // this.userForm.setControl('tags', this.fb.array(this.user.tags || []));
   }
