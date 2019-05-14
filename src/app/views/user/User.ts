@@ -6,5 +6,7 @@ export interface IUser {
     status: boolean
     cpf: string
     perfil: number
+    id_cliente: number
+    id_coordenador: number
     senha: string
 }

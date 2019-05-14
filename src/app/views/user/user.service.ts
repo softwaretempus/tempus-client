@@ -59,7 +59,6 @@ export class UserService {
   updateUser(user: IUser): Observable<IUser> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.usersUrl}/${user.id}`;
-    console.log(user);
     return this.http.put<IUser>(url, user, { headers: headers })
       .pipe(
         tap(() => console.log('updateUser: ' + user)),
@@ -94,6 +93,8 @@ export class UserService {
       status: null,
       cpf: null,
       perfil: null,
+      id_cliente: null,
+      id_coordenador: null,
       senha: null
     };
   }
