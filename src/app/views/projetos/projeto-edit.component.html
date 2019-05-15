@@ -58,7 +58,7 @@
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/projetos']">
             Cancelar
           </button>
-          <button class="btn text-danger float-right" type="button" (click)="deleteProjeto()">
+          <button class="btn text-danger float-right" type="button" (click)="deleteProjeto()" *ngIf="projeto.id > 0">
             <i class="fa fa-trash"></i>
             Remover
           </button>
