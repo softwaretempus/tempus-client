@@ -94,7 +94,7 @@ export class AtendimentoService {
       usuario: null,
       assunto: null,
       descricao: null,
-      dataSugerida: null,
+      data_sugerida: null,
       habilidade: null
     };
   }

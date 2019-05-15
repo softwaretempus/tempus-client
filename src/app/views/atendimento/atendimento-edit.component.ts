@@ -11,6 +11,7 @@ import { UserService } from '../user/user.service';
 import { SkillService } from '../skill/skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-atendimento-edit',
@@ -42,7 +43,8 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     private router: Router,
     private atendimentoService: AtendimentoService,
     private userService: UserService,
-    private skillService: SkillService) {
+    private skillService: SkillService,
+    private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -133,18 +135,18 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     } else {
       this.title = `Formulário de edição`;
     }
-    
+
     this.usuarios = this.usuarios.map((u) => {
-      if(u.id === this.atendimento.usuario.id)
+      if (u.id === this.atendimento.usuario.id)
         u.selected = true;
       return u;
     })
 
     this.habilidades = this.habilidades.map((h) => {
-      if(h.id === this.atendimento.habilidade.id)
+      if (h.id === this.atendimento.habilidade.id)
         h.selected = true;
       return h;
-    })    
+    })
 
     // Atualiza os dados do atendimento
     this.atendimentoForm.patchValue({
@@ -161,7 +163,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     this.userService.getUsers().subscribe(
       users => {
         this.usuarios = [...users];
-        this.usuarios = this.usuarios.map((u) => {          
+        this.usuarios = this.usuarios.map((u) => {
           u.selected = false;
           return u;
         }).filter((u) => u.perfil === 4);
@@ -206,14 +208,16 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
           this.atendimentoService.createAtendimento(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError('Tente novamente mais tarde')
             );
+          this.showSuccess('Atendimento inserido na base de dados.')
         } else {
           this.atendimentoService.updateAtendimento(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
+              (error: any) => this.showError('Tente novamente mais tarde')
             );
+          this.showSuccess('Dados do atendimento foram atualizados.')
         }
       } else {
         this.onSaveComplete();
@@ -230,7 +234,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
 
   onChangeUser(userSel): void {
     this.usuarios = this.usuarios.map((u) => {
-      if (u.nome === userSel){
+      if (u.nome === userSel) {
         u.selected = true;
         this.atendimento.usuario = u;
       }
@@ -242,7 +246,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
 
   onChangeSkill(skillSel): void {
     this.habilidades = this.habilidades.map((h) => {
-      if (h.nome === skillSel){
+      if (h.nome === skillSel) {
         h.selected = true;
         this.atendimento.habilidade = h;
       }
@@ -250,6 +254,14 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
         h.selected = false;
       return h;
     });
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
 }
