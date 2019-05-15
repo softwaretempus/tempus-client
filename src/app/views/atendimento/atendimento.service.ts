@@ -39,6 +39,7 @@ export class AtendimentoService {
   createAtendimento(atendimento: IAtendimento): Observable<IAtendimento> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     atendimento.id = null;
+    console.log(atendimento);
     return this.http.post<IAtendimento>(this.atendimentosUrl, atendimento, { headers: headers })
       .pipe(
         tap(data => console.log('createAtendimento: ' + JSON.stringify(data))),

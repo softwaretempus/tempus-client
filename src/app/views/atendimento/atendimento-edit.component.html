@@ -9,8 +9,9 @@
         <label class="col-md-2 col-form-label">Usuario Solicitante</label>
         <div class="col-md-8">
           <select class="form-control" (change)="onChangeUser($event.target.value)">
-              <option [ngValue]="undefined" selected>Selecione...</option>
-              <option *ngFor="let u of usuarios" [ngValue]="u" >
+
+              <option [ngValue]="undefined">Selecione...</option>
+              <option *ngFor="let u of usuarios" [ngValue]="u" [selected]="atendimento.id > 0 && atendimento.usuario.id === u.id" >
                 {{u.nome}}
               </option>
           </select>          
@@ -40,12 +41,12 @@
       </div>
 
       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label" for="dataSugeridaId">Data Sugerida</label>
+        <label class="col-md-2 col-form-label" for="data_sugeridaId">Data Sugerida</label>
         <div class="col-md-8">
-          <input class="form-control"  id="dataSugeridaId" type="date" formControlName="dataSugerida"
-            [ngClass]="{'is-invalid': displayMessage.dataSugerida }" />
+          <input class="form-control"  id="data_sugeridaId" type="date" [ngModel]="data_sugerida | date:'yyyy-MM-dd'" (ngModelChange)="data_sugerida = $event" formControlName="data_sugerida"
+            [ngClass]="{'is-invalid': displayMessage.data_sugerida }" />
           <span class="invalid-feedback">
-            {{displayMessage.dataSugerida}}
+            {{displayMessage.data_sugerida}}
           </span>
         </div>
       </div>
@@ -54,8 +55,8 @@
         <label class="col-md-2 col-form-label">Habilidade Necessária</label>
         <div class="col-md-8">
           <select class="form-control" (change)="onChangeSkill($event.target.value)">
-              <option [ngValue]="undefined" selected>Selecione...</option>
-              <option *ngFor="let h of habilidades" [ngValue]="h" >
+              <option [ngValue]="undefined">Selecione...</option>
+              <option *ngFor="let h of habilidades" [ngValue]="h" [selected]="atendimento.id > 0 && atendimento.habilidade.id === h.id" >
                 {{h.nome}}
               </option>
           </select>          

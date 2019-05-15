@@ -11,7 +11,7 @@ export class AtendimentoComponent implements OnInit {
   title: string = 'Atendimento'
   errorMessage: string
   atendimentos: IAtendimento[] = []
-  filteredUsers: IAtendimento[]
+  filtered: IAtendimento[]
   _listFilter: string = ''
 
   get listFilter(): string {
@@ -20,19 +20,21 @@ export class AtendimentoComponent implements OnInit {
 
   set listFilter(value: string) {
     this._listFilter = value
-    this.filteredUsers = this.listFilter ? this.performFilter(this.listFilter) : this.atendimentos
+    this.filtered = this.listFilter ? this.performFilter(this.listFilter) : this.atendimentos
   }
 
   constructor(private atendimentoService: AtendimentoService) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.atendimentoService.getAtendimentos().subscribe(
-      atendimentos => {
+      atendimentos => {        
+
         this.atendimentos = atendimentos
-        this.filteredUsers = this.atendimentos
+        this.filtered = this.atendimentos
       },
       error => this.errorMessage = <any>error
-    )
+    );
+    
   }
 
   performFilter(filterBy: string): IAtendimento[] {

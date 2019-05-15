@@ -15,27 +15,28 @@
     </div>
   </div>
 
-  <div *ngIf="atendimento && atendimentos.length">
+  <div *ngIf="atendimentos && atendimentos.length">
     <div class="list-group-item"
       [ngClass]="{'list-group-item-accent-info': atendimento.assunto, 'list-group-item-accent-secondary': !atendimento.assunto}"
-      *ngFor="let atendimento of filteredAtendimentos">
-      <a [routerLink]="['/atendimento', atendimento.id, 'edicao']" class="list-item">
+      *ngFor="let atendimento of filtered">
+      <a [routerLink]="['/atendimentos', atendimento.id, 'edicao']" class="list-item">
+
         <div>
-          <strong [ngClass]="{'text-muted': !atendimento.assunto}">{{atendimento.assunto}}</strong>
-          <p class="mb-0">
-              <small class="text-muted">
-                {{user.perfil}}
-              </small>
-            </p>
+          <strong [ngClass]="{'text-muted': !atendimento.assunto}">N&uacute;mero: {{ ('000000' + atendimento.id).slice(-6) }} - {{atendimento.assunto}}</strong>
         </div>
         <p class="mb-0">
           <small class="text-muted">
-            <i class="cui-envelope-letter icons"></i> {{atendimento.descricao}}
+            <strong>Solicitante: </strong> {{atendimento.usuario.nome}}
+          </small>
+        </p>        
+        <p class="mb-0">
+          <small class="text-muted">
+            <strong>Descri&ccedil;&atilde;o:</strong> {{atendimento.descricao}}
           </small>
         </p>
         <p class="mb-0">
           <small class="text-muted mr-3">
-            <i class="cui-location-pin icons"></i> {{atendimento.dataSugerida}}
+            <strong>Data sugerida:</strong> {{atendimento.data_sugerida | date: 'dd/MM/yyyy'}}
           </small>
         </p>
        

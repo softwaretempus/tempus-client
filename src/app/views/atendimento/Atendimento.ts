@@ -6,6 +6,6 @@ export interface IAtendimento {
     usuario: IUser,
     assunto: string,
     descricao: string,
-    dataSugerida: Date,
+    data_sugerida: Date,
     habilidade: ISkill
 }

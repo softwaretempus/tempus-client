@@ -56,7 +56,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
         required: 'Informe a descrição.',
         minlength: 'A descrição não pode ter menos que 7 caracteres.',
       },
-      dataSugerida: {
+      data_sugerida: {
         required: 'Informe a data'
       },
 
@@ -71,7 +71,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     this.atendimentoForm = this.fb.group({
       assunto: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       descricao: ['', [Validators.required, Validators.minLength(7)]],
-      dataSugerida: ['', Validators.required],
+      data_sugerida: ['', Validators.required],
     });
 
     this.getUsers()
@@ -133,13 +133,26 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     } else {
       this.title = `Formulário de edição`;
     }
+    
+    this.usuarios = this.usuarios.map((u) => {
+      if(u.id === this.atendimento.usuario.id)
+        u.selected = true;
+      return u;
+    })
+
+    this.habilidades = this.habilidades.map((h) => {
+      if(h.id === this.atendimento.habilidade.id)
+        h.selected = true;
+      return h;
+    })    
 
     // Atualiza os dados do atendimento
     this.atendimentoForm.patchValue({
       usuario: this.atendimento.usuario,
       assunto: this.atendimento.assunto,
       descricao: this.atendimento.descricao,
-      dataSugerida: this.atendimento.dataSugerida
+      data_sugerida: this.atendimento.data_sugerida,
+      habilidade: this.atendimento.habilidade
     });
     // this.userForm.setControl('tags', this.fb.array(this.user.tags || []));
   }
@@ -148,7 +161,7 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
     this.userService.getUsers().subscribe(
       users => {
         this.usuarios = [...users];
-        this.usuarios = this.usuarios.map((u) => {
+        this.usuarios = this.usuarios.map((u) => {          
           u.selected = false;
           return u;
         }).filter((u) => u.perfil === 4);
@@ -212,13 +225,15 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
 
   onSaveComplete(): void {
     this.atendimentoForm.reset();
-    this.router.navigate(['/atendimento']);
+    this.router.navigate(['/atendimentos']);
   }
 
   onChangeUser(userSel): void {
     this.usuarios = this.usuarios.map((u) => {
-      if (u.nome === userSel) // pode melhorar....
+      if (u.nome === userSel){
         u.selected = true;
+        this.atendimento.usuario = u;
+      }
       else
         u.selected = false;
       return u;
@@ -227,8 +242,10 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
 
   onChangeSkill(skillSel): void {
     this.habilidades = this.habilidades.map((h) => {
-      if (h.nome === skillSel)
+      if (h.nome === skillSel){
         h.selected = true;
+        this.atendimento.habilidade = h;
+      }
       else
         h.selected = false;
       return h;
