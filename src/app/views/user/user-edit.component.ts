@@ -12,6 +12,8 @@ import { SkillService } from '../skill/skill.service';
 import { UserSkillService } from './user-skill.service';
 
 import { GenericValidator } from '../shared/generic.validator';
+import { CPFValidator } from '../../validators/cpf.validator';
+
 import { ToastrService } from 'ngx-toastr';
 
 
