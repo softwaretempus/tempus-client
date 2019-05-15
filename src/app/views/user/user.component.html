@@ -19,21 +19,36 @@
     <div class="list-group-item"
       [ngClass]="{'list-group-item-accent-info': user.status, 'list-group-item-accent-secondary': !user.status}"
       *ngFor="let user of filteredUsers">
-      <a [routerLink]="['/usuarios', user.id, 'edicao']" class="list-item">
-        <div>
-          <strong [ngClass]="{'text-muted': !user.status}">{{user.nome}}</strong>
-          <span class="text-muted"><i>{{getPerfilDesc(user.perfil)}}</i></span>
+      <a class="list-item">
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <span class="text-primary">{{user.nome}}</span>
+            <p class="mb-0">
+              <small class="text-muted">
+                <i class="fa fa-id-card-o"></i> {{getPerfilDesc(user.perfil)}}
+              </small>
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <p class="mb-0">
+              <small class="text-muted">
+                <i class="cui-envelope-letter icons"></i> {{user.email}}
+              </small>
+            </p>
+            <p class="mb-0">
+              <small class="text-muted mr-3">
+                <i class="cui-location-pin icons"></i> {{user.endereco}}
+              </small>
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="float-right">
+              <button class="btn text-muted float-left" [routerLink]="['/usuarios', user.id, 'edicao']">
+                <i class="fa fa-pencil fa-lg"></i>
+              </button>
+            </div>
+          </div>
         </div>
-        <p class="mb-0">
-          <small class="text-muted">
-            <i class="cui-envelope-letter icons"></i> {{user.email}}
-          </small>
-        </p>
-        <p class="mb-0">
-          <small class="text-muted mr-3">
-            <i class="cui-location-pin icons"></i> {{user.endereco}}
-          </small>
-        </p>
       </a>
     </div>
   </div>
