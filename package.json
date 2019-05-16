@@ -49,6 +49,8 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.18",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "ag-grid-angular": "^20.2.0",
+    "ag-grid-community": "^20.2.0",
     "angular2-text-mask": "^9.0.0",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",

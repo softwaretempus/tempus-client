@@ -50,6 +50,10 @@ export const routes: Routes = [
         path: 'projetos',
         loadChildren: './views/projetos/projeto.module#ProjetoModule'
       },
+      {
+        path: 'agendamentos',
+        loadChildren: './views/agendamento/agendamento.module#AgendamentoModule'
+      },
      
     ]
   },

@@ -49,5 +49,10 @@ export const navItems: NavData[] = [
     name: 'Projetos',
     url: '/projetos',
     icon: 'icon-chart',
-  }
+  },
+  {
+    name: 'Agendamentos',
+    url: '/agendamentos',
+    icon: 'icon-calendar',
+  },
 ];
