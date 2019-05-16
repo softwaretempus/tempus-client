@@ -34,6 +34,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     { id: 3, descricao: 'Gerente' },
     { id: 4, descricao: 'Cliente' }
   ];
+  users: IUser[] = [];
+  superiores: IUser[] = [];
   skills: any[] = [];
   userSkills: any[] = [];
 
@@ -74,7 +76,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         minlength: 'Informe um endereço válido.',
       },
       cpf: {
-        required: 'Informe o CPF ou CNPJ'
+        required: 'Informe o CPF ou CNPJ',
+        minLength: 'CPF deve conter 11 caracteres e CNPJ deve conter 14 caracteres',
       },
       perfil: {
         required: 'Informe o perfil.',
@@ -93,36 +96,10 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      endereco: ['', [Validators.required, Validators.minLength(7)]],
-      email: ['', Validators.required],
-      status: [true, null],
-      cpf: ['', Validators.required],
-      perfil: ['', Validators.required],
-      senha: ['', [Validators.required, Validators.minLength(4)]],
-    });
-
-    // Lê o id do usuário do parâmetro da rota,
-    // e retorna dados da api
-    this.sub = this.route.paramMap.subscribe(
-      params => {
-        const id = +params.get('id');
-        this.getUser(id);
-      }
-    );
-
-    this.skillService.getSkills().subscribe(
-      skills => {
-        this.skills = [...skills];
-        this.skills = this.skills.map((s) => {
-          s.selected = false;
-          s.nivel = 1;
-          return s;
-        });
-      },
-      error => this.errorMessage = <any>error
-    )
+    this.getUserForm()
+    this.getUserId()
+    this.getUsers()
+    this.getSelectSkill()
   }
 
   ngOnDestroy(): void {
@@ -171,6 +148,30 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
+  getUserId(): void {
+    // Lê o id do usuário do parâmetro da rota,
+    // e retorna dados da api
+    this.sub = this.route.paramMap.subscribe(
+      params => {
+        const id = +params.get('id');
+        this.getUser(id);
+      }
+    );
+  }
+
+  getUserForm(): void {
+    this.userForm = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      endereco: ['', [Validators.required, Validators.minLength(7)]],
+      email: ['', Validators.required],
+      status: [true, null],
+      cpf: ['', [Validators.required, Validators.minLength(11), CPFValidator]],
+      perfil: ['', Validators.required],
+      senha: ['', [Validators.required, Validators.minLength(4)]],
+      id_coordenador: [''],
+    });
+  }
+
   displayUser(user: IUser): void {
     if (this.userForm) {
       this.userForm.reset();
@@ -191,7 +192,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       status: this.user.status,
       cpf: this.user.cpf,
       perfil: this.user.perfil,
-      senha: this.user.senha
+      senha: this.user.senha,
+      id_cliente: this.user.id_cliente,
+      id_coordenador: this.user.id_coordenador
     });
     // this.userForm.setControl('tags', this.fb.array(this.user.tags || []));
   }
@@ -258,6 +261,20 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   onSaveComplete(): void {
     this.userForm.reset();
     this.router.navigate(['/usuarios']);
+  }
+
+  getSelectSkill() {
+    this.skillService.getSkills().subscribe(
+      skills => {
+        this.skills = [...skills];
+        this.skills = this.skills.map((s) => {
+          s.selected = false;
+          s.nivel = 1;
+          return s;
+        });
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
   getSkills(): Observable<ISkill[]> {
@@ -335,6 +352,15 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
     }
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(
+      users => {
+        this.users = users
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
 }

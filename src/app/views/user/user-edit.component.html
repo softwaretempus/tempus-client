@@ -22,6 +22,19 @@
       </div>
 
       <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediado</label>
+        <div class="col-md-8">
+          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador"
+            (change)="onChangeUserSuperior($event)">
+            <option [ngValue]="null">Selecione...</option>
+            <option *ngFor="let user of users" [ngValue]="user.id">
+              {{user.nome}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userNameId">Nome</label>
         <div class="col-md-8">
           <input class="form-control" id="userNameId" type="text" formControlName="nome"
