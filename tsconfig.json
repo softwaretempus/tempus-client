@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
@@ -15,6 +16,20 @@
     "lib": [
       "es2017",
       "dom"
+    ]
+  },
+  "paths": {
+    "globalize": [
+      "node_modules/globalize/dist/globalize"
+    ],
+    "globalize/*": [
+      "node_modules/globalize/dist/globalize/*"
+    ],
+    "cldr": [
+      "node_modules/cldrjs/dist/cldr"
+    ],
+    "cldr/*": [
+      "node_modules/cldrjs/dist/cldr/*"
     ]
   }
 }

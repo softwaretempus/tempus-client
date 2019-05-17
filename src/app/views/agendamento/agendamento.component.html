@@ -1,8 +1,26 @@
 <div>
-  <ag-grid-angular 
-    style="width: 100%; height: 78vh;" 
-    class="ag-theme-balham"
-    [rowData]="rowData"    
-    [columnDefs]="columnDefs">    
-  </ag-grid-angular>
+  <ejs-schedule #scheduleObj 
+    width='100%' 
+    cssClass='adaptive-rows' 
+    height='650px' 
+    [rowAutoHeight]='rowAutoHeight'
+    [currentView]="currentView" 
+    [selectedDate]="selectedDate" 
+    [group]="group" 
+    [eventSettings]="eventSettings"
+    locale='en-US'>
+    
+    <e-resources>
+      <e-resource field='RoomId' title='Room Type' [dataSource]='resourceDataSource' [allowMultiple]='allowMultiple'
+        name='MeetingRoom' textField='text' idField='id' colorField='color'>
+      </e-resource>
+    </e-resources>
+    <e-header-rows>
+      <e-header-row option='Date'></e-header-row>    
+    </e-header-rows>
+    <e-views>      
+      <e-view option="TimelineWeek"></e-view>
+    </e-views>
+
+  </ejs-schedule>
 </div>

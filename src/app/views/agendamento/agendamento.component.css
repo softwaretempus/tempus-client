@@ -1,7 +1,7 @@
-.ag-header-cell-text {
-    flex: 1;
-  }
+.adaptive-rows.e-schedule .e-timeline-view .e-resource-left-td {
+  width: 120px;
+}
 
-  .text-center {
-    text-align: center
- }
+.adaptive-rows.e-schedule .e-timeline-view .e-resource-text {
+  padding-left: 20px;
+}

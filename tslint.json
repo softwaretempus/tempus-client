@@ -3,6 +3,9 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "linterOptions": {
+      "exclude": "src/**/*.json"
+    },
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
