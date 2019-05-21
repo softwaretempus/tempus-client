@@ -1,0 +1,82 @@
+<div class="list-group list-group-accent">
+
+  <div
+    class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+    <div class="row">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
+        <input type="date" class="form-control mr-sm-2" [(ngModel)]="listFilter"
+          placeholder="A partir de __/__/__ até o presente momento..." />
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <button class="btn btn-primary mr-3" [routerLink]="['/relatorios/0/edicao']">
+          <i class="fa fa-plus fa-lg"></i>
+          Gerar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="reports && reports.length">
+    <div class="list-group-item list-group-item-accent-info" *ngFor="let report of filteredList">
+      report work's
+    </div>
+  </div>
+
+  <div *ngIf="!reports.length">
+    <div class="list-group-item text-center list-group-item-accent-secondary">
+      Nenhum relatório gerado.
+    </div>
+  </div>
+
+</div>
+<!-- <div class="list-group list-group-accent">
+
+  <div
+    class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+    <div class="row">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
+        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <button class="btn btn-primary mr-3" [routerLink]="['/habilidades/0/edicao']">
+          <i class="fa fa-plus fa-lg"></i>
+          Incluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="skills && skills.length">
+    <div class="list-group-item list-group-item-accent-info" *ngFor="let skill of filteredSkills">
+      <a class="list-item">
+        <div class="row">
+          <div class="col-md-8 col-lg-8">
+            <span class="text-primary">{{skill.nome}}</span>
+            <p class="mb-0">
+              <small class="text-muted">
+                {{skill.descricao}}
+              </small>
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="float-right">
+              <button class="btn text-muted float-left" [routerLink]="['/habilidades', skill.id, 'edicao']">
+                <i class="fa fa-pencil fa-lg"></i>
+              </button>
+              <button class="btn text-muted" type="button" (click)="deleteSkill(skill)">
+                <i class="fa fa-trash fa-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="!skills.length">
+    <div class="list-group-item text-center list-group-item-accent-secondary">
+      Nenhuma habilidade cadastrada.
+    </div>
+  </div>
+
+</div> -->

@@ -55,4 +55,9 @@ export const navItems: NavData[] = [
     url: '/agendamentos',
     icon: 'icon-calendar',
   },
+  {
+    name: 'Relatórios',
+    url: '/relatorios',
+    icon: 'icon-pie-chart',
+  },
 ];
