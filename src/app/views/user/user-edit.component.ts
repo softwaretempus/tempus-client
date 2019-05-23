@@ -165,7 +165,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       endereco: ['', [Validators.required, Validators.minLength(7)]],
       email: ['', Validators.required],
       status: [true, null],
-      cpf: ['', [Validators.required, Validators.minLength(11), CPFValidator]],
+      cpf: ['', Validators.required, Validators.minLength(11)],
       perfil: ['', Validators.required],
       senha: ['', [Validators.required, Validators.minLength(4)]],
       id_coordenador: [''],
@@ -352,6 +352,24 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
     }
+  }
+
+  cpfmask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    return [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/]
+  }
+
+  cnpjmask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/]
   }
 
   getUsers() {
