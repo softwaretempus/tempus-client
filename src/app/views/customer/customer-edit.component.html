@@ -1,0 +1,106 @@
+<div class="card">
+  <div class="card-header">
+    <small>{{title | uppercase}}</small>
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
+      
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerNameId">Nome</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerNameId" type="text" formControlName="nome"
+            [ngClass]="{'is-invalid': displayMessage.nome }" />
+          <span class="invalid-feedback">
+            {{displayMessage.nome}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerAddressId">Endereço</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerAddressId" type="text" formControlName="endereco"
+            [ngClass]="{'is-invalid': displayMessage.endereco }" />
+          <span class="invalid-feedback">
+            {{displayMessage.endereco}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerEmailId">Email</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerEmailId" type="text" formControlName="email"
+            [ngClass]="{'is-invalid': displayMessage.email }" />
+          <span class="invalid-feedback">
+            {{displayMessage.email}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerSocialNameId">Razão Social</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerSocialNameId" type="text" formControlName="razao_social"
+            [ngClass]="{'is-invalid': displayMessage.razao_social }" />
+          <span class="invalid-feedback">
+            {{displayMessage.razao_social}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerCnpjId">CNPJ</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerCnpjId" type="text" formControlName="cnpj"
+          [textMask]="{mask: cnpjmask}" [ngClass]="{'is-invalid': displayMessage.cnpj }" />
+          <span class="invalid-feedback">
+            {{displayMessage.cnpj}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerStakeHolderId">Nome do responsável</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerStakeHolderId" type="text" formControlName="nome_responsavel"
+            [ngClass]="{'is-invalid': displayMessage.nome_responsavel }" />
+          <span class="invalid-feedback">
+            {{displayMessage.nome_responsavel}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="customerStatusId">Status</label>
+          <div class="col-md-8">
+            <input class="form-check-label" id="customerStatusId" type="checkbox" formControlName="status"
+              [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
+            <label class="form-check-label">Ativo</label>
+            <span class="invalid-feedback">
+              {{displayMessage.status}}
+            </span>
+          </div>
+        </div>
+
+      <div class="form-group row mb-2 mt-4">
+        <div class="offset-md-2 col-md-8">
+          <button class="btn btn-primary mr-3" type="submit" [title]="customerForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!customerForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/clientes']">
+            Cancelar
+          </button>
+          <button class="btn text-danger float-right" type="button" (click)="deleteCustomer()" *ngIf="customer.id != 0">
+            <i class="fa fa-trash"></i>
+            Remover
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>

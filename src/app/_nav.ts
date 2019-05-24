@@ -31,14 +31,19 @@ export interface NavData {
 
 export const navItems: NavData[] = [
   {
-    name: 'Usuários',
-    url: '/usuarios',
-    icon: 'icon-user',
-  },
-  {
     name: 'Habilidades',
     url: '/habilidades',
     icon: 'icon-star',
+  },
+  {
+    name: 'Clientes',
+    url: '/clientes',
+    icon: 'icon-heart',
+  },
+  {
+    name: 'Usuários',
+    url: '/usuarios',
+    icon: 'icon-user',
   },
   {
     name: 'Atendimentos',

@@ -4,65 +4,65 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, of, throwError } from 'rxjs'
 import { catchError, tap, map } from 'rxjs/operators'
 
-import { IUser } from './User'
+import { ICustomer } from './Customer'
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class CustomerService {
 
-  private usersUrl = 'http://localhost:3000/usuario'
+  private customersUrl = 'http://localhost:3000/cliente'
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.usersUrl)
+  getCustomers(): Observable<ICustomer[]> {
+    return this.http.get<ICustomer[]>(this.customersUrl)
       .pipe(
-        tap(data => console.log('All: ' + JSON.stringify(data))),
+        tap(data => console.log('Customers: ' + JSON.stringify(data))),
         catchError(this.handleError)
       )
   }
 
-  getUser(id: number): Observable<IUser> {
+  getCustomer(id: number): Observable<ICustomer> {
     if (id === 0) {
-      return of(this.initializeUser());
+      return of(this.initializeCustomer());
     }
-    const url = `${this.usersUrl}/${id}`;
-    return this.http.get<IUser>(url)
+    const url = `${this.customersUrl}/${id}`;
+    return this.http.get<ICustomer>(url)
       .pipe(
-        tap(data => console.log('getUser: ' + JSON.stringify(data))),
+        tap(data => console.log('Customer: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  createUser(user: IUser): Observable<IUser> {
+  createCustomer(customer: ICustomer): Observable<ICustomer> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    user.id = null;
-    return this.http.post<IUser>(this.usersUrl, user, { headers: headers })
+    customer.id = null;
+    return this.http.post<ICustomer>(this.customersUrl, customer, { headers: headers })
       .pipe(
-        tap(data => console.log('createUser: ' + JSON.stringify(data))),
+        tap(data => console.log('createCustomer: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  deleteUser(id: number): Observable<{}> {
+  deleteCustomer(id: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.usersUrl}/${id}`;
-    return this.http.delete<IUser>(url, { headers: headers })
+    const url = `${this.customersUrl}/${id}`;
+    return this.http.delete<ICustomer>(url, { headers: headers })
       .pipe(
-        tap(data => console.log('deleteUser: ' + id)),
+        tap(data => console.log('deleteCustomer: ' + id)),
         catchError(this.handleError)
       );
   }
 
-  updateUser(user: IUser): Observable<IUser> {
+  updateCustomer(customer: ICustomer): Observable<ICustomer> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.usersUrl}/${user.id}`;
-    return this.http.put<IUser>(url, user, { headers: headers })
+    const url = `${this.customersUrl}/${customer.id}`;
+    return this.http.put<ICustomer>(url, customer, { headers: headers })
       .pipe(
-        tap(() => console.log('updateUser: ' + user)),
-        map(() => user),
+        tap(() => console.log('updateCustomer: ' + customer)),
+        map(() => customer),
         catchError(this.handleError)
       );
   }
@@ -83,7 +83,7 @@ export class UserService {
     return throwError(errorMessage);
   }
 
-  private initializeUser(): IUser {
+  private initializeCustomer(): ICustomer {
     // Return an initialized object
     return {
       id: 0,
@@ -91,11 +91,9 @@ export class UserService {
       endereco: null,
       email: null,
       status: null,
-      cpf: null,
-      perfil: null,
-      senha: null,
-      id_cliente: null,
-      id_coordenador: null,
+      razao_social: null,
+      cnpj: null,
+      nome_responsavel: null,
     };
   }
 

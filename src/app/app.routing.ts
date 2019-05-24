@@ -35,12 +35,16 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'usuarios',
-        loadChildren: './views/user/user.module#UserModule'
-      },
-      {
         path: 'habilidades',
         loadChildren: './views/skill/skill.module#SkillModule'
+      },
+      {
+        path: 'clientes',
+        loadChildren: './views/customer/customer.module#CustomerModule'
+      },
+      {
+        path: 'usuarios',
+        loadChildren: './views/user/user.module#UserModule'
       },
       {
         path: 'atendimentos',
