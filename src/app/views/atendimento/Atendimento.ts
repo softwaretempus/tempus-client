@@ -7,5 +7,7 @@ export interface IAtendimento {
     assunto: string,
     descricao: string,
     data_sugerida: Date,
+    id_usuario: number,
+    id_habilidade: number,
     habilidade: ISkill
 }

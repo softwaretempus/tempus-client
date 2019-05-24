@@ -60,9 +60,6 @@ export class AtendimentoService {
   updateAtendimento(atendimento: IAtendimento): Observable<IAtendimento> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.atendimentosUrl}/${atendimento.id}`;
-    console.log(url)
-    console.log(atendimento)
-    console.log({headers: headers})
     return this.http.put<IAtendimento>(url, atendimento, { headers: headers })
       .pipe(
         tap(() => console.log('updateAtendimento: ' + atendimento.id)),
@@ -95,6 +92,8 @@ export class AtendimentoService {
       assunto: null,
       descricao: null,
       data_sugerida: null,
+      id_usuario: null,
+      id_habilidade: null,
       habilidade: null
     };
   }
