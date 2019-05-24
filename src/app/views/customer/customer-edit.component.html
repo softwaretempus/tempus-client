@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
-      
+
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="customerNameId">Nome</label>
         <div class="col-md-8">
@@ -53,7 +53,7 @@
         <label class="col-md-2 col-form-label" for="customerCnpjId">CNPJ</label>
         <div class="col-md-8">
           <input class="form-control" id="customerCnpjId" type="text" formControlName="cnpj"
-          [textMask]="{mask: cnpjmask}" [ngClass]="{'is-invalid': displayMessage.cnpj }" />
+            [textMask]="{mask: cnpjmask}" [ngClass]="{'is-invalid': displayMessage.cnpj }" />
           <span class="invalid-feedback">
             {{displayMessage.cnpj}}
           </span>
@@ -72,20 +72,31 @@
       </div>
 
       <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="customerStatusId">Status</label>
-          <div class="col-md-8">
-            <input class="form-check-label" id="customerStatusId" type="checkbox" formControlName="status"
-              [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
-            <label class="form-check-label">Ativo</label>
-            <span class="invalid-feedback">
-              {{displayMessage.status}}
-            </span>
+        <label class="col-md-2 col-form-label" for="customerStatusId">Status</label>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-1 mt-2">
+              <label class="switch switch-sm switch-3d switch-primary">
+                <input class="switch-input" type="checkbox" formControlName="status" (change)="onChangeStatus()"
+                  [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="col-md-11 mt-2">
+              {{ isStatusDisabled ? 'Inativo' : 'Ativo' }}
+            </div>
           </div>
+          <span class="invalid-feedback">
+            {{displayMessage.status}}
+          </span>
         </div>
+      </div>
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-8">
-          <button class="btn btn-primary mr-3" type="submit" [title]="customerForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!customerForm.valid">
+          <button class="btn btn-primary mr-3" type="submit"
+            [title]="customerForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'"
+            [disabled]="!customerForm.valid">
             Salvar
           </button>
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/clientes']">

@@ -24,7 +24,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   title = '';
   errorMessage: string;
   customerForm: FormGroup;
-  isClientSelected: boolean;
+  isStatusDisabled: boolean;
 
   customers: ICustomer[] = [];
   customer: ICustomer;
@@ -80,6 +80,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getCustomerForm()
     this.getCustomerId()
     this.getCustomers()
+    this.onChangeStatus()
   }
 
   getCustomers() {
@@ -90,7 +91,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       error => this.errorMessage = <any>error
     )
   }
-  
+
   getCustomer(id: number): void {
     this.customerService.getCustomer(id)
       .subscribe(
@@ -154,7 +155,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customerService.deleteCustomer(this.customer.id)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+            (error: any) => this.showError('Algo está errado. Tente mais tarde.')
           );
         this.showSuccess('Cliente removido da base de dados.')
       }
@@ -170,14 +171,14 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
           this.customerService.createCustomer(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
             );
           this.showSuccess('Cliente inserido na base de dados.')
         } else {
           this.customerService.updateCustomer(p)
             .subscribe(
               () => this.onSaveComplete(),
-              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
             );
           this.showSuccess('Cliente alterado na base de dados.')
         }
@@ -200,6 +201,11 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showError(msg) {
     this.toastr.error(msg, 'Ops! Algo está errado!');
+  }
+
+  onChangeStatus() {
+    this.isStatusDisabled = !this.isStatusDisabled;
+    return;
   }
 
   cnpjmask(rawValue) {
