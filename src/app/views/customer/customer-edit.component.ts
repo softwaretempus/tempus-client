@@ -24,7 +24,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   title = '';
   errorMessage: string;
   customerForm: FormGroup;
-  isStatusDisabled: boolean;
 
   customers: ICustomer[] = [];
   customer: ICustomer;
@@ -80,7 +79,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getCustomerForm()
     this.getCustomerId()
     this.getCustomers()
-    this.onChangeStatus()
   }
 
   getCustomers() {
@@ -201,11 +199,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showError(msg) {
     this.toastr.error(msg, 'Ops! Algo está errado!');
-  }
-
-  onChangeStatus() {
-    this.isStatusDisabled = !this.isStatusDisabled;
-    return;
   }
 
   cnpjmask(rawValue) {

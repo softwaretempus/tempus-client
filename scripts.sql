@@ -5,7 +5,7 @@ INSERT INTO public."Habilidades" VALUES (3, 'SASS', 'Pré-processador que permit
 INSERT INTO public."Habilidades" VALUES (4, 'Javascript', 'Linguagem leve, interpretada e muito disseminada em aplicações web', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 INSERT INTO public."Habilidades" VALUES (5, 'Node', 'Permite executar o backend no navegador através do motor do Google Chrome para criar facilmente aplicativos de rede rápidos e escaláveis', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 INSERT INTO public."Habilidades" VALUES (6, 'Sequelize', 'Framework para desenvolvimento de webapps e apis para aplicações em Node', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
-INSERT INTO public."Habilidades" VALUES (7, 'Angular', 'Framework para desenvolvimento front end', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
+INSERT INTO public."Habilidades" VALUES (7, 'Angular', 'Framework para desenvolvimento front-end', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 INSERT INTO public."Habilidades" VALUES (8, 'PostgreSQL', 'Sistema de banco de dados objeto-relacional', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 INSERT INTO public."Habilidades" VALUES (9, 'GulpJS', 'Ferramenta para automatização e aprimoramento do fluxo de trabalho', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 INSERT INTO public."Habilidades" VALUES (10, 'Jest', 'Framework de teste Javascript', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');

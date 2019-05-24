@@ -73,19 +73,12 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="customerStatusId">Status</label>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-1 mt-2">
-              <label class="switch switch-sm switch-3d switch-primary">
-                <input class="switch-input" type="checkbox" formControlName="status" (change)="onChangeStatus()"
-                  [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
-                <span class="switch-slider"></span>
-              </label>
-            </div>
-            <div class="col-md-11 mt-2">
-              {{ isStatusDisabled ? 'Inativo' : 'Ativo' }}
-            </div>
-          </div>
+        <div class="col-md-8 mt-2">
+          <label class="switch switch-sm switch-3d switch-primary">
+            <input class="switch-input" type="checkbox" formControlName="status" (change)="onChangeStatus()"
+              [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
+            <span class="switch-slider"></span>
+          </label>
           <span class="invalid-feedback">
             {{displayMessage.status}}
           </span>
