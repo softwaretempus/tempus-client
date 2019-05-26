@@ -1,9 +1,13 @@
+declare var require: any // para require funcionar.
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { extend } from '@syncfusion/ej2-base'; 
+import { extend } from '@syncfusion/ej2-base';
+import { Internationalization } from '@syncfusion/ej2-base';
+import { createElement } from '@syncfusion/ej2-base'; 
+import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { ChangeEventArgs } from '@syncfusion/ej2-buttons';
-import { ScheduleComponent, DragAndDropService, TimelineViewsService, GroupModel, EventSettingsModel, ResizeService, View } from '@syncfusion/ej2-angular-schedule';
+import { ScheduleComponent, DragAndDropService, TimelineViewsService, GroupModel, EventSettingsModel, ResizeService, View, PopupOpenEventArgs, EventClickArgs } from '@syncfusion/ej2-angular-schedule';
 import { roomData } from './data';
 
 import { L10n, loadCldr, setCulture} from '@syncfusion/ej2-base';
@@ -89,30 +93,10 @@ L10n.load({
     }  
 })  
 
-//import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
-//import * as gregorian from 'cldr-data/main/pt/ca-gregorian.json';
-//import * as numbers from 'cldr-data/main/pt/numbers.json';
-//import * as timeZoneNames from 'cldr-data/main/pt/timeZoneNames.json';
-
-//setCulture('pt-PT');
-//loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-/*
-L10n.load({
-  'pt-PT': {
-      'schedule': {
-          'day': 'Dia',
-          'week': 'Semana',
-          'workWeek': 'Semana de Trabalho',
-          'month': 'Mês',
-      }
-  }
-});
-*/
-
 @Component({
   templateUrl: 'agendamento.component.html',
   styleUrls: ['agendamento.component.css'],
-  providers: [TimelineViewsService, ResizeService, DragAndDropService]
+  providers: [TimelineViewsService, ResizeService, DragAndDropService],
 })
 export class AgendamentoComponent {
 
@@ -120,7 +104,7 @@ export class AgendamentoComponent {
   errorMessage: string;
 
   public scheduleObj: ScheduleComponent;
-  public selectedDate: Date = new Date(2018, 7, 1);
+  public selectedDate: Date = new Date(); // Data padrão = hoje
   public rowAutoHeight: Boolean = true;
   public currentView: View = 'TimelineWeek';
   public group: GroupModel = {
@@ -140,13 +124,15 @@ export class AgendamentoComponent {
     dataSource: <Object[]>extend([], roomData, null, true),
     fields: {
       id: 'Id',
-      subject: { name: 'Subject', title: 'Summary' },
-      location: { name: 'Location', title: 'Location' },
-      description: { name: 'Description', title: 'Comments' },
-      startTime: { name: 'StartTime', title: 'From' },
-      endTime: { name: 'EndTime', title: 'To' }
+      subject: { name: 'Subject', title: 'Cliente' },
+      location: { name: 'Location', title: 'Endereço' },
+      description: { name: 'Description', title: 'Descrição' },
+      startTime: { name: 'StartTime', title: 'Hora Inicio' },
+      endTime: { name: 'EndTime', title: 'Hora Fim' },
     }
   };
+
+  public instance: Internationalization = new Internationalization();
   
   constructor(
     private route: ActivatedRoute,
@@ -158,6 +144,65 @@ export class AgendamentoComponent {
 
   onChange(args: ChangeEventArgs): void {
     this.scheduleObj.rowAutoHeight = args.checked;
+  }
+
+  getDateHeaderText: Function = (value: Date) => {
+    return this.instance.formatDate(value, { skeleton: 'yMEd' });
+  };
+
+  onPopupOpen(args: PopupOpenEventArgs): void {
+
+    if (args.type === 'Editor') {
+      
+      let formElement: HTMLElement = args.element.querySelector('.e-schedule-form');
+      // Cria a tabela
+      let table: HTMLElement = createElement('table',{ className: 'custom-event-editor', attrs: { width: '100%', cellPadding: '5'} });
+      // cria a linha 1
+      let tr1 : HTMLElement = createElement('tr');
+      let td1 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Analista:'});
+      let td2 : HTMLElement = createElement('td', { attrs: {colspan: '4'}});
+      let inputAnalista : HTMLElement = createElement('input', { className: 'e-input', attrs: { width: '100%'} });
+
+      tr1.appendChild(td1);
+      td2.appendChild(inputAnalista);
+      tr1.appendChild(td2);
+      table.appendChild(tr1);
+
+      // cria a linha 2
+      let tr2 : HTMLElement = createElement('tr');
+      let td21 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Atendimento:'});
+      let td22 : HTMLElement = createElement('td', { attrs: {colspan: '4'}});
+      let inputAtendimento : HTMLElement = createElement('input', { className: 'e-input', attrs: { width: '100%'} });
+
+      tr2.appendChild(td21);
+      td22.appendChild(inputAtendimento);
+      tr2.appendChild(td22);
+      table.appendChild(tr2);
+
+      // cria a linha 3
+      let tr3 : HTMLElement = createElement('tr');
+      let td31 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Data/Hora:'});
+      let td32 : HTMLElement = createElement('td', { attrs: {colspan: '4'}});
+      let selDataHora : any = createElement('input', { className: 'e-datetimepicker', attrs: {colspan: '4'}});
+      
+      td32.appendChild(selDataHora);
+      tr3.appendChild(td31);
+      tr3.appendChild(td32);
+      table.appendChild(tr3);
+
+      new DateTimePicker({ value: new Date()}, selDataHora);
+      
+      if(formElement.getElementsByClassName('custom-event-editor').length === 0){
+        formElement.appendChild(table);
+      }
+
+    }else if(args.type === 'QuickInfo')  {
+      args.cancel = true;
+    }
+  }
+
+  getTimeString(value: Date): string {
+    return this.instance.formatDate(value, { skeleton: 'Hm' });
   }
 
 }
