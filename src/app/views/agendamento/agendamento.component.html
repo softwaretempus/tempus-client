@@ -6,9 +6,11 @@
     [rowAutoHeight]='rowAutoHeight'
     [currentView]="currentView" 
     [selectedDate]="selectedDate" 
-    [group]="group" 
-    [eventSettings]="eventSettings"
-    locale='pt'>
+    [group]="group"
+    locale='pt'
+    (popupOpen)='onPopupOpen($event)'
+    (eventClick)="onEventClick($event)"
+    [eventSettings]="eventSettings">
     
     <e-resources>
       <e-resource field='RoomId' title='Room Type' [dataSource]='resourceDataSource' [allowMultiple]='allowMultiple'
@@ -21,6 +23,18 @@
     <e-views>      
       <e-view option="TimelineWeek"></e-view>
     </e-views>
-
+    <!--Remove a tela de edição padrão (duplo clique no evento)-->
+    <ng-template #editorTemplate>
+    </ng-template>
+    <!--Altera a formatação do Header do Grid-->
+    <ng-template #dateHeaderTemplate let-data>
+        <div class="date-text">{{getDateHeaderText(data.date)}}</div>
+    </ng-template>
+    <ng-template #eventSettingsTemplate let-data>
+        <div class='template-wrap' [style.background]="data.SecondaryColor">
+            <div class="subject" [style.background]="data.PrimaryColor">{{data.Subject}}</div>
+            <div class="time" [style.background]="data.PrimaryColor">{{getTimeString(data.StartTime)}}</div>
+        </div>
+    </ng-template>
   </ejs-schedule>
 </div>
