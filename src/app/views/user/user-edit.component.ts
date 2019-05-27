@@ -64,8 +64,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.validationMessages = {
       nome: {
         required: 'Informe seu nome.',
-        minlength: 'O nome não pode ter menos que 3 caracteres.',
-        maxlength: 'O nome não pode ter mais que 50 caracteres.'
+        minLength: 'O nome não pode ter menos que 3 caracteres.',
+        maxLength: 'O nome não pode ter mais que 50 caracteres.'
       },
       email: {
         required: 'Informe seu e-mail.',
@@ -73,7 +73,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       endereco: {
         required: 'Informe seu endereço completo',
-        minlength: 'Informe um endereço válido.',
+        minLength: 'Informe um endereço válido.',
       },
       cpf: {
         required: 'Informe o CPF ou CNPJ',
@@ -86,7 +86,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       senha: {
         required: 'Informe a senha do usuário.',
-        minlength: 'Deve conter pelo meno 4 caracteres',
+        minLength: 'Deve conter pelo meno 4 caracteres',
       }
     };
 
@@ -165,7 +165,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       endereco: ['', [Validators.required, Validators.minLength(7)]],
       email: ['', Validators.required],
       status: [true, null],
-      cpf: ['', Validators.required, Validators.minLength(11)],
+      cpf: ['', [Validators.required, Validators.minLength(11)]],
       perfil: ['', Validators.required],
       senha: ['', [Validators.required, Validators.minLength(4)]],
       id_coordenador: [''],

@@ -4,5 +4,5 @@ export interface IProjeto {
     descricao_atividades: string
     horas_estimadas: number
     horas_realizadas: number
-    
+    id_atendimento: number   
 }

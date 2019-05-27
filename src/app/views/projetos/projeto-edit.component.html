@@ -27,6 +27,21 @@
       </div>
 
       <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="atendimentoId">Vinculado ao atendimento</label>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="atendimentoSelected" (change)="onChangeSelect($event)" id="atendimentoId" formControlName="id_atendimento">
+            <option [ngValue]="undefined">Selecione...</option>
+            <option *ngFor="let atendimento of atendimentos" [value]="atendimento.id">
+              #{{atendimento.id}} - {{atendimento.assunto}}
+            </option>
+          </select>
+          <span class="invalid-feedback">
+            {{displayMessage.id_atendimento}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="horas_estimadasId">Horas Estimadas</label>
         <div class="col-md-8">
           <input class="form-control" id="horas_estimadasId" type="number" formControlName="horas_estimadas"

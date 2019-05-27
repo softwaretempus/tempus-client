@@ -8,6 +8,9 @@ import { debounceTime } from 'rxjs/operators';
 import { IProjeto } from './Projeto';
 import { ProjetoService } from './projeto.service';
 
+import { IAtendimento } from '../atendimento/Atendimento';
+import { AtendimentoService } from '../atendimento/atendimento.service';
+
 import { GenericValidator } from '../shared/generic.validator';
 import { ToastrService } from 'ngx-toastr';
 
@@ -23,6 +26,8 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
   projetoForm: FormGroup;
 
   projeto: IProjeto;
+  atendimentos: IAtendimento[] = [];
+  atendimentoSelected: number
   private sub: Subscription;
 
   // Use with the generic validation message class
@@ -30,13 +35,10 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  get tags(): FormArray {
-    return <FormArray>this.projetoForm.get('tags');
-  }
-
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private atendimentoService: AtendimentoService,
     private projetoService: ProjetoService,
     private toastr: ToastrService) {
 
@@ -45,13 +47,16 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.validationMessages = {
       nome: {
         required: 'Informe o nome.',
-        minlength: 'O nome não pode ter menos que 3 caracteres.',
-        maxlength: 'O nome não pode ter mais que 50 caracteres.'
+        minLength: 'O nome não pode ter menos que 3 caracteres.',
+        maxLength: 'O nome não pode ter mais que 50 caracteres.'
       },
       descricao_atividades: {
         required: 'Informe a descrição das atividades.',
-        minlength: 'A descrição não pode ter menos que 3 caracteres.',
-        maxlength: 'A descrição não pode ter mais que 50 caracteres.'
+        minLength: 'A descrição não pode ter menos que 3 caracteres.',
+        maxLength: 'A descrição não pode ter mais que 50 caracteres.'
+      },
+      id_atendimento: {
+        required: 'Informe o atendimento a ser vinculado ao projeto.'
       },
       horas_estimadas: {
         required: 'Informe as horas estimadas.',
@@ -72,18 +77,13 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.projetoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       descricao_atividades: ['', [Validators.required, Validators.minLength(7)]],
+      id_atendimento: ['', Validators.required],
       horas_estimadas: ['', [Validators.required, Validators.min(1)]],
       horas_realizadas: ['', Validators.required],
     });
 
-    // Lê o id do atendimento do parâmetro da rota,
-    // e retorna dados da api
-    this.sub = this.route.paramMap.subscribe(
-      params => {
-        const id = +params.get('id');
-        this.getProjeto(id);
-      }
-    );
+    this.getProjetoId()
+    this.getAtendimentos()
 
   }
 
@@ -104,13 +104,24 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  addTag(): void {
-    this.tags.push(new FormControl());
+  getProjetoId() {
+    // Lê o id do atendimento do parâmetro da rota,
+    // e retorna dados da api
+    this.sub = this.route.paramMap.subscribe(
+      params => {
+        const id = +params.get('id');
+        this.getProjeto(id);
+      }
+    );
   }
 
-  deleteTag(index: number): void {
-    this.tags.removeAt(index);
-    this.tags.markAsDirty();
+  getAtendimentos(): void {
+    this.atendimentoService.getAtendimentos().subscribe(
+      atendimentos => {
+        this.atendimentos = atendimentos
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
   getProjeto(id: number): void {
@@ -137,6 +148,7 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.projetoForm.patchValue({
       nome: this.projeto.nome,
       descricao_atividades: this.projeto.descricao_atividades,
+      id_atendimento: this.projeto.id_atendimento,
       horas_estimadas: this.projeto.horas_estimadas,
       horas_realizadas: this.projeto.horas_realizadas
     });
@@ -193,11 +205,15 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.projetoService.deleteProjeto(this.projeto.id)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+            (error: any) => this.showError('Algo está errado. Tente mais tarde.')
           );
         this.showSuccess('Projeto removida da base de dados.')
       }
     }
+  }
+
+  onChangeSelect(event) {
+    this.atendimentoSelected = event.target.value
   }
 
   onSaveComplete(): void {
