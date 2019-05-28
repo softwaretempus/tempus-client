@@ -13,15 +13,15 @@ INSERT INTO public."Habilidades" VALUES (11, 'Balsamiq', 'Wireframe e prototipag
 INSERT INTO public."Habilidades" VALUES (12, 'Photoshop', 'Acabamento e layout dos protótipos', '2019-05-23T19:00:00.000Z', '2019-05-23T19:00:00.000Z');
 
 -- Incluir usuário
-INSERT INTO public."Usuarios" VALUES (1, 'Bruno Calixto', 'Del Castilho', 'b.calixto@tempus.com.br', '12345', true, '673.948.210-13', 1, '2019-05-23T20:44:00.000Z', '2019-05-23T20:44:00.000Z');
-INSERT INTO public."Usuarios" VALUES (2, 'Bruno Sobral', 'Lins de Vasconcelos', 'b.sobral@tempus.com.br', '12345', true, '050.817.290-00', 2, '2019-05-23T20:45:00.000Z', '2019-05-23T20:45:00.000Z');
-INSERT INTO public."Usuarios" VALUES (4, 'Fabio Maia', 'S. João', 'f.maia@tempus.com.br', '12345', true, '506.484.220-11', 3, '2019-05-23T20:46:00.000Z', '2019-05-23T20:46:00.000Z');
-INSERT INTO public."Usuarios" VALUES (5, 'Gilvanleno Mota', 'Tijuca', 'g.mota@tempus.com.br', '12345', true, '032.293.440-06', 1, '2019-05-23T20:47:00.000Z', '2019-05-23T20:47:00.000Z');
+INSERT INTO public."Usuarios" VALUES (1, 'Bruno Calixto', 'Del Castilho', 'b.calixto@tempus.com.br', '12345', true, '673.948.210-13', 4, '2019-05-23T20:44:00.000Z', '2019-05-23T20:44:00.000Z');
+INSERT INTO public."Usuarios" VALUES (2, 'Bruno Sobral', 'Lins de Vasconcelos', 'b.sobral@tempus.com.br', '12345', true, '050.817.290-00', 4, '2019-05-23T20:45:00.000Z', '2019-05-23T20:45:00.000Z');
+INSERT INTO public."Usuarios" VALUES (4, 'Fabio Maia', 'S. João', 'f.maia@tempus.com.br', '12345', true, '506.484.220-11', 4, '2019-05-23T20:46:00.000Z', '2019-05-23T20:46:00.000Z');
+INSERT INTO public."Usuarios" VALUES (5, 'Gilvanleno Mota', 'Tijuca', 'g.mota@tempus.com.br', '12345', true, '032.293.440-06', 4, '2019-05-23T20:47:00.000Z', '2019-05-23T20:47:00.000Z');
 INSERT INTO public."Usuarios" VALUES (6, 'Juliana de Lira', 'Bangu', 'j.lira@tempus.com.br', '12345', true, '816.887.140-57', 4, '2019-05-23T20:47:00.000Z', '2019-05-23T20:47:00.000Z');
 
 -- Incluir cliente
-INSERT INTO public."Clientes" VALUES (7, 'Totvs', 'Av. Rio Branco, 45 - Sala 905 - 906 - Centro, Rio de Janeiro - RJ, 20090-003', 'contato@totvs.com.br', true, 'TOTVS S.A', '61.366.936/0001-25', 'Maria da Silva', '2019-05-23T20:54:00.000Z', '2019-05-23T20:54:00.000Z');
-INSERT INTO public."Clientes" VALUES (8, 'B2W Digital', 'Rua Sacadura Cabral, 102 - Saúde, Rio de Janeiro - RJ, 20081-262', 'contato@b2wdigital.com', true, 'B2W Companhia Digital', '00.776.574/0006-60', 'Maria da Silva', '2019-05-23T20:55:00.000Z', '2019-05-23T20:55:00.000Z');
+INSERT INTO public."Clientes" VALUES (1, 'Totvs', 'Av. Rio Branco, 45 - Sala 905 - 906 - Centro, Rio de Janeiro - RJ, 20090-003', 'contato@totvs.com.br', true, 'TOTVS S.A', '61.366.936/0001-25', 'Maria da Silva', '2019-05-23T20:54:00.000Z', '2019-05-23T20:54:00.000Z');
+INSERT INTO public."Clientes" VALUES (2, 'B2W Digital', 'Rua Sacadura Cabral, 102 - Saúde, Rio de Janeiro - RJ, 20081-262', 'contato@b2wdigital.com', true, 'B2W Companhia Digital', '00.776.574/0006-60', 'Maria da Silva', '2019-05-23T20:55:00.000Z', '2019-05-23T20:55:00.000Z');
 
 -- Incluir atendimento
 INSERT INTO public."Atendimentos" VALUES (1, 'Manutenção na Base de Dados', 'Aplicar correção em sistema legado que utiliza SQL Server como solução para base de dados', '2019-06-30T18:00:00.000Z', '2019-05-24T00:22:00.000Z', '2019-05-24T19:00:22.000Z', 1, 1);

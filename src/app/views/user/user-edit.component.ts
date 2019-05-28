@@ -11,6 +11,9 @@ import { ISkill } from '../skill/Skill';
 import { SkillService } from '../skill/skill.service';
 import { UserSkillService } from './user-skill.service';
 
+import { ICustomer } from '../customer/Customer';
+import { CustomerService } from '../customer/customer.service';
+
 import { GenericValidator } from '../shared/generic.validator';
 import { CPFValidator } from '../../validators/cpf.validator';
 
@@ -39,6 +42,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   skills: any[] = [];
   userSkills: any[] = [];
 
+  customers: ICustomer[] = [];
+  customer: ICustomer;
+
   user: IUser;
   private sub: Subscription;
 
@@ -55,6 +61,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
+    private customerService: CustomerService,
     private skillService: SkillService,
     private userSkillService: UserSkillService,
     private toastr: ToastrService) {
@@ -76,8 +83,8 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         minLength: 'Informe um endereço válido.',
       },
       cpf: {
-        required: 'Informe o CPF ou CNPJ',
-        minLength: 'CPF deve conter 11 caracteres e CNPJ deve conter 14 caracteres',
+        required: 'Informe o CPF do usuário',
+        minLength: 'Seu CPF deve conter 11 caracteres',
       },
       perfil: {
         required: 'Informe o perfil.',
@@ -100,6 +107,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getUserId()
     this.getUsers()
     this.getSelectSkill()
+    this.getCustomers()
   }
 
   ngOnDestroy(): void {
@@ -168,6 +176,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       cpf: ['', [Validators.required, Validators.minLength(11)]],
       perfil: ['', Validators.required],
       senha: ['', [Validators.required, Validators.minLength(4)]],
+      id_cliente: [''],
       id_coordenador: [''],
     });
   }
@@ -376,6 +385,15 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userService.getUsers().subscribe(
       users => {
         this.users = users
+      },
+      error => this.errorMessage = <any>error
+    )
+  }
+
+  getCustomers(): void {
+    this.customerService.getCustomers().subscribe(
+      customers => {
+        this.customers = customers
       },
       error => this.errorMessage = <any>error
     )

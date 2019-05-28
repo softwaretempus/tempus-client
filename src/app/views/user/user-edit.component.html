@@ -21,11 +21,10 @@
         </div>
       </div>
 
-      <div class="form-group row mb-2" *ngIf="!isClientSelected || !userForm.controls.perfil.value">
+      <div class="form-group row mb-2" *ngIf="userForm.controls.perfil.value != 4">
         <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediado</label>
         <div class="col-md-8">
-          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador"
-            (change)="onChangeUserSuperior($event)">
+          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador">
             <option [ngValue]="null">Selecione...</option>
             <option *ngFor="let user of users" [ngValue]="user.id">
               {{user.nome}}
@@ -67,12 +66,28 @@
         </div>
       </div>
 
-      <div class="form-group row mb-2">
+      <!-- <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
         <div class="col-md-8">
           <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status"
             [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
           <label class="form-check-label">Ativo</label>
+          <span class="invalid-feedback">
+            {{displayMessage.status}}
+          </span>
+        </div>
+      </div> -->
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
+        <div class="col-md-8">
+          <label class="switch switch-sm switch-3d switch-primary">
+            <!-- <input class="switch-input" type="checkbox" formControlName="status" (change)="onChangeStatus()"
+              [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status"> -->
+            <input class="switch-input" type="checkbox" formControlName="status" id="userStatusId"
+              [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
+            <span class="switch-slider"></span>
+          </label>
           <span class="invalid-feedback">
             {{displayMessage.status}}
           </span>
@@ -84,8 +99,8 @@
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label" for="userCodeId">CPF</label>
           <div class="col-md-8">
-            <input class="form-control" id="userCodeId" type="text" formControlName="cpf"
-              [textMask]="{mask: cpfmask}" [ngClass]="{'is-invalid': displayMessage.cpf }" />
+            <input class="form-control" id="userCodeId" type="text" formControlName="cpf" [textMask]="{mask: cpfmask}"
+              [ngClass]="{'is-invalid': displayMessage.cpf }" />
             <span class="invalid-feedback">
               {{displayMessage.cpf}}
             </span>
@@ -144,6 +159,55 @@
       </span>
 
       <span *ngIf="userForm.controls.perfil.value == 4">
+        <h6 class="mt-4">Dados da Empresa</h6>
+        <hr />
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">Vinculado à empresa</label>
+          <div class="col-md-8">
+            <select class="form-control" formControlName="id_cliente">
+              <option [ngValue]="null">Selecione...</option>
+              <option *ngFor="let customer of customers" [value]="customer.id" [selected]="customer.id">
+                {{customer.nome}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">Razão Social</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" [value]="user.cliente.razao_social" disabled />
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">CNPJ</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" [value]="user.cliente.cnpj" disabled />
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">Endereço</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" [value]="user.cliente.endereco" disabled />
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">Responsável</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" [value]="user.cliente.nome_responsavel" disabled />
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label">Email</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" [value]="user.cliente.email" disabled />
+          </div>
+        </div>
+      </span>
+
+      <!-- 
+      <span *ngIf="userForm.controls.perfil.value == 4">
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label" for="userCodeId">Nome responsável</label>
           <div class="col-md-8">
@@ -175,6 +239,7 @@
           </div>
         </div>
       </span>
+    -->
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
