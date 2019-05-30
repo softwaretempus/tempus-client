@@ -237,6 +237,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
                   .subscribe(() => this.onSaveComplete(),
                     (error: any) => this.showError(error))
                 this.showSuccess('Usuário inserido na base de dados.')
+              } else {
+                this.onSaveComplete()
+                this.showSuccess('Usuário inserido na base de dados.')
               }
             },
               (error: any) => this.showError(error)

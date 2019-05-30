@@ -94,7 +94,6 @@ export class UserService {
       cpf: null,
       perfil: null,
       senha: null,
-      cliente: null,
       id_cliente: null,
       id_coordenador: null,
     };

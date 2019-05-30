@@ -7,7 +7,6 @@ export interface IUser {
     cpf: string
     perfil: number
     senha: string
-    cliente: Object
     id_cliente: number
     id_coordenador: number
 }
