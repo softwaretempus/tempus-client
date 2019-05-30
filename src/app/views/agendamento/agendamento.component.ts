@@ -1,5 +1,6 @@
 declare var require: any // para require funcionar.
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ComboBox } from '@syncfusion/ej2-dropdowns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { extend } from '@syncfusion/ej2-base';
@@ -9,6 +10,8 @@ import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { ChangeEventArgs } from '@syncfusion/ej2-buttons';
 import { ScheduleComponent, DragAndDropService, TimelineViewsService, GroupModel, EventSettingsModel, ResizeService, View, PopupOpenEventArgs, EventClickArgs } from '@syncfusion/ej2-angular-schedule';
 import { roomData } from './data';
+import { AtendimentoService } from '../atendimento/atendimento.service';
+import { IAtendimento } from '../atendimento/Atendimento';
 
 import { L10n, loadCldr, setCulture} from '@syncfusion/ej2-base';
 setCulture('pt');
@@ -103,6 +106,9 @@ export class AgendamentoComponent {
   title: string = 'Agendamento'
   errorMessage: string;
 
+  atendimentos: IAtendimento[] = [];
+  atendimentosCombo:  { [key: string]: Object }[];  
+
   public scheduleObj: ScheduleComponent;
   public selectedDate: Date = new Date(); // Data padrão = hoje
   public rowAutoHeight: Boolean = true;
@@ -112,7 +118,7 @@ export class AgendamentoComponent {
     resources: ['MeetingRoom']
   };
   public allowMultiple: Boolean = true;
-  public resourceDataSource: Object[] = [
+  public resourceDataSource: any[] = [
     { text: 'Bruno Sobral', id: 1, color: '#98AFC7' },
     { text: 'Gilvanleno', id: 2, color: '#99c68e' },
     { text: 'Bruno Calixto', id: 3, color: '#C2B280' },
@@ -137,9 +143,14 @@ export class AgendamentoComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,    
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private AtendimentoService: AtendimentoService
   ) { 
 
+  }
+
+  ngOnInit() {
+    this.getAtendimentos();    
   }
 
   onChange(args: ChangeEventArgs): void {
@@ -153,6 +164,8 @@ export class AgendamentoComponent {
   onPopupOpen(args: PopupOpenEventArgs): void {
 
     if (args.type === 'Editor') {
+
+      let data = args.data as any;
       
       let formElement: HTMLElement = args.element.querySelector('.e-schedule-form');
       // Cria a tabela
@@ -161,7 +174,17 @@ export class AgendamentoComponent {
       let tr1 : HTMLElement = createElement('tr');
       let td1 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Analista:'});
       let td2 : HTMLElement = createElement('td', { attrs: {colspan: '4'}});
-      let inputAnalista : HTMLElement = createElement('input', { className: 'e-input', attrs: { width: '100%'} });
+      
+      let idAnalista = 0;
+      
+      if(Array.isArray(data.RoomId)){             
+        idAnalista = data.RoomId[0];
+      }else{
+        idAnalista = data.RoomId;
+      }
+      let analista = this.getAnalista(idAnalista) as any;
+
+      let inputAnalista : HTMLElement = createElement('input', { className: 'e-input', attrs: { width: '100%', value: analista, readonly: 'readonly'} });
 
       tr1.appendChild(td1);
       td2.appendChild(inputAnalista);
@@ -172,12 +195,20 @@ export class AgendamentoComponent {
       let tr2 : HTMLElement = createElement('tr');
       let td21 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Atendimento:'});
       let td22 : HTMLElement = createElement('td', { attrs: {colspan: '4'}});
-      let inputAtendimento : HTMLElement = createElement('input', { className: 'e-input', attrs: { width: '100%'} });
+      let inputAtendimento : HTMLElement = createElement('input', { attrs: { width: '100%', type: 'text', id: 'comboAtendimento'} });
 
       tr2.appendChild(td21);
       td22.appendChild(inputAtendimento);
       tr2.appendChild(td22);
       table.appendChild(tr2);
+
+      let comboBoxObject: ComboBox = new ComboBox({
+        dataSource: this.atendimentosCombo,
+        allowCustom: true,
+        fields: { text: 'assunto', value: 'id'},
+        placeholder: 'Selecione...'
+      });
+      comboBoxObject.appendTo(inputAtendimento);
 
       // cria a linha 3
       let tr3 : HTMLElement = createElement('tr');
@@ -190,7 +221,18 @@ export class AgendamentoComponent {
       tr3.appendChild(td32);
       table.appendChild(tr3);
 
-      new DateTimePicker({ value: new Date()}, selDataHora);
+      let date: Date;
+
+      if(!data.StartTime){ // Se não tem a data, é uma célula em branco sem evento
+
+        let cellDate = parseInt(this.getCellDate(args)); // pega a data da célula
+        date = new Date(cellDate);
+
+      }else{
+        date = data.StartTime;
+      }
+
+      new DateTimePicker({ value: date}, selDataHora);
       
       if(formElement.getElementsByClassName('custom-event-editor').length === 0){
         formElement.appendChild(table);
@@ -203,6 +245,36 @@ export class AgendamentoComponent {
 
   getTimeString(value: Date): string {
     return this.instance.formatDate(value, { skeleton: 'Hm' });
+  }
+
+  getAnalista(id :number) :string{
+    
+    let filter = this.resourceDataSource.filter((a) =>{
+      if(a.id === id)
+        return a;
+    });
+
+    return filter[0].text;
+
+  }
+
+  getCellDate(args: any){
+    let data = args.target.dataset;
+    data = JSON.parse(JSON.stringify(data));
+    return data.date;
+  }
+
+  getAtendimentos(): void {
+    this.AtendimentoService.getAtendimentos().subscribe(
+      atendimentos => {
+        this.atendimentos = atendimentos;
+        this.atendimentosCombo = atendimentos.map(a => {
+          return a as any;
+        });
+        
+      },
+      error => this.errorMessage = <any>error
+    );
   }
 
 }
