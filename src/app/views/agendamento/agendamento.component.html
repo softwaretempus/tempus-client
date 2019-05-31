@@ -8,8 +8,8 @@
     [selectedDate]="selectedDate" 
     [group]="group"
     locale='pt'
-    (popupOpen)='onPopupOpen($event)'
-    (eventClick)="onEventClick($event)"
+    (popupOpen)='onPopupOpen($event)'    
+    (actionBegin)="actionBegin($event)"
     [eventSettings]="eventSettings">
     
     <e-resources>
@@ -24,12 +24,53 @@
       <e-view option="TimelineWeek"></e-view>
     </e-views>
     <!--Remove a tela de edição padrão (duplo clique no evento)-->
-    <ng-template #editorTemplate>
+    <ng-template #editorTemplate let-data>
+        <table class="custom-event-editor" width="100%" cellpadding="5" style="display: none">
+            <tbody>
+                <tr>
+                    <td class="e-textlabel">Summary</td>
+                    <td colspan="4">
+                        <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">RoomId</td>
+                    <td colspan="4">
+                        <input id="RoomId" class="e-field e-input" type="number" value="data.RoomId" name="RoomId" style="width: 100%" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Status</td>
+                    <td colspan="4">
+                        <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">From</td>
+                    <td colspan="4">
+                        <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">To</td>
+                    <td colspan="4">
+                        <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Reason</td>
+                    <td colspan="4">
+                        <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </ng-template>
     <!--Altera a formatação do Header do Grid-->
     <ng-template #dateHeaderTemplate let-data>
         <div class="date-text">{{getDateHeaderText(data.date)}}</div>
     </ng-template>
+    <!-- Altera o layout do evento (célula do grid) -->
     <ng-template #eventSettingsTemplate let-data>
         <div class='template-wrap' [style.background]="data.SecondaryColor">
             <div class="subject" [style.background]="data.PrimaryColor">{{data.Subject}}</div>

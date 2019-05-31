@@ -109,7 +109,7 @@ export class AgendamentoComponent {
   atendimentos: IAtendimento[] = [];
   atendimentosCombo:  { [key: string]: Object }[];  
 
-  public scheduleObj: ScheduleComponent;
+  public scheduleObj: ScheduleComponent;  
   public selectedDate: Date = new Date(); // Data padrão = hoje
   public rowAutoHeight: Boolean = true;
   public currentView: View = 'TimelineWeek';
@@ -130,11 +130,11 @@ export class AgendamentoComponent {
     dataSource: <Object[]>extend([], roomData, null, true),
     fields: {
       id: 'Id',
-      subject: { name: 'Subject', title: 'Cliente' },
-      location: { name: 'Location', title: 'Endereço' },
-      description: { name: 'Description', title: 'Descrição' },
-      startTime: { name: 'StartTime', title: 'Hora Inicio' },
-      endTime: { name: 'EndTime', title: 'Hora Fim' },
+      subject: { name: 'Subject', title: 'Cliente', default: '' },
+      location: { name: 'Location', title: 'Endereço', default: '' },
+      description: { name: 'Description', title: 'Descrição', default: '' },
+      startTime: { name: 'StartTime', title: 'Hora Inicio', default: '' },
+      endTime: { name: 'EndTime', title: 'Hora Fim', default: '' },
     }
   };
 
@@ -169,7 +169,7 @@ export class AgendamentoComponent {
       
       let formElement: HTMLElement = args.element.querySelector('.e-schedule-form');
       // Cria a tabela
-      let table: HTMLElement = createElement('table',{ className: 'custom-event-editor', attrs: { width: '100%', cellPadding: '5'} });
+      let table: HTMLElement = createElement('table',{ className: 'custom-event-editor tempus', attrs: { width: '100%', cellPadding: '5'} });
       // cria a linha 1
       let tr1 : HTMLElement = createElement('tr');
       let td1 : HTMLElement = createElement('td', { className: 'e-textlabel', innerHTML: 'Analista:'});
@@ -234,7 +234,7 @@ export class AgendamentoComponent {
 
       new DateTimePicker({ value: date}, selDataHora);
       
-      if(formElement.getElementsByClassName('custom-event-editor').length === 0){
+      if(formElement.getElementsByClassName('tempus').length === 0){
         formElement.appendChild(table);
       }
 
@@ -275,6 +275,20 @@ export class AgendamentoComponent {
       },
       error => this.errorMessage = <any>error
     );
+  }
+
+  actionBegin(args) :void{
+    
+    console.log(args.requestType);
+    
+    if(args.requestType === 'eventCreate'){ // Criar
+      alert('clicou salvar incluindo');
+    }else if(args.requestType === 'eventChange'){ // Alterar
+      alert('clicou salvar alterando');
+    }else if(args.requestType === 'eventRemove'){ // Deletar
+      alert('clicou deletar');
+    }
+    
   }
 
 }
