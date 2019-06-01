@@ -95,7 +95,8 @@ var EventWindow = /** @class */ (function () {
         this.parent.removeNewEventElement();
         this.parent.quickPopup.quickPopupHide(true);
         if (!isNullOrUndefined(this.parent.editorTemplate)) {
-            this.renderFormElements(this.element.querySelector('.e-schedule-form'), data);
+            // Bruno Sobral - 31/05/19
+            //this.renderFormElements(this.element.querySelector('.e-schedule-form'), data);
         }
         if (!this.parent.isAdaptive && isNullOrUndefined(this.parent.editorTemplate)) {
             removeClass([this.dialogObject.element.querySelector('.e-recurrenceeditor')], cls.DISABLE_CLASS);

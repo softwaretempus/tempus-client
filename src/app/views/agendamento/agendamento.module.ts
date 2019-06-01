@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 import { AgendamentoComponent } from './agendamento.component';
@@ -13,7 +14,7 @@ import { ScheduleAllModule, RecurrenceEditorAllModule } from '@syncfusion/ej2-an
     ReactiveFormsModule,
     SharedModule,
     ScheduleAllModule,
-    ScheduleAllModule    
+    FormsModule
   ],
   declarations: [
     AgendamentoComponent,    

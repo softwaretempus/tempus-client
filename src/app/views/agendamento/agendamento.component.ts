@@ -1,17 +1,16 @@
 declare var require: any // para require funcionar.
-import { Component } from '@angular/core';
-import { ComboBox } from '@syncfusion/ej2-dropdowns';
+import { Component, ViewChildren, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { extend } from '@syncfusion/ej2-base';
 import { Internationalization } from '@syncfusion/ej2-base';
-import { createElement } from '@syncfusion/ej2-base'; 
-import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { ChangeEventArgs } from '@syncfusion/ej2-buttons';
 import { ScheduleComponent, DragAndDropService, TimelineViewsService, GroupModel, EventSettingsModel, ResizeService, View, PopupOpenEventArgs, EventClickArgs } from '@syncfusion/ej2-angular-schedule';
 import { roomData } from './data';
 import { AtendimentoService } from '../atendimento/atendimento.service';
 import { IAtendimento } from '../atendimento/Atendimento';
+import { Observable, Subscription, fromEvent, merge } from 'rxjs';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
 
 import { L10n, loadCldr, setCulture} from '@syncfusion/ej2-base';
 setCulture('pt');
@@ -103,11 +102,15 @@ L10n.load({
 })
 export class AgendamentoComponent {
 
-  title: string = 'Agendamento'
+  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+  title: string = 'Agendamento'  
+  agendamentoForm: FormGroup;
   errorMessage: string;
-
   atendimentos: IAtendimento[] = [];
-  atendimentosCombo:  { [key: string]: Object }[];  
+  atendimentosCombo:  { [key: string]: Object }[];
+  nomeAnalista: string;
+  dataAgendamento: Date;
+  horaAgendamento: string;  
 
   public scheduleObj: ScheduleComponent;  
   public selectedDate: Date = new Date(); // Data padrão = hoje
@@ -139,18 +142,39 @@ export class AgendamentoComponent {
   };
 
   public instance: Internationalization = new Internationalization();
+
+  get tags(): FormArray {
+    return <FormArray>this.agendamentoForm.get('tags');
+  }
   
   constructor(
     private route: ActivatedRoute,
     private router: Router,    
     private toastr: ToastrService,
-    private AtendimentoService: AtendimentoService
+    private AtendimentoService: AtendimentoService,
+    private fb: FormBuilder,    
   ) { 
 
   }
 
   ngOnInit() {
     this.getAtendimentos();    
+    this.agendamentoForm = this.fb.group({
+      nomeAnalista: ['', [Validators.required]],      
+      dataAgendamento: ['', [Validators.required]],      
+      horaAgendamento: ['', [Validators.required]],
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Watch for the blur event from any input element on the form.
+    const controlBlurs: Observable<any>[] = this.formInputElements
+      .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+    
+  }
+
+  addTag(): void {
+    this.tags.push(new FormControl());
   }
 
   onChange(args: ChangeEventArgs): void {
@@ -161,9 +185,40 @@ export class AgendamentoComponent {
     return this.instance.formatDate(value, { skeleton: 'yMEd' });
   };
 
-  onPopupOpen(args: PopupOpenEventArgs): void {
-
+  onPopupOpen(args: PopupOpenEventArgs): void {    
+    
     if (args.type === 'Editor') {
+
+      let data = args.data as any;
+      let idAnalista = 0;
+
+      if(Array.isArray(data.RoomId)){             
+        idAnalista = data.RoomId[0];
+      }else{
+        idAnalista = data.RoomId;
+      }
+      this.nomeAnalista = this.getAnalista(idAnalista);
+      
+      let date: Date;
+
+      if(!data.StartTime){ // Se não tem a data, é uma célula em branco sem evento
+
+        let cellDate = parseInt(this.getCellDate(args)); // pega a data da célula
+        this.dataAgendamento = new Date(cellDate);        
+
+      }else{
+        this.dataAgendamento = data.StartTime;        
+      }      
+
+      this.horaAgendamento = this.getTimeString(this.dataAgendamento);
+      
+      this.agendamentoForm.patchValue({
+        nomeAnalista: this.nomeAnalista,
+        dataAgendamento: this.dataAgendamento,
+        horaAgendamento: this.horaAgendamento
+      });
+
+      /*
 
       let data = args.data as any;
       
@@ -237,7 +292,7 @@ export class AgendamentoComponent {
       if(formElement.getElementsByClassName('tempus').length === 0){
         formElement.appendChild(table);
       }
-
+    */
     }else if(args.type === 'QuickInfo')  {
       args.cancel = true;
     }
@@ -281,7 +336,7 @@ export class AgendamentoComponent {
     
     console.log(args.requestType);
     
-    if(args.requestType === 'eventCreate'){ // Criar
+    if(args.requestType === 'eventCreate'){ // Criar      
       alert('clicou salvar incluindo');
     }else if(args.requestType === 'eventChange'){ // Alterar
       alert('clicou salvar alterando');
