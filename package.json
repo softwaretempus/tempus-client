@@ -49,6 +49,7 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.18",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "@ng-bootstrap/ng-bootstrap": "^4.2.0",
     "@syncfusion/ej2": "^17.1.47",
     "@syncfusion/ej2-angular-schedule": "^17.1.47",
     "ag-grid-angular": "^20.2.0",

@@ -1,112 +1,61 @@
-<div>
-  <ejs-schedule #scheduleObj 
-    width='100%' 
-    cssClass='adaptive-rows' 
-    height='650px' 
-    [rowAutoHeight]='rowAutoHeight'
-    [currentView]="currentView" 
-    [selectedDate]="selectedDate" 
-    [group]="group"
-    locale='pt'
-    (popupOpen)='onPopupOpen($event)'    
-    (actionBegin)="actionBegin($event)"
-    [eventSettings]="eventSettings">
+<div style="width: 100%; background-color: #fff; height: 500px; margin-bottom: 20px;">
+    <table class="table table-bordered table-hover-cells">
+        <thead>
+            <tr class="text-primary">
+                <td>Analista</td>
+                <td *ngFor="let data of datas">
+                    {{data.dataString}}
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let analista of analistas">
+                <td>{{analista.nome}}</td>
+                <td *ngFor="let data of datas" (click)="onClickCell(data.data, analista)" class="text-center">
+                    <div *ngFor="let agendamento of getAgendamentosDoDia(analista,data.data)" class="agendamento" (click)="onClickAgendamento(agendamento)">
+                        {{getNomeCliente(agendamento)}}<br>
+                        {{getHoraAgendamento(agendamento)}}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     
-    <e-resources>
-      <e-resource field='RoomId' title='Room Type' [dataSource]='resourceDataSource' [allowMultiple]='allowMultiple'
-        name='MeetingRoom' textField='text' idField='id' colorField='color'>
-      </e-resource>
-    </e-resources>
-    <e-header-rows>
-      <e-header-row option='Date'></e-header-row>    
-    </e-header-rows>
-    <e-views>      
-      <e-view option="TimelineWeek"></e-view>
-    </e-views>
-    <!-- Template da tela de edição do evento -->
-    <ng-template #editorTemplate let-data>
-        <form [formGroup]="agendamentoForm">
-        <table class="custom-event-editor" width="100%" cellpadding="5">
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header" style="background-color: #0099ff; color: #fff; max-height: 50px;">
+        <h5 class="modal-title">Agendar</h5>
+    </div>
+    <div class="modal-body">
+        <table>
             <tbody>
-                
-                    <tr>
-                        <td class="e-textlabel">Analista</td>
-                        <td colspan="4">
-                            <!--class="e-field e-input"-->
-                            <input id="Analista" type="text" class="form-control" name="Analista" formControlName="nomeAnalista" readonly="readonly" style="width: 100%" />
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="e-textlabel">Data</td>
-                        <td colspan="4">
-                            <input class="form-control" id="Date" type="date" name="Date" readonly="readonly" formControlName="dataAgendamento" [ngModel] ="dataAgendamento | date:'yyyy-MM-dd'" (ngModelChange)="dataAgendamento = $event" />
-                        </td>
-                    </tr>                                
-                    
-                    <tr>
-                        <td class="e-textlabel">Hora</td>
-                        <td colspan="4">
-                            <input id="Hora" class="form-control" type="time" name="Hora" formControlName="horaAgendamento" />
-                        </td>
-                    </tr>
-
-                    <!-- -------- Atenção !!!------------- -->                
-                    <!-- Campos obrigatórios do componente -->                
-                    <!-- -----  Não remover !!! ------------->                
-                    
-                    <tr style="display: none">
-                        <td class="e-textlabel">Subject</td>
-                        <td colspan="4">
-                            <input id="Subject" class="e-field e-input" type="text" name="Subject" style="width: 100%" />
-                        </td>
-                    </tr>                
-                    <tr style="display: none">
-                        <td class="e-textlabel">RoomId</td>
-                        <td colspan="4">
-                            <input id="RoomId" class="e-field e-input" type="number" value="data.RoomId" name="RoomId" style="width: 100%" />
-                        </td>
-                    </tr>
-                    <tr style="display: none">
-                        <td class="e-textlabel">EventType</td>
-                        <td colspan="4">
-                            <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
-                        </td>
-                    </tr>
-                    <tr style="display: none">
-                        <td class="e-textlabel">Data/Hora In&iacute;cio</td>
-                        <td colspan="4">
-                            <input id="StartTime" class="e-datetimepicker" name="StartTime" />
-                        </td>
-                    </tr>
-                    <tr style="display: none">
-                        <td class="e-textlabel">From</td>
-                        <td colspan="4">
-                            <input id="StartTime" class="e-field" type="text" name="StartTime" />
-                        </td>
-                    </tr>
-                    <tr style="display: none">
-                        <td class="e-textlabel">To</td>
-                        <td colspan="4">
-                            <input id="EndTime" class="e-field" type="text" name="EndTime" />
-                        </td>
-                    </tr>                                                   
-                    <!-- Fim dos campos obrigatórios do componente -->
-
+                <tr>
+                    <td style="min-width: 150px; font-weight: bold">Analista</td>
+                    <td><input name="analista" type="text" class="form-control" [(ngModel)]="analistaSelString" readonly="readonly"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">Data</td>
+                    <td style="width: 80%"><input name="data" type="text" class="form-control" [(ngModel)]="dataSelString" readonly="readonly"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">Hora</td>
+                    <td><input ngbAutofocus name="hora" type="time" class="form-control" [(ngModel)]="horaSelecionada"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">Atendimento</td>
+                    <td>
+                        <select name="atendimento" class="form-control" [(ngModel)]="atendimentoSelecionado">
+                            <option>Selecione</option>
+                            <option *ngFor="let a of atendimentos" [ngValue]="a">{{a.id}} - {{a.assunto}}</option>
+                        </select>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        </form>
-    </ng-template>
-    <!--Altera a formatação do Header do Grid-->
-    <ng-template #dateHeaderTemplate let-data>
-        <div class="date-text">{{getDateHeaderText(data.date)}}</div>
-    </ng-template>
-    <!-- Altera o layout do evento (célula do grid) -->
-    <ng-template #eventSettingsTemplate let-data>
-        <div class='template-wrap' [style.background]="data.SecondaryColor">
-            <div class="subject" [style.background]="data.PrimaryColor">{{data.Subject}}</div>
-            <div class="time" [style.background]="data.PrimaryColor">{{getTimeString(data.StartTime)}}</div>
-        </div>
-    </ng-template>
-  </ejs-schedule>
-</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" style="width: 60px" class="btn btn-primary col-md-3" (click)="onSave(modal)">Salvar</button>
+        <button type="button" style="width: 60px" class="btn btn-light col-md-3" (click)="onClose(modal)">Fechar</button>
+    </div>
+    
+</ng-template>
