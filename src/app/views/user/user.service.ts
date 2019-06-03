@@ -96,6 +96,7 @@ export class UserService {
       senha: null,
       id_cliente: null,
       id_coordenador: null,
+      cliente: null
     };
   }
 
