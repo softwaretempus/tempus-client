@@ -42,4 +42,5 @@ h6 > .divider:before,
   background-color: #0099ff;
   color: #fff;
   text-align: center;
+  margin-bottom: 5px;
 }

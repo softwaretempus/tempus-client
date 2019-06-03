@@ -1,12 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AtendimentoService } from '../atendimento/atendimento.service';
 import { IAtendimento } from '../atendimento/Atendimento';
 import {IAgendamento } from './Agendamento';
 import {IUser} from '../user/User';
 import {UserService} from '../user/user.service';
-import {ICustomer} from '../customer/Customer';
-import {CustomerService} from '../customer/customer.service';
 import {AgendamentoService} from './agendamento.service';
 import * as moment from 'moment';
 
@@ -14,7 +12,7 @@ import * as moment from 'moment';
   templateUrl: 'agendamento.component.html',
   styleUrls: ['agendamento.component.css'],
 })
-export class AgendamentoComponent {
+export class AgendamentoComponent implements OnInit {
   datas: any[] = [];
   agendamentos: IAgendamento[] = [];
   
@@ -27,6 +25,7 @@ export class AgendamentoComponent {
   analistaSelString: string;
 
   atendimentoSelecionado: IAtendimento;
+  agendamentoSelecionado: IAgendamento;
 
   horaSelecionada: string = '';
 
@@ -34,9 +33,10 @@ export class AgendamentoComponent {
   atendimentos: IAtendimento[];
   userService: UserService;
   analistas: IUser[];
-  clientesService: CustomerService;
-  clientes: ICustomer[] = [];
   agendamentoService: AgendamentoService;
+  gridAgendamento: any = [];
+
+  editar: boolean = false;
 
   @ViewChild('content')
   content: ElementRef;
@@ -44,7 +44,6 @@ export class AgendamentoComponent {
   constructor(modalService: NgbModal,
               atendimentoService: AtendimentoService,
               userService: UserService,
-              clientesService: CustomerService,
               agendamentoService: AgendamentoService
   ){
     
@@ -59,15 +58,12 @@ export class AgendamentoComponent {
     this.modalService = modalService;
     this.atendimentoService = atendimentoService;
     this.userService = userService;
-    this.clientesService = clientesService;
     this.agendamentoService = agendamentoService;
+
   }
 
   ngOnInit(){
-    this.getAtendimentos();
-    this.getAnalistas();
-    this.getClientes();
-    this.getAgendamentos();
+    this.preparaDados();
   }
 
   onClickCell(data: Date, analista: IUser){
@@ -104,14 +100,6 @@ export class AgendamentoComponent {
     );
   }
 
-  getClientes(): void {
-    this.clientesService.getCustomers().subscribe(
-      clientes => {
-        this.clientes = clientes;
-      }
-    );
-  }
-
   getAgendamentos():void{
     this.agendamentoService.getAgendamentos().subscribe(
       agendamentos => {
@@ -127,15 +115,12 @@ export class AgendamentoComponent {
 
   getNomeCliente(agendamento: IAgendamento): string{
     let nome = '';
-    if( agendamento 
+    if( agendamento
         && agendamento.atendimento 
         && agendamento.atendimento.usuario){
     
-      this.clientes.forEach((c) => {
-        if(c.id === agendamento.atendimento.usuario.id_cliente)
-          nome = c.nome;
-      });
-
+        nome = agendamento.atendimento.usuario.cliente.nome;
+          
     }
     return nome;
   }
@@ -173,12 +158,14 @@ export class AgendamentoComponent {
 
   onClickAgendamento(agendamento: IAgendamento){
     
+    this.editar = true;
     this.dataSelecionada = agendamento.dataHoraAgendamento;
     this.dataSelString = moment(agendamento.dataHoraAgendamento).format('DD/MM/YYYY');
     this.analistaSelecionado = agendamento.usuario;
     this.analistaSelString = agendamento.usuario.nome;
     this.horaSelecionada = moment(agendamento.dataHoraAgendamento).format('HH:mm');
     this.atendimentoSelecionado = agendamento.atendimento;
+    this.agendamentoSelecionado = agendamento;
     this.modalOpen = true;
     const modalRef = this.modalService.open(this.content, 
       { centered: true, 
@@ -189,22 +176,58 @@ export class AgendamentoComponent {
     
   }
 
+  preparaDados(){
+    
+    this.getAnalistas();
+    this.getAgendamentos();
+    this.getAtendimentos();
+    
+  }
+
+  registraLog(log: any){
+    console.log(log);
+  }
+
+  atualizaGrid(){
+    this.getAgendamentos();
+  }
+
   onSave(modal) {
     
-    let agendamento: any = {};
-    agendamento.usuario = this.analistaSelecionado;
-    agendamento.dataHoraAgendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
-    agendamento.atendimento = this.atendimentoSelecionado;
+    if(!this.editar){ // incluir
+    
+      let agendamento: any = {};
+      agendamento.usuario = this.analistaSelecionado;
+      agendamento.dataHoraAgendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
+      agendamento.atendimento = this.atendimentoSelecionado;
 
-    this.agendamentos.push(agendamento);
+      this.agendamentoService.createAgendamento(agendamento)
+        .subscribe(async (res) => {
+          
+          await this.atualizaGrid()
+          this.limpa();
+          modal.close('Close click');
+          
+        },
+        (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+      );
+    }else{
+      
+      this.agendamentoSelecionado.usuario = this.analistaSelecionado;
+      this.agendamentoSelecionado.dataHoraAgendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
+      this.agendamentoSelecionado.atendimento = this.atendimentoSelecionado;
+      this.agendamentoService.updateAgendamento(this.agendamentoSelecionado)
+        .subscribe(async (res) => {
+            
+          await this.atualizaGrid();
+          this.limpa();
+          modal.close('Close click');
+          
+        },
+        (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+      );
 
-    this.agendamentoService.createAgendamento(agendamento).subscribe(
-      () => this.limpa(),
-      (error: any) =>  alert('Algo está errado. Tente mais tarde.')
-    );
-
-    this.limpa();
-    modal.close('Close click');
+    }
     
   }
 
@@ -218,7 +241,10 @@ export class AgendamentoComponent {
     this.dataSelString = '';
     this.analistaSelecionado = null;
     this.analistaSelString = '';
+    this.atendimentoSelecionado = null;
+    this.agendamentoSelecionado = null;
     this.modalOpen = false;
+    this.editar = false;
   }
 
 }
