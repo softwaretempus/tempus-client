@@ -22,7 +22,7 @@
       </div>
 
       <div class="form-group row mb-2" *ngIf="userForm.controls.perfil.value != 4">
-        <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediado</label>
+        <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediato</label>
         <div class="col-md-8">
           <select class="form-control" id="userSuperiorId" formControlName="id_coordenador">
             <option [ngValue]="null">Selecione...</option>
@@ -51,6 +51,17 @@
             [ngClass]="{'is-invalid': displayMessage.endereco }" />
           <span class="invalid-feedback">
             {{displayMessage.endereco}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userTelefone">Telefone</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userTelefone" type="text" formControlName="telefone"
+            [ngClass]="{'is-invalid': displayMessage.telefone }" />
+          <span class="invalid-feedback">
+            {{displayMessage.telefone}}
           </span>
         </div>
       </div>
@@ -94,31 +105,31 @@
         </div>
       </div>
 
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userCodeId">CPF</label>
+        <div class="col-md-8">
+          <input class="form-control" id="userCodeId" type="text" formControlName="cpf" [textMask]="{mask: cpfmask}"
+            [ngClass]="{'is-invalid': displayMessage.cpf }" />
+          <span class="invalid-feedback">
+            {{displayMessage.cpf}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="userSenhaId">Senha</label>
+        <div class="col-md-8">
+          <show-hide-password size="default" btnStyle="default" [btnOutline]="true">
+            <input type="password" class="form-control" id="userSenhaId" formControlName="senha"
+              [ngClass]="{'is-invalid': displayMessage.senha }" />
+          </show-hide-password>
+          <span class="invalid-feedback">
+            {{displayMessage.senha}}
+          </span>
+        </div>
+      </div>
 
       <span *ngIf="userForm.controls.perfil.value != 4">
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="userCodeId">CPF</label>
-          <div class="col-md-8">
-            <input class="form-control" id="userCodeId" type="text" formControlName="cpf" [textMask]="{mask: cpfmask}"
-              [ngClass]="{'is-invalid': displayMessage.cpf }" />
-            <span class="invalid-feedback">
-              {{displayMessage.cpf}}
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="userSenhaId">Senha</label>
-          <div class="col-md-8">
-            <show-hide-password size="default" btnStyle="default" [btnOutline]="true">
-              <input type="password" class="form-control" id="userSenhaId" formControlName="senha"
-                [ngClass]="{'is-invalid': displayMessage.senha }" />
-            </show-hide-password>
-            <span class="invalid-feedback">
-              {{displayMessage.senha}}
-            </span>
-          </div>
-        </div>
 
         <div class="form-group row mb-2" *ngIf="!isClientSelected || !userForm.controls.perfil.value">
           <label class="col-md-2 col-form-label">Habilidades</label>
@@ -243,8 +254,14 @@
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
+          <!--
           <button class="btn btn-primary mr-3" type="submit"
-            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">
+            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">            
+            Salvar
+          </button>
+          -->
+          <button class="btn btn-primary mr-3" type="submit"
+            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'">            
             Salvar
           </button>
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/usuarios']">

@@ -4,6 +4,7 @@ export interface IUser {
     id: number
     nome: string
     endereco: string
+    telefone: string
     email: string
     status: boolean
     cpf: string

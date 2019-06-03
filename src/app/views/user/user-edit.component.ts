@@ -82,6 +82,10 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         required: 'Informe seu endereço completo',
         minLength: 'Informe um endereço válido.',
       },
+      telefone: {
+        required: 'Informe seu telefone',
+        minLength: 'Informe um telefone valido.',
+      },
       cpf: {
         required: 'Informe o CPF do usuário',
         minLength: 'Seu CPF deve conter 11 caracteres',
@@ -171,6 +175,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       endereco: ['', [Validators.required, Validators.minLength(7)]],
+      telefone: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', Validators.required],
       status: [true, null],
       cpf: ['', [Validators.required, Validators.minLength(11)]],
@@ -197,6 +202,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userForm.patchValue({
       nome: this.user.nome,
       endereco: this.user.endereco,
+      telefone: this.user.telefone,
       email: this.user.email,
       status: this.user.status,
       cpf: this.user.cpf,

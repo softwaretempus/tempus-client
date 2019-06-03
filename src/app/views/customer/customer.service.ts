@@ -89,6 +89,7 @@ export class CustomerService {
       id: 0,
       nome: null,
       endereco: null,
+      telefone: null,
       email: null,
       status: null,
       razao_social: null,

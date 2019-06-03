@@ -89,6 +89,7 @@ export class UserService {
       id: 0,
       nome: null,
       endereco: null,
+      telefone: null,
       email: null,
       status: null,
       cpf: null,

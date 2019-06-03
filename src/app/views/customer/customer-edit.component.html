@@ -28,6 +28,17 @@
       </div>
 
       <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="customerTelefoneId">Telefone</label>
+          <div class="col-md-8">
+            <input class="form-control" id="customerTelefoneId" type="text" formControlName="telefone"
+              [ngClass]="{'is-invalid': displayMessage.telefone }" />
+            <span class="invalid-feedback">
+              {{displayMessage.telefone}}
+            </span>
+          </div>
+        </div>
+
+      <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="customerEmailId">Email</label>
         <div class="col-md-8">
           <input class="form-control" id="customerEmailId" type="text" formControlName="email"

@@ -54,6 +54,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         required: 'Informe seu endereço completo',
         minlength: 'Informe um endereço válido.',
       },
+      telefone: {
+        required: 'Informe seu telefone',
+        minlength: 'Informe um telefone válido.',
+      },
       email: {
         required: 'Informe seu e-mail.',
         email: 'Informe um Email válido.'
@@ -113,6 +117,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customerForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       endereco: ['', [Validators.required, Validators.minLength(7)]],
+      telefone: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', Validators.required],
       status: [true, null],
       razao_social: [''],
@@ -137,6 +142,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customerForm.patchValue({
       nome: this.customer.nome,
       endereco: this.customer.endereco,
+      telefone: this.customer.telefone,
       email: this.customer.email,
       status: this.customer.status,
       razao_social: this.customer.razao_social,
