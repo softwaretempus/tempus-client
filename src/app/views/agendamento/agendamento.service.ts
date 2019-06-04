@@ -88,7 +88,7 @@ export class AgendamentoService {
     return {
       id: 0,
       usuario: null,
-      dataHoraAgendamento: null,
+      data_hora_agendamento: null,
       atendimento: null
     };
   }

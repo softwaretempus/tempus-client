@@ -4,6 +4,6 @@ import {IAtendimento} from '../atendimento/Atendimento';
 export interface IAgendamento {
     id: number,
     usuario: IUser,
-    dataHoraAgendamento: Date,
+    data_hora_agendamento: Date,
     atendimento: IAtendimento
 }

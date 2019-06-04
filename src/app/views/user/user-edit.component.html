@@ -177,8 +177,8 @@
           <label class="col-md-2 col-form-label">Vinculado à empresa</label>
           <div class="col-md-8">
             <select class="form-control" formControlName="id_cliente">
-              <option [ngValue]="null">Selecione...</option>
-              <option *ngFor="let customer of customers" [value]="customer.id" [selected]="customer.id">
+              <option [ngValue]="null" [selected]="!user.id || user.perfil != 4">Selecione...</option>
+              <option *ngFor="let customer of customers" [ngValue]="customer.id" [selected]="user.perfil === 4 && customer.id === user.id_cliente">
                 {{customer.nome}}
               </option>
             </select>

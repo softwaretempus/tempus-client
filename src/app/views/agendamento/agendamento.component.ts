@@ -102,13 +102,8 @@ export class AgendamentoComponent implements OnInit {
 
   getAgendamentos():void{
     this.agendamentoService.getAgendamentos().subscribe(
-      agendamentos => {
-        let agen = agendamentos as any;
-        agen = agen.map((a) =>{
-          a.dataHoraAgendamento = a.data_hora_agendamento;
-          return a;
-        });
-        this.agendamentos = agen;
+      agendamentos => {        
+        this.agendamentos = agendamentos;
       }
     );
   }
@@ -143,7 +138,7 @@ export class AgendamentoComponent implements OnInit {
   getAgendamentosDoDia(analista: IUser, data: Date){
     let filtered: IAgendamento[] = [];
     this.agendamentos.forEach(agen => {
-      let dataAgen = moment(agen.dataHoraAgendamento).format('YYYY-MM-DD');
+      let dataAgen = moment(agen.data_hora_agendamento).format('YYYY-MM-DD');
       let dataVer = moment(data).format('YYYY-MM-DD');
       if(agen.usuario.id === analista.id && dataAgen === dataVer){
         filtered.push(agen);
@@ -153,17 +148,17 @@ export class AgendamentoComponent implements OnInit {
   }
 
   getHoraAgendamento(agendamento: IAgendamento){
-    return moment(agendamento.dataHoraAgendamento).format('HH:mm');
+    return moment(agendamento.data_hora_agendamento).format('HH:mm');
   }
 
   onClickAgendamento(agendamento: IAgendamento){
     
     this.editar = true;
-    this.dataSelecionada = agendamento.dataHoraAgendamento;
-    this.dataSelString = moment(agendamento.dataHoraAgendamento).format('DD/MM/YYYY');
+    this.dataSelecionada = agendamento.data_hora_agendamento;
+    this.dataSelString = moment(agendamento.data_hora_agendamento).format('DD/MM/YYYY');
     this.analistaSelecionado = agendamento.usuario;
     this.analistaSelString = agendamento.usuario.nome;
-    this.horaSelecionada = moment(agendamento.dataHoraAgendamento).format('HH:mm');
+    this.horaSelecionada = moment(agendamento.data_hora_agendamento).format('HH:mm');
     this.atendimentoSelecionado = agendamento.atendimento;
     this.agendamentoSelecionado = agendamento;
     this.modalOpen = true;
@@ -198,7 +193,7 @@ export class AgendamentoComponent implements OnInit {
     
       let agendamento: any = {};
       agendamento.usuario = this.analistaSelecionado;
-      agendamento.dataHoraAgendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
+      agendamento.data_hora_agendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
       agendamento.atendimento = this.atendimentoSelecionado;
 
       this.agendamentoService.createAgendamento(agendamento)
@@ -214,7 +209,7 @@ export class AgendamentoComponent implements OnInit {
     }else{
       
       this.agendamentoSelecionado.usuario = this.analistaSelecionado;
-      this.agendamentoSelecionado.dataHoraAgendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
+      this.agendamentoSelecionado.data_hora_agendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
       this.agendamentoSelecionado.atendimento = this.atendimentoSelecionado;
       this.agendamentoService.updateAgendamento(this.agendamentoSelecionado)
         .subscribe(async (res) => {

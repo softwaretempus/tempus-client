@@ -234,6 +234,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         const p = { ...this.user, ...this.userForm.value };
 
         if (p.id === 0) {
+          if(p.perfil === 4){
+            p.cliente = this.getCliente(p.id_cliente);
+          }
           this.userService.createUser(p)
             .subscribe((result) => {
               this.user.id = result.id;
@@ -251,6 +254,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
               (error: any) => this.showError(error)
             );
         } else {
+          if(p.perfil === 4){
+            p.cliente = this.getCliente(p.id_cliente);
+          }
           this.userService.updateUser(p)
             .subscribe(
               () => {
@@ -407,5 +413,16 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       error => this.errorMessage = <any>error
     )
   }
+
+  getCliente(id: number){
+    let cliente = null;
+
+    this.customers.forEach(c =>{
+      if(c.id === id){
+        cliente = c;
+      }
+    })
+    return cliente;
+  }  
 
 }
