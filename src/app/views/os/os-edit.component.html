@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header">
+    <small>{{title | uppercase}}</small>
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveOs()" [formGroup]="osForm">
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="osStatusId">Status</label>
+        <div class="col-md-8">
+          <select class="form-control" id="osStatusId" formControlName="status" (change)="onChangeStatus($event)"
+            [ngClass]="{'is-invalid': displayMessage.status }">
+            <option [ngValue]="null">Selecione...</option>
+            <option *ngFor="let st of status" [ngValue]="status.id">
+              {{st.descricao}}
+            </option>
+          </select>
+          <span class="invalid-feedback">
+            {{displayMessage.status}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="osDescricaoId">Descrição</label>
+        <div class="col-md-8">
+          <input class="form-control" id="osDescricaoId" type="text" formControlName="descricao"
+            [ngClass]="{'is-invalid': displayMessage.descricao }" />
+          <span class="invalid-feedback">
+            {{displayMessage.status}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="dataHoraInicioId">Data/Hora de Início</label>
+        <div class="col-md-8">
+          <input class="form-control" id="dataHoraInicioId" type="datetime-local"
+            [ngModel]="data_hora_inicio | date:'yyyy-MM-dd'" (ngModelChange)="data_hora_inicio = $event"
+            formControlName="data_hora_inicio" [ngClass]="{'is-invalid': displayMessage.data_hora_inicio }" />
+          <span class="invalid-feedback">
+            {{displayMessage.data_hora_inicio}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="dataHoraFinalId">Data/Hora Final</label>
+        <div class="col-md-8">
+          <input class="form-control" id="dataHoraFinalId" type="datetime-local"
+            [ngModel]="data_hora_final | date:'yyyy-MM-dd'" (ngModelChange)="data_hora_final = $event"
+            formControlName="data_hora_final" [ngClass]="{'is-invalid': displayMessage.data_hora_final }" />
+          <span class="invalid-feedback">
+            {{displayMessage.data_hora_final}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="dataExclusaoId">Data Exclusão</label>
+        <div class="col-md-8">
+          <input class="form-control" id="dataExclusaoId" type="date" [ngModel]="data_exclusao"
+            (ngModelChange)="data_exclusao = $event" formControlName="data_exclusao"
+            [ngClass]="{'is-invalid': displayMessage.data_exclusao }" />
+          <span class="invalid-feedback">
+            {{displayMessage.data_exclusao}}
+          </span>
+        </div>
+      </div>
+
+      <!-- agendamento -->
+
+
+      <div class="form-group row mb-2 mt-4">
+        <div class="offset-md-2 col-md-8">
+          <button class="btn btn-primary mr-3" type="submit"
+            [title]="osForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!osForm.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/os']">
+            Cancelar
+          </button>
+          <button class="btn text-danger float-right" type="button" (click)="deleteOs()" *ngIf="os.id > 0">
+            <i class="fa fa-trash"></i>
+            Remover
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>

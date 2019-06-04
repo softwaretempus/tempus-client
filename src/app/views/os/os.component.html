@@ -1,0 +1,81 @@
+<div class="list-group list-group-accent">
+
+  <div
+    class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+    <div class="row">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
+        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <button class="btn btn-primary mr-3" [routerLink]="['/os/0/edicao']">
+          <i class="fa fa-plus fa-lg"></i>
+          Incluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="oss && oss.length">
+    <div class="list-group-item list-group-item-accent-info" *ngFor="let os of filteredOss">
+      <a class="list-item">
+        <div class="row">
+          <div class="col-md-8 col-lg-4">
+            <span class="text-primary">{{os.descricao}}</span>
+            <p class="mb-0">
+              <small class="text-muted">
+                {{os.status}}
+              </small>
+            </p>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <div class="row">
+              <div class="col-2">
+                <i class="fa fa-calendar-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
+              </div>
+              <div class="col-10">
+                  <p class="mb-0">
+                  <span>Início</span><br>
+                  <small class="text-muted">
+                    {{ os.data_hora_inicio | date:'dd/mm/yyyy hh:mm:ss' }}
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <div class="row">
+              <div class="col-2">
+                <i class="fa fa-calendar-check-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
+              </div>
+              <div class="col-10">
+                <p class="mb-0">
+                  <span>Término</span><br>
+                  <small class="text-muted">
+                    {{ os.data_hora_final | date:'dd/mm/yyyy hh:mm:ss' }}
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <div class="float-right">
+              <button class="btn text-muted float-left" [routerLink]="['/os', os.id, 'edicao']">
+                <i class="fa fa-pencil fa-lg"></i>
+              </button>
+              <button class="btn text-muted" type="button" (click)="deleteOs(os)">
+                <i class="fa fa-trash fa-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="!oss.length">
+    <div class="list-group-item text-center list-group-item-accent-secondary">
+      Nenhuma ordem de serviço cadastrada.
+    </div>
+  </div>
+
+</div>

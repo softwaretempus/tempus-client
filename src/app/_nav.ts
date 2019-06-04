@@ -61,6 +61,11 @@ export const navItems: NavData[] = [
     icon: 'icon-calendar',
   },
   {
+    name: 'Ordens de Serviços',
+    url: '/os',
+    icon: 'fa fa-calendar-check-o',
+  },
+  {
     name: 'Relatórios',
     url: '/relatorios',
     icon: 'icon-pie-chart',

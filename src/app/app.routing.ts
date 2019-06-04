@@ -59,6 +59,10 @@ export const routes: Routes = [
         loadChildren: './views/agendamento/agendamento.module#AgendamentoModule'
       },
       {
+        path: 'os',
+        loadChildren: './views/os/os.module#OsModule'
+      },
+      {
         path: 'relatorios',
         loadChildren: './views/report/report.module#ReportModule'
       },
