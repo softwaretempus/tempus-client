@@ -22,10 +22,8 @@
       <a [routerLink]="['/projetos', projeto.id, 'edicao']" class="list-item text-muted">
         <div class="row">
           <div class="col-xs-6 col-sm-8 col-md-3 col-lg-3">
-            <strong [ngClass]="{'text-muted': !projeto.nome}">
-              {{ projeto.nome ? projeto.nome : 'Nome não informado' }}
-            </strong>
             <p class="mb-0">
+              <span class="text-primary">{{ projeto.nome ? projeto.nome : 'Nome não informado' }}</span><br>
               <small class="text-muted">
                 {{ projeto.descricao_atividades ? projeto.descricao_atividades : 'Descrição não informada' }}
               </small>
@@ -37,9 +35,11 @@
                 <i class="fa fa-phone fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
               </div>
               <div class="col-10">
-                <p>
-                  <strong><span class="text-muted">Vinculado ao atendimento</span></strong><br>
-                  <span>{{ projeto.atendimento.assunto }}</span>
+                <p class="mb-0">
+                  <span>Vinculado ao atendimento</span><br>
+                  <small class="text-muted">
+                    {{ projeto.atendimento.assunto }}
+                  </small>
                 </p>
               </div>
             </div>
@@ -50,9 +50,11 @@
                 <i class="fa fa-calendar-minus-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
               </div>
               <div class="col-10">
-                <p>
-                  <strong><span class="text-muted">Horas estimadas</span></strong><br>
-                  <span>{{ projeto.horas_estimadas ? projeto.horas_estimadas : 'Nenhuma hora estipulada' }}</span>
+                <p class="mb-0">
+                  <span>Horas estimadas</span><br>
+                  <small class="text-muted">
+                    {{ projeto.horas_estimadas ? projeto.horas_estimadas : 'Nenhuma hora estipulada' }}
+                  </small>
                 </p>
               </div>
             </div>
@@ -63,9 +65,11 @@
                 <i class="fa fa-calendar-check-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
               </div>
               <div class="col-10">
-                <p>
-                  <strong><span class="text-muted">Horas realizadas</span></strong><br>
-                  <span>{{ projeto.horas_realizadas ? projeto.horas_realizadas : 'Nenhuma hora realizadas' }}</span>
+                <p class="mb-0">
+                  <span>Horas estimadas</span><br>
+                  <small class="text-muted">
+                    {{ projeto.horas_realizadas ? projeto.horas_realizadas : 'Nenhuma hora realizadas' }}
+                  </small>
                 </p>
               </div>
             </div>
