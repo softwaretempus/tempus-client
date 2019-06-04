@@ -58,7 +58,7 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userTelefone">Telefone</label>
         <div class="col-md-8">
-          <input class="form-control" id="userTelefone" type="text" formControlName="telefone"
+          <input class="form-control" id="userTelefone" type="text" formControlName="telefone" [textMask]="{mask: phonemask}"
             [ngClass]="{'is-invalid': displayMessage.telefone }" />
           <span class="invalid-feedback">
             {{displayMessage.telefone}}

@@ -234,7 +234,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         const p = { ...this.user, ...this.userForm.value };
 
         if (p.id === 0) {
-          if(p.perfil === 4){
+          if (p.perfil === 4) {
             p.cliente = this.getCliente(p.id_cliente);
           }
           this.userService.createUser(p)
@@ -254,7 +254,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
               (error: any) => this.showError(error)
             );
         } else {
-          if(p.perfil === 4){
+          if (p.perfil === 4) {
             p.cliente = this.getCliente(p.id_cliente);
           }
           this.userService.updateUser(p)
@@ -365,6 +365,19 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
+  phonemask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    if (numberLength > 10) {
+      return ['(', /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    } else {
+      return ['(', /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    }
+  }
+
   cpfcnpjmask(rawValue) {
     var numbers = rawValue.match(/\d/g);
     var numberLength = 0;
@@ -414,15 +427,15 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
 
-  getCliente(id: number){
+  getCliente(id: number) {
     let cliente = null;
 
-    this.customers.forEach(c =>{
-      if(c.id === id){
+    this.customers.forEach(c => {
+      if (c.id === id) {
         cliente = c;
       }
     })
     return cliente;
-  }  
+  }
 
 }

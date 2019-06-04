@@ -207,6 +207,19 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toastr.error(msg, 'Ops! Algo está errado!');
   }
 
+  phonemask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    if (numberLength > 10) {
+      return ['(', /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    } else {
+      return ['(', /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    }
+  }
+
   cnpjmask(rawValue) {
     var numbers = rawValue.match(/\d/g);
     var numberLength = 0;
