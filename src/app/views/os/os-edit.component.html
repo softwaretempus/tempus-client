@@ -6,18 +6,29 @@
     <form novalidate (ngSubmit)="saveOs()" [formGroup]="osForm">
 
       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label" for="osStatusId">Status</label>
+        <label class="col-md-2 col-form-label" for="osAgendamentoId">Agendamento</label>
         <div class="col-md-8">
-          <select class="form-control" id="osStatusId" formControlName="status" (change)="onChangeStatus($event)"
-            [ngClass]="{'is-invalid': displayMessage.status }">
-            <option [ngValue]="null">Selecione...</option>
-            <option *ngFor="let st of status" [ngValue]="status.id">
-              {{st.descricao}}
+          <select class="form-control" id="osAgendamentoId" formControlName="agendamento"
+            (change)="onChangeAgendamento($event.target.value)">
+            <option [value]="null">Selecione...</option>
+            <option *ngFor="let agendamento of agendamentos" [value]="agendamento.id"
+              [selected]="os.id > 0 && os.agendamento.id === agendamento.id">
+              #{{agendamento.atendimento.id}} {{agendamento.atendimento.assunto}}
             </option>
           </select>
-          <span class="invalid-feedback">
-            {{displayMessage.status}}
-          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="osStatusId">Status</label>
+        <div class="col-md-8">
+          <select class="form-control" id="osStatusId" formControlName="status"
+            (change)="onChangeStatus($event.target.value)">
+            <option [value]="null">Selecione...</option>
+            <option *ngFor="let s of status" [value]="s.descricao" [selected]="os.id > 0 && os.status === s.descricao">
+              {{s.descricao}}
+            </option>
+          </select>
         </div>
       </div>
 
@@ -27,7 +38,7 @@
           <input class="form-control" id="osDescricaoId" type="text" formControlName="descricao"
             [ngClass]="{'is-invalid': displayMessage.descricao }" />
           <span class="invalid-feedback">
-            {{displayMessage.status}}
+            {{displayMessage.descricao}}
           </span>
         </div>
       </div>
@@ -35,9 +46,9 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="dataHoraInicioId">Data/Hora de Início</label>
         <div class="col-md-8">
-          <input class="form-control" id="dataHoraInicioId" type="datetime-local"
-            [ngModel]="data_hora_inicio | date:'yyyy-MM-dd'" (ngModelChange)="data_hora_inicio = $event"
-            formControlName="data_hora_inicio" [ngClass]="{'is-invalid': displayMessage.data_hora_inicio }" />
+          <input class="form-control" id="dataHoraInicioId" type="date" [ngModel]="data_hora_inicio | date:'yyyy-MM-dd'"
+            (ngModelChange)="data_hora_inicio = $event" formControlName="data_hora_inicio"
+            [ngClass]="{'is-invalid': displayMessage.data_hora_inicio }" />
           <span class="invalid-feedback">
             {{displayMessage.data_hora_inicio}}
           </span>
@@ -47,9 +58,9 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="dataHoraFinalId">Data/Hora Final</label>
         <div class="col-md-8">
-          <input class="form-control" id="dataHoraFinalId" type="datetime-local"
-            [ngModel]="data_hora_final | date:'yyyy-MM-dd'" (ngModelChange)="data_hora_final = $event"
-            formControlName="data_hora_final" [ngClass]="{'is-invalid': displayMessage.data_hora_final }" />
+          <input class="form-control" id="dataHoraFinalId" type="date" [ngModel]="data_hora_final | date:'yyyy-MM-dd'"
+            (ngModelChange)="data_hora_final = $event" formControlName="data_hora_final"
+            [ngClass]="{'is-invalid': displayMessage.data_hora_final }" />
           <span class="invalid-feedback">
             {{displayMessage.data_hora_final}}
           </span>
@@ -67,9 +78,6 @@
           </span>
         </div>
       </div>
-
-      <!-- agendamento -->
-
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-8">

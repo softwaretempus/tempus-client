@@ -8,6 +8,9 @@ import { debounceTime } from 'rxjs/operators';
 import { IOs } from './Os';
 import { OsService } from './os.service';
 
+import { IAgendamento } from '../agendamento/Agendamento';
+import { AgendamentoService } from '../agendamento/agendamento.service';
+
 import { GenericValidator } from '../shared/generic.validator';
 import { ToastrService } from 'ngx-toastr';
 
@@ -23,9 +26,11 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   osForm: FormGroup;
 
   os: IOs;
+  agendamentos: any[];
+  agendamento: any;
   private sub: Subscription;
 
-  status = [
+  status: any = [
     { id: 1, descricao: 'Aberta' },
     { id: 2, descricao: 'Em execução' },
     { id: 3, descricao: 'Em aprovação' },
@@ -44,6 +49,7 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private osService: OsService,
+    private agendamentoService: AgendamentoService,
     private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
@@ -58,11 +64,14 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         maxlength: 'A descrição não pode ter mais que 50 caracteres.'
       },
       data_hora_inicio: {
-        required: 'Informe a data e horário de início do serviço'
+        required: 'Informe a data e horário de início do serviço.'
       },
       data_hora_final: {
-        required: 'Informe a data e horário de término do serviço'
+        required: 'Informe a data e horário de término do serviço.'
       },
+      agendamento: {
+        required: 'Selecione um agendamento.'
+      }
     };
 
     // Define uma instância do validador para os neste form,
@@ -77,7 +86,7 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
       data_hora_inicio: ['', Validators.required],
       data_hora_final: ['', Validators.required],
       data_exclusao: [''],
-      agendamento: ['']
+      agendamento: ['', Validators.required]
     });
 
     // Lê o id do usuário do parâmetro da rota,
@@ -88,6 +97,8 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getOs(id);
       }
     );
+
+    this.getAgendamentos()
 
   }
 
@@ -102,7 +113,7 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Merge the blur event observable with the valueChanges observable
     merge(this.osForm.valueChanges, ...controlBlurs).pipe(
-      debounceTime(800)
+      debounceTime(1000)
     ).subscribe(value => {
       this.displayMessage = this.genericValidator.processMessages(this.osForm);
     });
@@ -114,6 +125,15 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         (os: IOs) => this.displayOs(os),
         (error: any) => this.errorMessage = <any>error
       );
+  }
+
+  getAgendamentos(): void {
+    this.agendamentoService.getAgendamentos().subscribe(
+      agendamentos => {
+        this.agendamentos = agendamentos
+      },
+      error => this.errorMessage = <any>error
+    )
   }
 
   displayOs(os: IOs): void {
@@ -137,7 +157,6 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
       data_exclusao: this.os.data_exclusao,
       agendamento: this.os.agendamento
     });
-    // this.osForm.setControl('tags', this.fb.array(this.os.tags || []));
   }
 
   deleteOs(): void {
@@ -166,7 +185,6 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
               () => this.onSaveComplete(),
               (error: any) => this.showError('Algo está errado. Tente mais tarde.')
             );
-          this.showSuccess('Ordem de serviço inserida na base de dados.')
         } else {
           this.osService.updateOs(p)
             .subscribe(
@@ -181,6 +199,30 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.errorMessage = 'Por favor, corrija os erros de validação.';
     }
+  }
+
+  onChangeAgendamento(elementSelected): void {
+    elementSelected = parseInt(elementSelected)
+    this.agendamentos = this.agendamentos.map((agendamento) => {
+      if (agendamento.id === elementSelected) {
+        this.os.agendamento = agendamento;
+      }
+      else
+        agendamento.selected = false;
+      return agendamento;
+    });
+  }
+
+  onChangeStatus(e): void {
+    this.status = this.status.map((u) => {
+      if (u.descricao === e) {
+        u.selected = true;
+        this.os.status = u;
+      }
+      else
+        u.selected = false;
+      return u;
+    });
   }
 
   onSaveComplete(): void {
