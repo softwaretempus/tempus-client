@@ -15,21 +15,32 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
 
   private loginUrl = 'http://localhost:3000/login'
-  private usuarioAutenticado: boolean = false
 
   constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
-  userAuthentication(usuario: IUser) {
+  userAuthentication(user: IUser): Observable<IUser> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<IUser>(this.loginUrl, user, { headers: headers })
+      .pipe(
+        tap(data => console.log('Authenticated: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
 
-    if (usuario.email === 'admin' && usuario.senha === 'admin') {
-      this.usuarioAutenticado = true
-      this.router.navigate(['/'])
-      this.toastr.success('Usuário autenticado.', 'Sucesso!');
+  private handleError(err) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
     } else {
-      this.usuarioAutenticado = false
-      this.toastr.warning('Erro de autenticação. Confira seus dados cadastrais.', 'Erro!');
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
     }
-
+    console.error(err);
+    return throwError(errorMessage);
   }
 
 }
