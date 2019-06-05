@@ -7,12 +7,17 @@ import {IUser} from '../user/User';
 import {UserService} from '../user/user.service';
 import {AgendamentoService} from './agendamento.service';
 import * as moment from 'moment';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: 'agendamento.component.html',
   styleUrls: ['agendamento.component.css'],
 })
 export class AgendamentoComponent implements OnInit {
+  
+  errorMessage: string;
+  agendamentoForm: FormGroup;
+  
   datas: any[] = [];
   agendamentos: IAgendamento[] = [];
   
@@ -20,6 +25,7 @@ export class AgendamentoComponent implements OnInit {
   modalOpen: boolean = false;
   dataSelecionada: Date;
   dataSelString: string;
+  dataInicial: Date = new Date;
 
   analistaSelecionado: IUser;
   analistaSelString: string;
@@ -44,16 +50,9 @@ export class AgendamentoComponent implements OnInit {
   constructor(modalService: NgbModal,
               atendimentoService: AtendimentoService,
               userService: UserService,
-              agendamentoService: AgendamentoService
+              agendamentoService: AgendamentoService,
+              private fb: FormBuilder
   ){
-    
-    let range = this.getDatas(new Date);
-    range.forEach(d => {
-      this.datas.push({
-        data: d,
-        dataString: moment(d).format("DD/MM/YYYY")
-      })
-    });
     
     this.modalService = modalService;
     this.atendimentoService = atendimentoService;
@@ -62,8 +61,42 @@ export class AgendamentoComponent implements OnInit {
 
   }
 
+  get tags(): FormArray {
+    return <FormArray>this.agendamentoForm.get('tags');
+  }
+
+  addTag(): void {
+    this.tags.push(new FormControl());
+  }
+
   ngOnInit(){
+    this.setDatas();
     this.preparaDados();
+    this.agendamentoForm = this.fb.group({
+      analistaSelString: [''],
+      dataSelString: [''],
+      horaSelecionada: ['', [Validators.required]],
+      atendimentoSelecionado: ['', [Validators.required]],
+    });
+    this.atualizaForm();
+  }
+
+  setDatas(){
+    this.datas = [];
+    let range = this.getDatas(this.dataInicial);
+    range.forEach(d => {
+      this.datas.push({
+        data: d,
+        dataString: moment(d).format("DD/MM/YYYY")
+      })
+    });
+    
+  }
+
+  changeDate(date){
+    this.dataInicial = moment(date, 'YYYY-MM-DD').toDate();
+    this.setDatas();
+    this.atualizaForm();
   }
 
   onClickCell(data: Date, analista: IUser){
@@ -71,7 +104,10 @@ export class AgendamentoComponent implements OnInit {
     this.dataSelString = moment(data).format('DD/MM/YYYY');
     this.analistaSelecionado = analista;
     this.analistaSelString = analista.nome;
-    
+    if(!this.editar){
+      this.horaSelecionada = '';
+      this.atualizaForm();
+    }
     if(!this.modalOpen){
       this.modalOpen = true;
       const modalRef = this.modalService.open(this.content, 
@@ -162,6 +198,7 @@ export class AgendamentoComponent implements OnInit {
     this.atendimentoSelecionado = agendamento.atendimento;
     this.agendamentoSelecionado = agendamento;
     this.modalOpen = true;
+    this.atualizaForm();
     const modalRef = this.modalService.open(this.content, 
       { centered: true, 
         backdrop: 'static', 
@@ -185,6 +222,43 @@ export class AgendamentoComponent implements OnInit {
 
   atualizaGrid(){
     this.getAgendamentos();
+  }
+
+  selecionado(atendimento: IAtendimento){
+    let ret = false;
+    if(this.editar){
+      if(atendimento.id === this.atendimentoSelecionado.id)
+        ret = true;
+    }
+    return ret;
+  }
+
+  atualizaForm(){
+    this.agendamentoForm.patchValue({
+      analistaSelString: this.analistaSelString,
+      dataSelString: this.dataSelString,
+      horaSelecionada: this.horaSelecionada,
+      atendimentoSelecionado: this.atendimentoSelecionado
+    });
+  }
+
+  onChangeHora(hora: string){
+    this.horaSelecionada = hora;
+  }
+
+  getAtendimento(id: number){
+    let aten = null;
+    this.atendimentos.forEach(a =>{
+      if(a.id === id)
+        aten = a;
+    });
+    return aten;
+  }
+
+  onChangeAtendimento(id: any){
+    id = parseInt(id.split(':')[0]);
+    this.atendimentoSelecionado = this.getAtendimento(id);
+    console.log(this.atendimentoSelecionado);
   }
 
   onSave(modal) {
@@ -224,6 +298,22 @@ export class AgendamentoComponent implements OnInit {
 
     }
     
+  }
+
+  delete(modal){
+    this.agendamentoSelecionado.usuario = this.analistaSelecionado;
+    this.agendamentoSelecionado.data_hora_agendamento = moment(`${this.dataSelString} ${this.horaSelecionada}`, "DD/MM/YYYY HH:mm").toDate();
+    this.agendamentoSelecionado.atendimento = this.atendimentoSelecionado;
+    this.agendamentoService.deleteAgendamento(this.agendamentoSelecionado.id)
+      .subscribe(async (res) => {
+          
+        await this.atualizaGrid();
+        this.limpa();
+        modal.close('Close click');
+        
+      },
+      (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+    );
   }
 
   onClose(modal){

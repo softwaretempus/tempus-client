@@ -175,6 +175,7 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
         const p = { ...this.projeto, ...this.projetoForm.value };
 
         if (p.id === 0) {
+          p.atendimento = this.getAtendimento(p.id_atendimento);
           this.projetoService.createProjeto(p)
             .subscribe(
               () => this.onSaveComplete(),
@@ -182,6 +183,7 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
             );
           this.showSuccess('Projeto inserido na base de dados.')
         } else {
+          p.atendimento = this.getAtendimento(p.id_atendimento);
           this.projetoService.updateProjeto(p)
             .subscribe(
               () => this.onSaveComplete(),
@@ -227,6 +229,15 @@ export class ProjetoEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showError(msg) {
     this.toastr.error(msg, 'Ops! Algo está errado!');
+  }
+
+  getAtendimento(id){
+    let aten = null;
+    this.atendimentos.forEach(a =>{
+      if(a.id === parseInt(id))
+        aten = a;
+    });
+    return aten;
   }
 
 }

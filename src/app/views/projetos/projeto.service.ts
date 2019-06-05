@@ -94,7 +94,8 @@ export class ProjetoService {
       descricao_atividades: null,
       horas_estimadas: null,
       horas_realizadas: null,
-      id_atendimento: null
+      id_atendimento: null,
+      atendimento: null
     };
   }
 
