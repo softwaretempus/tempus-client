@@ -10,8 +10,8 @@
         <div class="col-md-8">
           <select class="form-control" id="userProfileId" formControlName="perfil"
             (change)="onChangeUserProfile($event)" [ngClass]="{'is-invalid': displayMessage.perfil }">
-            <option [ngValue]="null">Selecione...</option>
-            <option *ngFor="let perfil of perfis" [ngValue]="perfil.id">
+            <option [value]="null">Selecione...</option>
+            <option *ngFor="let perfil of perfis" [value]="perfil.id">
               {{perfil.descricao}}
             </option>
           </select>
@@ -24,10 +24,10 @@
       <div class="form-group row mb-2" *ngIf="userForm.controls.perfil.value != 4">
         <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediato</label>
         <div class="col-md-8">
-          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador">
-            <option [ngValue]="null">Selecione...</option>
-            <option *ngFor="let user of users" [ngValue]="user.id">
-              {{user.nome}}
+          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador" (change)="onChangeUserSuperior($event)">
+            <option [value]="null">Selecione...</option>
+            <option *ngFor="let s of superiores" [value]="s.id">
+              {{s.nome}}
             </option>
           </select>
         </div>

@@ -30,7 +30,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'User Edit';
   errorMessage: string;
   userForm: FormGroup;
+  
   isClientSelected: boolean;
+
   perfis = [
     { id: 1, descricao: 'Analista' },
     { id: 2, descricao: 'Coordenador' },
@@ -46,6 +48,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   customer: ICustomer;
 
   user: IUser;
+  superior: any;
   private sub: Subscription;
 
   // Use with the generic validation message class
@@ -112,6 +115,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getUsers()
     this.getSelectSkill()
     this.getCustomers()
+    this.getSuperiores()
   }
 
   ngOnDestroy(): void {
@@ -316,11 +320,30 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onChangeUserProfile(event) {
     let selected = event.target.value;
-    if (selected == '4: 4') {
+    if (selected == '4') {
       this.isClientSelected = true;
     } else {
       this.isClientSelected = false;
     }
+  }
+
+  getSuperiores() {
+    this.userService.getUsers().subscribe(
+      superiores => {
+        this.superiores = superiores.filter(superior => (superior.id ? superior.id > this.user.id : null))
+      },
+      error => this.errorMessage = <any>error
+    )
+  }
+
+  onChangeUserSuperior(event): void {
+    let selected = parseInt(event.target.value)
+    this.superior = this.superiores.map((superior) => {
+      if (superior.id === selected) {
+        this.user.id_coordenador = superior.id
+        return superior
+      }
+    });
   }
 
   onChangeSkill(newSkill): void {
