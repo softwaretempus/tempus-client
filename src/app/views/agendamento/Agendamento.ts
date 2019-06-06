@@ -5,5 +5,6 @@ export interface IAgendamento {
     id: number,
     usuario: IUser,
     data_hora_agendamento: Date,
-    atendimento: IAtendimento
+    atendimento: IAtendimento,
+    id_atendimento: number
 }

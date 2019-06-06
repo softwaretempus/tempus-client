@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { OsService } from './os.service';
 import { IOs } from './Os';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-os',
@@ -35,6 +36,10 @@ export class OsComponent implements OnInit {
 
   ngOnInit() {
     this.getOss()
+  }
+
+  convertDate(data: Date): string{
+    return moment(data).format('DD/MM/YYYY HH:mm')
   }
 
   performFilter(filterBy: string): IOs[] {

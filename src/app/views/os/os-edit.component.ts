@@ -11,8 +11,13 @@ import { OsService } from './os.service';
 import { IAgendamento } from '../agendamento/Agendamento';
 import { AgendamentoService } from '../agendamento/agendamento.service';
 
+import { IAtendimento } from '../atendimento/Atendimento';
+import { AtendimentoService } from '../atendimento/atendimento.service';
+
 import { GenericValidator } from '../shared/generic.validator';
 import { ToastrService } from 'ngx-toastr';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-os-edit',
@@ -29,6 +34,9 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   agendamentos: any[];
   agendamento: any;
   private sub: Subscription;
+  horaInicioStr : string;
+  horaFimStr: string;
+  atendimentos: IAtendimento[];
 
   status: any = [
     { id: 1, descricao: 'Aberta' },
@@ -50,7 +58,8 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private osService: OsService,
     private agendamentoService: AgendamentoService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private atendimentoService: AtendimentoService) {
 
     // Define todas as mensagens de validação para este formulários.
     // TODO: Melhor se for instanciado de um outro arquivo.
@@ -60,16 +69,18 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       descricao: {
         required: 'Informe a descrição do serviço.',
-        minlength: 'A descrição não pode ter menos que 3 caracteres.',
-        maxlength: 'A descrição não pode ter mais que 50 caracteres.'
+        maxlength: 'A descrição não pode ter mais que 255 caracteres.'
       },
-      data_hora_inicio: {
-        required: 'Informe a data e horário de início do serviço.'
+      data: {
+        required: 'Informe a data.'
       },
-      data_hora_final: {
-        required: 'Informe a data e horário de término do serviço.'
+      hora_inicio: {
+        required: 'Informe o horário de inicio do servico.'
       },
-      agendamento: {
+      hora_fim: {
+        required: 'Informe o horário do termino do servico.'
+      },
+      agendamento_id: {
         required: 'Selecione um agendamento.'
       }
     };
@@ -82,11 +93,11 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.osForm = this.fb.group({
       status: ['', Validators.required],
-      descricao: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      data_hora_inicio: ['', Validators.required],
-      data_hora_final: ['', Validators.required],
-      data_exclusao: [''],
-      agendamento: ['', Validators.required]
+      descricao: ['', [Validators.required, Validators.maxLength(255)]],
+      data: ['', Validators.required],
+      hora_inicio: ['', Validators.required],
+      hora_final: ['', Validators.required],
+      agendamento_id: ['', Validators.required]
     });
 
     // Lê o id do usuário do parâmetro da rota,
@@ -97,8 +108,9 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getOs(id);
       }
     );
-
+    
     this.getAgendamentos()
+
 
   }
 
@@ -130,7 +142,14 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   getAgendamentos(): void {
     this.agendamentoService.getAgendamentos().subscribe(
       agendamentos => {
-        this.agendamentos = agendamentos
+        this.agendamentos = agendamentos;
+        if(this.os.id > 0){
+          this.atendimentoService.getAtendimento(this.os.agendamento.id_atendimento).subscribe(
+            atend => {
+              this.os.agendamento.atendimento = atend;
+            }
+          )
+        }
       },
       error => this.errorMessage = <any>error
     )
@@ -144,19 +163,66 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.os.id === 0) {
       this.title = `Formulário de cadastro`;
+      this.osForm.get('agendamento_id').setValidators(Validators.required);
     } else {
       this.title = `Formulário de edição`;
+      this.osForm.get('agendamento_id').setValidators(null);
     }
 
     // Atualiza os dados do formulário
-    this.osForm.patchValue({
-      status: this.os.status,
-      descricao: this.os.descricao,
-      data_hora_inicio: this.os.data_hora_inicio,
-      data_hora_final: this.os.data_hora_final,
-      data_exclusao: this.os.data_exclusao,
-      agendamento: this.os.agendamento
-    });
+    this.atualizaForm(1);
+  }
+
+  atualizaForm(opc: number){
+    
+    if(opc === 1){ // todo
+    
+      this.osForm.patchValue({
+        status: this.os.status,
+        descricao: this.os.descricao,
+        data: moment(this.os.data_hora_inicio).format('YYYY-MM-DD'),
+        hora_inicio: moment(this.os.data_hora_inicio).format('HH:mm'),
+        hora_final: moment(this.os.data_hora_final).format('HH:mm'),
+      });
+
+    }else{ // so data e horas
+      this.osForm.patchValue({
+        data: moment(this.os.data_hora_inicio).format('YYYY-MM-DD'),
+        hora_inicio: moment(this.os.data_hora_inicio).format('HH:mm'),
+        hora_final: moment(this.os.data_hora_final).format('HH:mm'),
+      });
+    }
+  }
+
+  onChangeData(data: any){
+    this.os.data_hora_inicio = moment(data,'YYYY-MM-DD').toDate();
+    this.os.data_hora_final  = moment(data,'YYYY-MM-DD').toDate();
+    this.atualizaForm(2);
+    console.log(this.os.data_hora_inicio);
+    console.log(this.os.data_hora_final);
+  }
+
+  onChangeHoraIni(hora: any){
+    let data = moment(this.os.data_hora_inicio).format('DD/MM/YYYY');
+    this.os.data_hora_inicio = moment(`${data} ${hora}`, "DD/MM/YYYY HH:mm").toDate();
+    this.atualizaForm(2);
+    console.log(this.os.data_hora_inicio);
+  }
+
+  onChangeHoraFim(hora: any){
+    let data = moment(this.os.data_hora_final).format('DD/MM/YYYY');
+    this.os.data_hora_final = moment(`${data} ${hora}`, "DD/MM/YYYY HH:mm").toDate();
+    this.atualizaForm(2);
+    console.log(this.os.data_hora_final);
+  }
+
+  selecionado(agendamento: IAgendamento){
+    let ret = false;
+    if(this.os && this.os.id){
+      if(agendamento.id === this.os.agendamento.id)
+        ret = true;
+    }
+    return ret;
   }
 
   deleteOs(): void {
@@ -201,16 +267,12 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onChangeAgendamento(elementSelected): void {
-    elementSelected = parseInt(elementSelected)
-    this.agendamentos = this.agendamentos.map((agendamento) => {
-      if (agendamento.id === elementSelected) {
-        this.os.agendamento = agendamento;
+  onChangeAgendamento(id): void {
+    this.agendamentos.forEach(a => {
+      if( parseInt(id) === a.id){
+        this.os.agendamento = a;
       }
-      else
-        agendamento.selected = false;
-      return agendamento;
-    });
+    })
   }
 
   onChangeStatus(e): void {
@@ -223,6 +285,20 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         u.selected = false;
       return u;
     });
+  }
+
+  filtrarStatus(status: any){
+    let filtered = [];
+    this.status.forEach(s => {
+      if(this.os && this.os.id){ // Ediçao
+        if(s.id <= 3 || s.id === 7) // Aberta, em execucao, em aprovacao, cancelada
+          filtered.push(s);
+      }else{ // inclusao
+        if(s.id === 1) // Aberta ou Em execucao
+          filtered.push(s);
+      }
+    });
+    return filtered;
   }
 
   onSaveComplete(): void {

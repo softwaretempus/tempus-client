@@ -1,7 +1,7 @@
 <div style="width: 100%; background-color: #fff; height: 500px; margin-bottom: 20px;padding-top: 5px;">
     
     <div class="form-group row mb-2" style="padding-left: 10px;">
-            <label class="col-md-2 col-form-label">Data Inicial</label>
+            <label class="col-md-3 col-form-label" style="margin-left:20px">Selecione a data inicial:</label>
             <div class="col-md-2">
                 <input type="date" class="form-control" id="dataInicial" (change)="changeDate($event.target.value)">
             </div>
@@ -16,7 +16,7 @@
                 </td>
             </tr>
         </thead>
-        <tbody>
+        <tbody title="Selecione uma célula para agendar">
                 
             <tr *ngFor="let analista of analistas">
                 <td>{{analista.nome}}</td>

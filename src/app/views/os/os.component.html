@@ -20,7 +20,7 @@
       <a class="list-item">
         <div class="row">
           <div class="col-md-8 col-lg-4">
-            <span class="text-primary">{{os.descricao}}</span>
+            <span class="text-primary"># {{os.id}}</span>
             <p class="mb-0">
               <small class="text-muted">
                 {{os.status}}
@@ -36,7 +36,7 @@
                   <p class="mb-0">
                   <span>Início</span><br>
                   <small class="text-muted">
-                    {{ os.data_hora_inicio | date:'dd/mm/yyyy hh:mm:ss' }}
+                    {{ convertDate(os.data_hora_inicio) }}
                   </small>
                 </p>
               </div>
@@ -51,7 +51,7 @@
                 <p class="mb-0">
                   <span>Término</span><br>
                   <small class="text-muted">
-                    {{ os.data_hora_final | date:'dd/mm/yyyy hh:mm:ss' }}
+                    {{ convertDate(os.data_hora_final) }}
                   </small>
                 </p>
               </div>
