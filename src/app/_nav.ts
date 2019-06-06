@@ -70,4 +70,9 @@ export const navItems: NavData[] = [
     url: '/relatorios',
     icon: 'icon-pie-chart',
   },
+  {
+    name: 'Sair',
+    url: '/logout',
+    icon: 'icon-power',
+  },
 ];

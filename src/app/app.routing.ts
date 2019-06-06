@@ -76,7 +76,10 @@ export const routes: Routes = [
         path: 'relatorios',
         loadChildren: './views/report/report.module#ReportModule'
       },
-
+      {
+        path: 'logout',
+        loadChildren: './views/logout/logout.module#LogoutModule'
+      },
     ]
   },
   {
