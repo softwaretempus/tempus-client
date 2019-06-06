@@ -89,7 +89,8 @@ export class AgendamentoService {
       id: 0,
       usuario: null,
       data_hora_agendamento: null,
-      atendimento: null
+      atendimento: null,
+      id_atendimento: null
     };
   }
 

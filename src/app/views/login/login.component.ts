@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { GenericValidator } from '../shared/generic.validator';
 
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, debounce } from 'rxjs/operators';
 
 import { IUser } from '../user/User'
 
@@ -16,7 +16,7 @@ import { IUser } from '../user/User'
   selector: 'app-login',
   templateUrl: 'login.component.html'
 })
-export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
   errorMessage: string;
@@ -61,9 +61,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.sub.unsubscribe();
+  // }
 
   ngAfterViewInit(): void {
     // Watch for the blur event from any input element on the form.
@@ -79,7 +79,23 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   login() {
-    this.authService.userAuthentication(this.loginForm.value)
+    this.authService.userAuthentication(this.loginForm.value).pipe(
+    ).subscribe(res => {
+      if (res.status_code == 200) {
+        localStorage.setItem("token", res.token);
+        this.router.navigate(['/usuarios'])
+        this.toastr.success('Autenticação realizada com sucesso', 'Tudo Pronto!');
+      }
+      if (res.status_code == 400) {
+        this.toastr.error('Preencha os campos obrogatórios', 'Erro!');
+      }
+      if (res.status_code == 401) {
+        this.toastr.error('Acesso não autorizado', 'Atenção!');
+      }
+      if (res.status_code == 404) {
+        this.toastr.error('Usuário não cadastrado em nossa base de dados', 'Erro!');
+      }
+    })
   }
 
 }

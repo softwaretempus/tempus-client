@@ -33,7 +33,7 @@
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <button type="button" class="btn btn-primary px-4" (click)="login()">Enviar</button>
+                      <button type="button" class="btn btn-primary px-4" (click)="login()" [disabled]="!loginForm.valid">Enviar</button>
                     </div>
                   </div>
                 </form>

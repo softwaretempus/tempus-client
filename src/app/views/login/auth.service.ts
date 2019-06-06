@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Router } from '@angular/router';
 
-import { Observable, of, throwError } from 'rxjs'
-import { catchError, tap, map } from 'rxjs/operators'
 
-import { IUser } from '../user/User'
-import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs'
+import { catchError, tap, map } from 'rxjs/operators'
 
 
 @Injectable({
@@ -16,11 +14,11 @@ export class AuthService {
 
   private loginUrl = 'http://localhost:3000/login'
 
-  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  userAuthentication(user: IUser): Observable<IUser> {
+  userAuthentication(user: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<IUser>(this.loginUrl, user, { headers: headers })
+    return this.http.post<any>(this.loginUrl, user, { headers: headers })
       .pipe(
         tap(data => console.log('Authenticated: ' + JSON.stringify(data))),
         catchError(this.handleError)
