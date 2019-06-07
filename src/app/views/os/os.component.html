@@ -59,7 +59,8 @@
           </div>
           <div class="col-md-2 col-lg-2">
             <div class="float-right">
-              <button class="btn text-muted float-left" [routerLink]="['/os', os.id, 'edicao']">
+              <!-- [routerLink]="['/os', os.id, 'edicao']" -->
+              <button class="btn text-muted float-left" (click)="editOs(os)">
                 <i class="fa fa-pencil fa-lg"></i>
               </button>
               <button class="btn text-muted" type="button" (click)="deleteOs(os)">

@@ -48,7 +48,22 @@ export class OsComponent implements OnInit {
       os.descricao.toLocaleLowerCase().indexOf(filterBy) !== -1)
   }
 
+  editOs(os: IOs){
+    if(os.status === 'Aprovada' || os.status === 'Cancelada'){
+      this.toastr.error(`Esta OS está ${os.status} e não pode ser alterada!`, 'Atenção!');
+      return;
+    }else{
+      this.router.navigate(['/os', os.id, 'edicao']);
+    }
+  }
+
   async deleteOs(os: IOs) {
+
+    if(os.status === 'Aprovada' || os.status === 'Cancelada'){
+      this.toastr.error(`Esta OS está ${os.status} e não pode ser excluída!`, 'Atenção!');
+      return;
+    }
+
     if (confirm(`Deseja realmente excluir a ordem de serviço "${os.id}"?`)) {
       await this.osService.deleteOs(os.id)
         .subscribe(

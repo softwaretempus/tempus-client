@@ -244,7 +244,7 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.osForm.valid) {
       if (this.osForm.dirty) {
         const p = { ...this.os, ...this.osForm.value };
-
+                
         if (p.id === 0) {
           this.osService.createOs(p)
             .subscribe(
@@ -259,6 +259,7 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
             );
           this.showSuccess('Ordem de serviço alterada na base de dados.')
         }
+        
       } else {
         this.onSaveComplete();
       }
@@ -299,6 +300,16 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     return filtered;
+  }
+
+  calculaHoras(os: IOs): any{
+    let inicio  = moment(os.data_hora_inicio).format('DD/MM/YYYY HH:mm:ss');
+    let fim  = moment(os.data_hora_final).format('DD/MM/YYYY HH:mm:ss')
+    let diff = moment.duration(moment(fim).diff(moment(inicio)));
+    return {
+      horas: diff.get("hours"),
+      minutos: diff.get("minutes")/60
+    }
   }
 
   onSaveComplete(): void {
