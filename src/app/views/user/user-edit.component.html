@@ -77,18 +77,6 @@
         </div>
       </div>
 
-      <!-- <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
-        <div class="col-md-8">
-          <input class="form-check-label" id="userStatusId" type="checkbox" formControlName="status"
-            [ngClass]="{'is-invalid': displayMessage.status }" [checked]="status">
-          <label class="form-check-label">Ativo</label>
-          <span class="invalid-feedback">
-            {{displayMessage.status}}
-          </span>
-        </div>
-      </div> -->
-
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userStatusId">Status</label>
         <div class="col-md-8">
@@ -109,7 +97,7 @@
         <label class="col-md-2 col-form-label" for="userCodeId">CPF</label>
         <div class="col-md-8">
           <input class="form-control" id="userCodeId" type="text" formControlName="cpf" [textMask]="{mask: cpfmask}"
-            [ngClass]="{'is-invalid': displayMessage.cpf }" />
+            [ngClass]="{'is-invalid': userForm.get('cpf').getError('invalido') }" />
           <span class="invalid-feedback">
             {{displayMessage.cpf}}
           </span>
@@ -188,86 +176,48 @@
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">Razão Social</label>
           <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente.razao_social" disabled />
+            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.razao_social: ''" disabled />
           </div>
         </div>
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">CNPJ</label>
           <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente.cnpj" disabled />
+            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.cnpj : ''" disabled />
           </div>
         </div>
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">Endereço</label>
           <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente.endereco" disabled />
+            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.endereco : ''" disabled />
           </div>
         </div>
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">Responsável</label>
           <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente.nome_responsavel" disabled />
+            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.nome_responsavel: ''" disabled />
           </div>
         </div>
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">Email</label>
           <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente.email" disabled />
+            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.email : ''" disabled />
           </div>
         </div>
       </span>
-
-      <!-- 
-      <span *ngIf="userForm.controls.perfil.value == 4">
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="userCodeId">Nome responsável</label>
-          <div class="col-md-8">
-            <input class="form-control" id="userCodeId" type="text" formControlName="nomeResponsavel"
-              [ngClass]="{'is-invalid': displayMessage.nomeResponsavel }" />
-            <span class="invalid-feedback">
-              {{displayMessage.nomeResponsavel}}
-            </span>
-          </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="razaoSocialId">Razao Social</label>
-          <div class="col-md-8">
-            <input class="form-control" id="razaoSocialId" type="text" formControlName="razaoSocial"
-              [ngClass]="{'is-invalid': displayMessage.razaoSocial }" />
-            <span class="invalid-feedback">
-              {{displayMessage.razaoSocial}}
-            </span>
-          </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="userCodeId">CNPJ</label>
-          <div class="col-md-8">
-            <input class="form-control" id="userCodeId" type="text" formControlName="cnpj"
-              [textMask]="{mask: cnpjmask}" [ngClass]="{'is-invalid': displayMessage.cnpj }" />
-            <span class="invalid-feedback">
-              {{displayMessage.cnpj}}
-            </span>
-          </div>
-        </div>
-      </span>
-    -->
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
-          <!--
+          
           <button class="btn btn-primary mr-3" type="submit"
             [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">            
             Salvar
-          </button>
-          -->
-          <button class="btn btn-primary mr-3" type="submit"
-            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'">            
-            Salvar
-          </button>
+          </button>          
+          
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/usuarios']">
             Cancelar
-          </button>
-        </div>
+          </button>          
+
+        </div>        
       </div>
 
     </form>

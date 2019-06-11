@@ -18,6 +18,7 @@ import { GenericValidator } from '../shared/generic.validator';
 import { CPFValidator } from '../../validators/cpf.validator';
 
 import { ToastrService } from 'ngx-toastr';
+import { ConstantPool } from '@angular/compiler';
 
 
 @Component({
@@ -90,8 +91,9 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         minLength: 'Informe um telefone valido.',
       },
       cpf: {
-        required: 'Informe o CPF do usuário',
+        required: 'Informe um CPF válido',
         minLength: 'Seu CPF deve conter 11 caracteres',
+        invalido: 'CPF inválido'
       },
       perfil: {
         required: 'Informe o perfil.',
@@ -182,7 +184,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       telefone: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', Validators.required],
       status: [true, null],
-      cpf: ['', [Validators.required, Validators.minLength(11)]],
+      cpf: ['', [Validators.required, Validators.minLength(11), this.cpfValidator]],
       perfil: ['', Validators.required],
       senha: ['', [Validators.required, Validators.minLength(4)]],
       id_cliente: [''],
@@ -194,7 +196,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.userForm) {
       this.userForm.reset();
     }
-    this.user = user;
+    this.user = user;    
 
     if (this.user.id === 0) {
       this.title = `Formulário de cadastro`;
@@ -238,8 +240,13 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
         const p = { ...this.user, ...this.userForm.value };
 
         if (p.id === 0) {
-          if (p.perfil === 4) {
-            p.cliente = this.getCliente(p.id_cliente);
+          if (p.perfil === 4 || p.perfil === '4') {
+            p.cliente = this.getCliente(p.id_cliente);                        
+          }
+          if(p.id_coordenador){
+            p.id_coordenador = parseInt(p.id_coordenador);
+            p.coordenador = {};
+            p.coordenador.id = p.id_coordenador;
           }
           this.userService.createUser(p)
             .subscribe((result) => {
@@ -258,8 +265,13 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
               (error: any) => this.showError(error)
             );
         } else {
-          if (p.perfil === 4) {
+          if (p.perfil === 4 || p.perfil === '4') {
             p.cliente = this.getCliente(p.id_cliente);
+          }
+          if(p.id_coordenador){
+            p.id_coordenador = parseInt(p.id_coordenador);
+            p.coordenador = {};
+            p.coordenador.id = p.id_coordenador;
           }
           this.userService.updateUser(p)
             .subscribe(
@@ -326,15 +338,18 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isClientSelected = false;
     }
   }
-
+  
   getSuperiores() {
     this.userService.getUsers().subscribe(
-      superiores => {
-        this.superiores = superiores.filter(superior => (superior.id ? superior.id > this.user.id : null))
+      usuarios => {
+        this.superiores = usuarios.filter(u => {
+          if(u.perfil > 1 && u.perfil < 4)
+            return u;
+        });
       },
       error => this.errorMessage = <any>error
     )
-  }
+  }  
 
   onChangeUserSuperior(event): void {
     let selected = parseInt(event.target.value)
@@ -461,4 +476,77 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     return cliente;
   }
 
+  cpfValidator(control: FormControl){
+    let cpf = control.value;        
+    if(cpf){      
+      cpf = removeMascaraCPF(cpf);      
+      if(!validaCPF(cpf)){
+        return {invalido: true}
+      }else{
+        return null;
+      }
+
+    }
+  }
+
+  findInvalidControls() {
+    const invalid = [];
+    const controls = this.userForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    console.log(invalid);
+  }
+
 }
+
+function removeMascaraCPF(cpf){
+  
+  cpf = replaceAll(cpf, '_', '');      
+  cpf = replaceAll(cpf, '-', '');
+  cpf = cpf.replace('.', '');
+  cpf = cpf.replace('.', '');
+
+  return cpf;
+}
+
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function validaCPF(cpf)
+  {
+    var numeros, digitos, soma, i, resultado, digitos_iguais;
+    digitos_iguais = 1;
+    if (cpf.length < 11)
+          return false;
+    for (i = 0; i < cpf.length - 1; i++)
+          if (cpf.charAt(i) != cpf.charAt(i + 1))
+                {
+                digitos_iguais = 0;
+                break;
+                }
+    if (!digitos_iguais)
+          {
+          numeros = cpf.substring(0,9);
+          digitos = cpf.substring(9);
+          soma = 0;
+          for (i = 10; i > 1; i--)
+                soma += numeros.charAt(10 - i) * i;
+          resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+          if (resultado != digitos.charAt(0))
+                return false;
+          numeros = cpf.substring(0,10);
+          soma = 0;
+          for (i = 11; i > 1; i--)
+                soma += numeros.charAt(11 - i) * i;
+          resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+          if (resultado != digitos.charAt(1))
+                return false;
+          return true;
+          }
+    else
+        return false;
+  }
