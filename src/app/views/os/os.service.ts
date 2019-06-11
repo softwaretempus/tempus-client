@@ -36,6 +36,16 @@ export class OsService {
       );
   }
 
+  solicitarAprovacao(id: number): Observable<IOs> {
+    
+    const url = `http://localhost:3000/email/os/${id}`;
+    return this.http.get<IOs>(url)
+      .pipe(
+        tap(data => console.log('Os: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   createOs(os: IOs): Observable<IOs> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     os.id = null;

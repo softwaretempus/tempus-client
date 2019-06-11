@@ -248,13 +248,29 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (p.id === 0) {
           this.osService.createOs(p)
             .subscribe(
-              () => this.onSaveComplete(),
+              (res) => {
+                if(p.status === 'Em aprovação'){
+                  this.osService.solicitarAprovacao(res.id).subscribe(() =>{
+                    this.onSaveComplete();
+                  });
+                }else{
+                  this.onSaveComplete();
+                }
+              },
               (error: any) => this.showError('Algo está errado. Tente mais tarde.')
             );
         } else {
           this.osService.updateOs(p)
             .subscribe(
-              () => this.onSaveComplete(),
+              () => {
+                if(p.status === 'Em aprovação'){
+                  this.osService.solicitarAprovacao(p.id).subscribe(() =>{
+                    this.onSaveComplete();
+                  });
+                }else{
+                  this.onSaveComplete();
+                }
+              },
               (error: any) => this.showError('Algo está errado. Tente mais tarde.')
             );
           this.showSuccess('Ordem de serviço alterada na base de dados.')
