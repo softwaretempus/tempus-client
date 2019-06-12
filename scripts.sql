@@ -17,6 +17,7 @@ INSERT INTO public."Clientes" VALUES (1, 'Totvs', 'Av. Rio Branco, 45 - Sala 905
 INSERT INTO public."Clientes" VALUES (2, 'B2W Digital', 'Rua Sacadura Cabral, 102 - Saúde, Rio de Janeiro - RJ, 20081-262', '2139393939', 'contato@b2wdigital.com', true, 'B2W Companhia Digital', '00.776.574/0006-60', 'Maria da Silva', '2019-05-23T20:55:00.000Z', '2019-05-23T20:55:00.000Z');
 
 -- Incluir usuário
+INSERT INTO "Usuarios"(id, nome, endereco, telefone, email, senha, status, cpf, perfil, "createdAt", "updatedAt", id_cliente, id_coordenador) VALUES (0, 'admin', 'rua teste', '021987654321', 'admin@admin.com', '$2b$10$Mcpe6xDQ75.ESfQ7uxjdROYAwQuZeLPDKwDRFjoPvLNYu6MITXlDi', true, '98765432100', 1, NOW(), NOW(), null, null);
 INSERT INTO public."Usuarios" VALUES (1, 'Bruno Calixto', 'Del Castilho', '2139393939', 'b.calixto@tempus.com.br', '12345', true, '673.948.210-13', 1, '2019-05-23T20:44:00.000Z', '2019-05-23T20:44:00.000Z', null, 1);
 INSERT INTO public."Usuarios" VALUES (2, 'Bruno Sobral', 'Lins de Vasconcelos', '2139393939', 'b.sobral@tempus.com.br', '12345', true, '050.817.290-00', 2, '2019-05-23T20:45:00.000Z', '2019-05-23T20:45:00.000Z');
 INSERT INTO public."Usuarios" VALUES (3, 'Fabio Maia', 'S. João', '2139393939', 'f.maia@tempus.com.br', '12345', true, '506.484.220-11', 3, '2019-05-23T20:46:00.000Z', '2019-05-23T20:46:00.000Z',1);
