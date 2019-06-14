@@ -17,12 +17,81 @@
       </div>
 
       <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerAddressId">CEP</label>
+        <div class="col-md-6">
+          <input class="form-control" id="CepId" type="text" formControlName="cep"
+            [ngClass]="{'is-invalid': displayMessage.cep }" />
+          <span class="invalid-feedback">
+            {{displayMessage.cep}}
+          </span>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" (click)="buscaCEP(customerForm.get('cep').value)">Busca CEP</button>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="customerAddressId">Endereço</label>
         <div class="col-md-8">
           <input class="form-control" id="customerAddressId" type="text" formControlName="endereco"
-            [ngClass]="{'is-invalid': displayMessage.endereco }" />
+            [ngClass]="{'is-invalid': displayMessage.endereco }" readonly="readonly" />
           <span class="invalid-feedback">
             {{displayMessage.endereco}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerNumeroId">N&uacute;mero</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerNumberId" type="text" formControlName="numero"
+            [ngClass]="{'is-invalid': displayMessage.numero }" />
+          <span class="invalid-feedback">
+            {{displayMessage.numero}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerComplementoId">Complemento</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerComplementoId" type="text" formControlName="complemento"
+            [ngClass]="{'is-invalid': displayMessage.complemento }" />
+          <span class="invalid-feedback">
+            {{displayMessage.complemento}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerBairroId">Bairro</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerBairroId" type="text" formControlName="bairro"
+            [ngClass]="{'is-invalid': displayMessage.bairro }" readonly="readonly"/>
+          <span class="invalid-feedback">
+            {{displayMessage.bairro}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerCidadeId">Cidade</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerCidadeId" type="text" formControlName="cidade"
+            [ngClass]="{'is-invalid': displayMessage.cidade }" readonly="readonly" />
+          <span class="invalid-feedback">
+            {{displayMessage.cidade}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="customerUFId">UF</label>
+        <div class="col-md-8">
+          <input class="form-control" id="customerUFId" type="text" formControlName="uf"
+            [ngClass]="{'is-invalid': displayMessage.uf }" readonly="readonly"/>
+          <span class="invalid-feedback">
+            {{displayMessage.uf}}
           </span>
         </div>
       </div>
@@ -118,4 +187,4 @@
 
 </div>
 
-<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+<!--<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>-->

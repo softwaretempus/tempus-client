@@ -7,9 +7,10 @@ import { debounceTime } from 'rxjs/operators';
 
 import { ICustomer } from './Customer';
 import { CustomerService } from './customer.service';
+import { ICep } from './Cep';
+import { CepService } from './cep.service';
 
 import { GenericValidator } from '../shared/generic.validator';
-import { CPFValidator } from '../../validators/cpf.validator';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -40,6 +41,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
+    private cepService: CepService,
     private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
@@ -51,8 +53,29 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         maxlength: 'O nome não pode ter mais que 50 caracteres.'
       },
       endereco: {
-        required: 'Informe seu endereço completo',
+        required: 'Informe seu endereço',
         minlength: 'Informe um endereço válido.',
+      },
+      numero: {
+        required: 'Informe o numero',
+      },
+      complemento: {
+        required: 'Informe o complemento',
+      },
+      bairro: {
+        required: 'Informe o bairro',
+      },
+      cidade: {
+        required: 'Informe a cidade',
+      },
+      estado: {
+        required: 'Informe o estado',
+      },
+      uf: {
+        required: 'Informe a uf',
+      },
+      cep: {
+        required: 'Informe o cep',
       },
       telefone: {
         required: 'Informe seu telefone',
@@ -76,6 +99,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Define uma instância do validador para customer neste form,
     // passando as mensagens de validação.
     this.genericValidator = new GenericValidator(this.validationMessages);
+    this.cepService = cepService;
 
   }
 
@@ -117,6 +141,12 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customerForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       endereco: ['', [Validators.required, Validators.minLength(7)]],
+      numero: ['', Validators.required],
+      complemento: ['', Validators.required],
+      bairro: ['', Validators.required],
+      cidade: ['',Validators.required],
+      uf: ['', Validators.required],
+      cep: ['', Validators.required],
       telefone: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', Validators.required],
       status: [true, null],
@@ -142,6 +172,13 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customerForm.patchValue({
       nome: this.customer.nome,
       endereco: this.customer.endereco,
+      numero: this.customer.numero,
+      complemento: this.customer.complemento,
+      bairro: this.customer.bairro,
+      cidade: this.customer.cidade,
+      estado: this.customer.estado,
+      uf: this.customer.uf,
+      cep: this.customer.cep,
       telefone: this.customer.telefone,
       email: this.customer.email,
       status: this.customer.status,
@@ -227,6 +264,19 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       numberLength = numbers.join('').length;
     }
     return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/]
+  }
+
+  buscaCEP(cep: string){
+    
+   this.cepService.getCep(cep).subscribe(cep => {
+     
+     this.customerForm.patchValue({
+      endereco : cep.street,
+      bairro : cep.neighborhood,
+      cidade : cep.city,
+      uf : cep.state,
+     });
+   });
   }
 
   // Interfaces

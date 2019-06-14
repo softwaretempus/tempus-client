@@ -2,6 +2,13 @@ export interface ICustomer {
     id: number
     nome: string
     endereco: string
+    numero: string
+    complemento: string
+    bairro: string
+    cidade: string
+    estado: string
+    uf: string
+    cep: string
     telefone: string
     email: string
     status: boolean

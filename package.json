@@ -56,6 +56,7 @@
     "ag-grid-community": "^20.2.0",
     "angular2-text-mask": "^9.0.0",
     "bootstrap": "^4.3.1",
+    "cep-promise": "^3.0.7",
     "chart.js": "^2.8.0",
     "cldr-data": "^35.1.0",
     "core-js": "^2.6.5",
