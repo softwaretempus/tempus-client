@@ -18,7 +18,7 @@
         </thead>
         <tbody title="Selecione uma célula para agendar">
                 
-            <tr *ngFor="let analista of analistas">
+            <tr *ngFor="let analista of analistas" style="height: 100px !important;">
                 <td>{{analista.nome}}</td>
                 <td *ngFor="let data of datas" (click)="onClickCell(data.data, analista)" class="text-center">
                     <div *ngFor="let agendamento of getAgendamentosDoDia(analista,data.data)" class="agendamento" (click)="onClickAgendamento(agendamento)">

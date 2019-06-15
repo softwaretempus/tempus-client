@@ -47,7 +47,7 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userAddressId">CEP</label>
         <div class="col-md-6">
-          <input class="form-control" id="CepId" type="text" formControlName="cep"
+          <input class="form-control" id="CepId" type="text" formControlName="cep" [textMask]="{mask: cepmask}"
             [ngClass]="{'is-invalid': displayMessage.cep }" />
           <span class="invalid-feedback">
             {{displayMessage.cep}}

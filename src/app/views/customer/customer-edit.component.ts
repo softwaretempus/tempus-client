@@ -261,6 +261,15 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     return [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/]
   }
 
+  cepmask(rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    return [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/]
+  }
+
   buscaCEP(cep: string){
     
    this.cepService.getCep(cep).subscribe(cep => {
