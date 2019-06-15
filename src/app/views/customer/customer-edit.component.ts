@@ -7,8 +7,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import { ICustomer } from './Customer';
 import { CustomerService } from './customer.service';
-import { ICep } from './Cep';
-import { CepService } from './cep.service';
+import { CepService } from '../shared/cep.service';
 
 import { GenericValidator } from '../shared/generic.validator';
 
@@ -67,9 +66,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       cidade: {
         required: 'Informe a cidade',
-      },
-      estado: {
-        required: 'Informe o estado',
       },
       uf: {
         required: 'Informe a uf',
@@ -176,7 +172,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       complemento: this.customer.complemento,
       bairro: this.customer.bairro,
       cidade: this.customer.cidade,
-      estado: this.customer.estado,
       uf: this.customer.uf,
       cep: this.customer.cep,
       telefone: this.customer.telefone,

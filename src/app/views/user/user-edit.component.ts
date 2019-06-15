@@ -15,10 +15,8 @@ import { ICustomer } from '../customer/Customer';
 import { CustomerService } from '../customer/customer.service';
 
 import { GenericValidator } from '../shared/generic.validator';
-import { CPFValidator } from '../../validators/cpf.validator';
-
 import { ToastrService } from 'ngx-toastr';
-import { ConstantPool } from '@angular/compiler';
+import { CepService } from '../shared/cep.service';
 
 
 @Component({
@@ -68,6 +66,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private customerService: CustomerService,
     private skillService: SkillService,
     private userSkillService: UserSkillService,
+    private cepService: CepService,
     private toastr: ToastrService) {
 
     // Define todas as mensagens de validação para este formulários.
@@ -85,6 +84,24 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       endereco: {
         required: 'Informe seu endereço completo',
         minLength: 'Informe um endereço válido.',
+      },
+      numero: {
+        required: 'Informe o numero',
+      },
+      complemento: {
+        required: 'Informe o complemento',
+      },
+      bairro: {
+        required: 'Informe o bairro',
+      },
+      cidade: {
+        required: 'Informe a cidade',
+      },
+      uf: {
+        required: 'Informe a uf',
+      },
+      cep: {
+        required: 'Informe o cep',
       },
       telefone: {
         required: 'Informe seu telefone',
@@ -109,6 +126,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Define uma instância do validador para user neste form,
     // passando as mensagens de validação.
     this.genericValidator = new GenericValidator(this.validationMessages);
+    this.cepService = cepService;
   }
 
   ngOnInit(): void {
@@ -181,6 +199,12 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       endereco: ['', [Validators.required, Validators.minLength(7)]],
+      numero: ['', Validators.required],
+      complemento: ['', Validators.required],
+      bairro: ['', Validators.required],
+      cidade: ['',Validators.required],
+      uf: ['', Validators.required],
+      cep: ['', Validators.required],
       telefone: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', Validators.required],
       status: [true, null],
@@ -208,6 +232,12 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userForm.patchValue({
       nome: this.user.nome,
       endereco: this.user.endereco,
+      numero: this.user.numero,
+      complemento: this.user.complemento,
+      bairro: this.user.bairro,
+      cidade: this.user.cidade,
+      uf: this.user.uf,
+      cep: this.user.cep,
       telefone: this.user.telefone,
       email: this.user.email,
       status: this.user.status,
@@ -499,6 +529,19 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log(invalid);
   }
+
+  buscaCEP(cep: string){
+    
+    this.cepService.getCep(cep).subscribe(cep => {
+      
+      this.userForm.patchValue({
+       endereco : cep.street,
+       bairro : cep.neighborhood,
+       cidade : cep.city,
+       uf : cep.state,
+      });
+    });
+   }
 
 }
 

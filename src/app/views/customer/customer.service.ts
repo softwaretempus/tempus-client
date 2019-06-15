@@ -93,7 +93,6 @@ export class CustomerService {
       complemento: null,
       bairro: null,
       cidade: null,
-      estado: null,
       uf: null,
       cep: null,
       telefone: null,

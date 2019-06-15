@@ -6,7 +6,6 @@ export interface ICustomer {
     complemento: string
     bairro: string
     cidade: string
-    estado: string
     uf: string
     cep: string
     telefone: string
