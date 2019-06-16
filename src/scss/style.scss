@@ -8,8 +8,8 @@
 @import "custom";
 
 .app-header {
-    .navbar-toggler {
-        
+    .navbar-toggler:nth-child(5) {
+        display: none
     }
 }
 
