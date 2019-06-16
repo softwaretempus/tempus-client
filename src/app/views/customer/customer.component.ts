@@ -52,12 +52,19 @@ export class CustomerComponent implements OnInit {
     if (confirm(`Deseja realmente excluir o cliente "${customer.nome}"?`)) {
       await this.customerService.deleteCustomer(customer.id)
         .subscribe(
-          () => this.onSaveComplete(),
-          (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+          () => { 
+            this.showSuccess('Cliente removido da base de dados.')
+            this.customers.splice(customer.id, 1);
+            this.onSaveComplete()
+          },
+          (error: any) =>  {
+            if(error){
+              this.showError(error);
+            }else{
+              this.showError('Algo está errado. Tente mais tarde.')
+            }
+          } 
         );
-      this.showSuccess('Cliente removido da base de dados.')
-      this.customers.splice(customer.id, 1);
-      console.log(this.customers)
     }
   }
 
@@ -81,7 +88,7 @@ export class CustomerComponent implements OnInit {
   }
 
   showError(msg) {
-    this.toastr.error(msg, 'Ops! Algo está errado!');
+    this.toastr.error(msg, 'Erro!');
   }
 
 }
