@@ -19,7 +19,7 @@ const routes: Routes = [
         path: '',
         component: ReportProjectsComponent,
         data: {
-          title: 'Projetos por atendimento'
+          title: 'Horas por projetos'
         }
       },
     ]

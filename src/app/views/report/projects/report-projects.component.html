@@ -3,25 +3,16 @@
   <div
     class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
     <div class="row" [formGroup]="reportsForm">
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-3">
-        <select class="form-control" formControlName="status" [ngClass]="{'is-invalid': displayMessage.perfil }">
-          <option [value]="null" selected>Selecione...</option>
-          <option *ngFor="let status of statusOs" [value]="status.value">{{status.value}}</option>
-        </select>
-        <span class="invalid-feedback">
-          {{displayMessage.status}}
-        </span>
-      </div>
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-3">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-4">
         <input type="date" class="form-control mr-sm-2" formControlName="data_inicio" />
         <span class="invalid-feedback">
           {{displayMessage.data_inicio}}
         </span>
       </div>
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-1">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-2">
         <p style="position:relative;top:8px;">até</p>
       </div>
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-3">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-4">
         <input type="date" class="form-control mr-sm-2" formControlName="data_fim" />
         <span class="invalid-feedback">
           {{displayMessage.data_fim}}
@@ -36,50 +27,34 @@
     </div>
   </div>
 
-  <!-- {{reports.body.length}} -->
-
   <div *ngIf="reports && reports.body && reports.body.length">
     <div class="list-group-item list-group-item-accent-info" *ngFor="let report of reports.body">
       <a class="list-item">
         <div class="row">
           <div class="col-md-4 col-lg-4">
             <span class="text-primary">
-              #{{report.id}} {{report.descricao}}
+              {{report.nome}}
             </span>
             <p class="mb-0">
               <small class="text-muted">
-                {{report.status}}
+                Cód: {{report.id}}
               </small>
             </p>
           </div>
 
-          <div class="col-md-3 col-lg-3">
+          <div class="col-md-8 col-lg-8">
             <div class="row">
-              <div class="col-2">
-                <i class="fa fa-calendar-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
+              <div class="col-1">
+                <i class="fa fa-clock-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
               </div>
-              <div class="col-10">
+              <div class="col-11">
                 <p class="mb-0">
-                  <span>Início</span><br>
                   <small class="text-muted">
-                    {{ convertDate(report.data_hora_inicio) }}
-                  </small>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-lg-3">
-            <div class="row">
-              <div class="col-2">
-                <i class="fa fa-calendar-check-o fa-2x" style="color: #ccc; position: relative; top: 8px;"></i>
-              </div>
-              <div class="col-10">
-                <p class="mb-0">
-                  <span>Término</span><br>
-                  <small class="text-muted">
-                    {{ convertDate(report.data_hora_fim) }}
-                  </small>
+                    Total de Horas
+                  </small><br>
+                  <span>
+                    <b>{{report.total}}</b>
+                  </span>
                 </p>
               </div>
             </div>

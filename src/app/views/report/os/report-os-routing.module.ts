@@ -19,7 +19,7 @@ const routes: Routes = [
         path: '',
         component: ReportOsComponent,
         data: {
-          title: 'Ordens de serviços'
+          title: 'Ordens de serviços por status'
         }
       },
     ]

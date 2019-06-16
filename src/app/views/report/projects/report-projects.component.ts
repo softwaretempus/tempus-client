@@ -20,18 +20,6 @@ export class ReportProjectsComponent implements OnInit {
   errorMessage: string
   reportsForm: FormGroup
   reports: any[] = []
-  filteredList: IReportProjects[]
-  _listFilter: string = ''
-
-  statusOs: any = [
-    { id: 1, value: 'Aberta' },
-    { id: 2, value: 'Em execução' },
-    { id: 3, value: 'Em aprovação' },
-    { id: 4, value: 'Aprovada' },
-    { id: 5, value: 'Rejeitada' },
-    { id: 6, value: 'Concluída' },
-    { id: 7, value: 'Cancelada'  }
-  ]
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
@@ -68,7 +56,6 @@ export class ReportProjectsComponent implements OnInit {
   ngOnInit() {
 
     this.reportsForm = this.fb.group({
-      status: ['', Validators.required],
       data_inicio: ['', Validators.required],
       data_fim: ['', Validators.required]
     });
@@ -76,10 +63,9 @@ export class ReportProjectsComponent implements OnInit {
   }
 
   getReports(): void {
-    const teste = this.reportsForm.get('status').value
     const data_inicio = this.reportsForm.get('data_inicio').value
     const data_fim = this.reportsForm.get('data_fim').value
-    this.reportService.getReports(teste, data_inicio, data_fim).subscribe(
+    this.reportService.getReports(data_inicio, data_fim).subscribe(
       reports => this.reports = reports,
       error => this.errorMessage = <any>error
     )

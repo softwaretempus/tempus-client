@@ -76,10 +76,10 @@ export class ReportOsComponent implements OnInit {
   }
 
   getReports(): void {
-    const teste = this.reportsForm.get('status').value
+    const status = this.reportsForm.get('status').value
     const data_inicio = this.reportsForm.get('data_inicio').value
     const data_fim = this.reportsForm.get('data_fim').value
-    this.reportService.getReports(teste, data_inicio, data_fim).subscribe(
+    this.reportService.getReports(status, data_inicio, data_fim).subscribe(
       reports => this.reports = reports,
       error => this.errorMessage = <any>error
     )
