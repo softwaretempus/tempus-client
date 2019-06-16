@@ -133,10 +133,18 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
       if (confirm(`Deseja realmente excluir a habilidade "${this.skill.nome}"?`)) {
         this.skillService.deleteSkill(this.skill.id)
           .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+            () => { 
+              this.showSuccess('Habilidade removida da base de dados.')
+              this.onSaveComplete()
+            },
+            (error: any) =>  {
+              if(error){
+                this.showError(error);
+              }else{
+                this.showError('Algo está errado. Tente mais tarde.')
+              }
+            } 
           );
-        this.showSuccess('Habilidade removida da base de dados.')
       }
     }
   }
@@ -149,17 +157,34 @@ export class SkillEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (p.id === 0) {
           this.skillService.createSkill(p)
             .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+              () => { 
+                this.showSuccess('Habilidade inserida na base de dados.')
+                this.onSaveComplete()
+              },
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              }  
             );
-          this.showSuccess('Habilidade inserida na base de dados.')
+          
         } else {
           this.skillService.updateSkill(p)
             .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+              () => { 
+                this.showSuccess('Habilidade alterada na base de dados.')
+                this.onSaveComplete()
+              },
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              }  
             );
-          this.showSuccess('Habilidade alterada na base de dados.')
         }
       } else {
         this.onSaveComplete();

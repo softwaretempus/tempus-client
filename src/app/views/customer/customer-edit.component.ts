@@ -190,10 +190,18 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       if (confirm(`Deseja realmente excluir o cliente "${this.customer.nome}"?`)) {
         this.customerService.deleteCustomer(this.customer.id)
           .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+            () => { 
+              this.showSuccess('Cliente removido da base de dados.')
+              this.onSaveComplete()
+            },
+            (error: any) =>  {
+              if(error){
+                this.showError(error);
+              }else{
+                this.showError('Algo está errado. Tente mais tarde.')
+              }
+            } 
           );
-        this.showSuccess('Cliente removido da base de dados.')
       }
     }
   }
@@ -206,17 +214,33 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (p.id === 0) {
           this.customerService.createCustomer(p)
             .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+              () => { 
+                this.showSuccess('Cliente inserido na base de dados.')
+                this.onSaveComplete()
+              },
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              }  
             );
-          this.showSuccess('Cliente inserido na base de dados.')
         } else {
           this.customerService.updateCustomer(p)
             .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+              () => { 
+                this.showSuccess('Cliente alterado na base de dados.')
+                this.onSaveComplete()
+              },
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              } 
             );
-          this.showSuccess('Cliente alterado na base de dados.')
         }
       } else {
         this.onSaveComplete();
