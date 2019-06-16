@@ -46,13 +46,20 @@ export class SkillComponent implements OnInit {
   async deleteSkill(skill: ISkill) {
     if (confirm(`Deseja realmente excluir a habilidade "${skill.nome}"?`)) {
       await this.skillService.deleteSkill(skill.id)
-        .subscribe(
-          () => this.onSaveComplete(),
-          (error: any) => this.showError('Algo está errado. Tente mais tarde.')
-        );
-      this.showSuccess('Habilidade removida da base de dados.')
-      this.skills.splice(skill.id, 1);
-      console.log(this.skills)
+      .subscribe(
+        () => { 
+          this.showSuccess('Habilidade removida da base de dados.')
+          this.skills.splice(skill.id, 1);
+          this.onSaveComplete()
+        },
+        (error: any) =>  {
+          if(error){
+            this.showError(error);
+          }else{
+            this.showError('Algo está errado. Tente mais tarde.')
+          }
+        } 
+      );
     }
   }
 
