@@ -430,7 +430,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showError(msg) {
-    this.toastr.error(msg, 'Ops! Algo está errado!');
+    this.toastr.error(msg, 'Erro!');
   }
 
   phonemask(rawValue) {
