@@ -24,7 +24,8 @@
       <div class="form-group row mb-2" *ngIf="userForm.controls.perfil.value != 4">
         <label class="col-md-2 col-form-label" for="userSuperiorId">Superior imediato</label>
         <div class="col-md-8">
-          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador" (change)="onChangeUserSuperior($event)">
+          <select class="form-control" id="userSuperiorId" formControlName="id_coordenador"
+            (change)="onChangeUserSuperior($event)">
             <option [value]="null">Selecione...</option>
             <option *ngFor="let s of superiores" [value]="s.id">
               {{s.nome}}
@@ -95,7 +96,7 @@
         <label class="col-md-2 col-form-label" for="userBairroId">Bairro</label>
         <div class="col-md-8">
           <input class="form-control" id="customerBairroId" type="text" formControlName="bairro"
-            [ngClass]="{'is-invalid': displayMessage.bairro }" readonly="readonly"/>
+            [ngClass]="{'is-invalid': displayMessage.bairro }" readonly="readonly" />
           <span class="invalid-feedback">
             {{displayMessage.bairro}}
           </span>
@@ -117,7 +118,7 @@
         <label class="col-md-2 col-form-label" for="userUFId">UF</label>
         <div class="col-md-8">
           <input class="form-control" id="userUFId" type="text" formControlName="uf"
-            [ngClass]="{'is-invalid': displayMessage.uf }" readonly="readonly"/>
+            [ngClass]="{'is-invalid': displayMessage.uf }" readonly="readonly" />
           <span class="invalid-feedback">
             {{displayMessage.uf}}
           </span>
@@ -127,8 +128,8 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="userTelefone">Telefone</label>
         <div class="col-md-8">
-          <input class="form-control" id="userTelefone" type="text" formControlName="telefone" [textMask]="{mask: phonemask}"
-            [ngClass]="{'is-invalid': displayMessage.telefone }" />
+          <input class="form-control" id="userTelefone" type="text" formControlName="telefone"
+            [textMask]="{mask: phonemask}" [ngClass]="{'is-invalid': displayMessage.telefone }" />
           <span class="invalid-feedback">
             {{displayMessage.telefone}}
           </span>
@@ -233,60 +234,181 @@
         <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label">Vinculado à empresa</label>
           <div class="col-md-8">
-            <select class="form-control" formControlName="id_cliente">
+            <select class="form-control" formControlName="id_cliente" (change)="onChangeCustomer($event)">
               <option [ngValue]="null" [selected]="!user.id || user.perfil != 4">Selecione...</option>
-              <option *ngFor="let customer of customers" [ngValue]="customer.id" [selected]="user.perfil === 4 && customer.id === user.id_cliente">
+              <option *ngFor="let customer of customers" [ngValue]="customer.id"
+                [selected]="user.perfil === 4 && customer.id === user.id_cliente">
                 {{customer.nome}}
               </option>
             </select>
           </div>
         </div>
 
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label">Razão Social</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.razao_social: ''" disabled />
+        <span *ngIf="customer && customer.id">
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Razão Social</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.razao_social ? customer.razao_social : ''" disabled />
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label">CNPJ</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.cnpj : ''" disabled />
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">CNPJ</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.cnpj ? customer.cnpj : ''" disabled />
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label">Endereço</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.endereco : ''" disabled />
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">CEP</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.cep ? customer.cep : ''" disabled />
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label">Responsável</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.nome_responsavel: ''" disabled />
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Endereço</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="customer.endereco ? customer.endereco : ''" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Número</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="customer.numero ? customer.numero : ''" disabled />
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label">Email</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text" [value]="user.cliente ? user.cliente.email : ''" disabled />
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Complemento</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="customer.complemento ? customer.complemento : ''" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Bairro</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="customer.bairro ? customer.bairro : ''" disabled />
+            </div>
           </div>
-        </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Cidade</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="customer.cidade ? customer.cidade : ''" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Estado</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="customer.uf ? customer.uf : ''" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Nome do responsável</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.nome_responsavel ? customer.nome_responsavel : ''" disabled />
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Telefone</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.telefone ? customer.telefone : ''" disabled />
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Email</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="customer.email ? customer.email : ''" disabled />
+            </div>
+          </div>
+        </span>
+
+        <span *ngIf="user.cliente">
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Razão Social</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.razao_social" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">CNPJ</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.cnpj" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">CEP</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.cep" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Endereço</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="user.cliente.endereco" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Número</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="user.cliente.numero" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Complemento</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="user.cliente.complemento" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Bairro</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="user.cliente.bairro" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Cidade</label>
+            <div class="col-md-4">
+              <input class="form-control" type="text" [value]="user.cliente.cidade" disabled />
+            </div>
+            <label class="col-md-1 col-form-label">Estado</label>
+            <div class="col-md-3">
+              <input class="form-control" type="text" [value]="user.cliente.uf" disabled />
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Nome do responsável</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.nome_responsavel" disabled />
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Telefone</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.telefone" disabled />
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label">Email</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [value]="user.cliente.email" disabled />
+            </div>
+          </div>
+        </span>
+
       </span>
 
       <div class="form-group row mb-2 mt-4">
         <div class="offset-md-2 col-md-4">
-          
+
           <button class="btn btn-primary mr-3" type="submit"
-            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">            
+            [title]="userForm.valid ? 'Salvar' : 'Preencha todos os campos obrigatórios'" [disabled]="!userForm.valid">
             Salvar
-          </button>          
-          
+          </button>
+
           <button class="btn btn-secondary mr-3" type="button" title="Cancelar edições" [routerLink]="['/usuarios']">
             Cancelar
-          </button>          
+          </button>
 
-        </div>        
+        </div>
       </div>
 
     </form>

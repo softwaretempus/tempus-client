@@ -44,7 +44,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   userSkills: any[] = [];
 
   customers: ICustomer[] = [];
-  customer: ICustomer;
+  customer;
 
   user: IUser;
   superior: any;
@@ -408,7 +408,16 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
       return s;
     });
     this.userForm.markAsDirty();
+  }
 
+  onChangeCustomer(event): void {
+    let selected = parseInt(event.target.value)
+    this.customer = this.customers.map((customer) => {
+      if (customer.id === selected) {
+        this.customer = customer
+        customer.map(c => { return c })
+      }
+    });
   }
 
   removeSkill(id) {
