@@ -69,6 +69,23 @@ export const navItems: NavData[] = [
     name: 'Relatórios',
     url: '/relatorios',
     icon: 'icon-pie-chart',
+    children: [
+      {
+        name: 'Ordens de Serviços',
+        url: '/relatorios/os',
+        icon: 'fa fa-check-square-o'
+      },
+      {
+        name: 'Projetos',
+        url: '/relatorios/projetos',
+        icon: 'fa fa-wpforms'
+      },
+      {
+        name: 'Usuários',
+        url: '/relatorios/usuarios',
+        icon: 'fa fa-user-circle-o'
+      },
+    ]
   },
   {
     name: 'Sair',

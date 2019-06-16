@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ReportComponent } from './report.component';
-// import { SkillEditComponent } from './skill-edit.component';
+import { ReportOsComponent } from './report-os.component';
 
 
 const routes: Routes = [
@@ -18,11 +17,11 @@ const routes: Routes = [
       },
       {
         path: '',
-        component: ReportComponent,
+        component: ReportOsComponent,
         data: {
-          title: 'Consulta'
+          title: 'Ordens de serviços'
         }
-      }
+      },
     ]
   }
 ];
@@ -31,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ReportRoutingModule { }
+export class ReportOsRoutingModule { }

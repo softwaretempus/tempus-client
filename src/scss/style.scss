@@ -17,16 +17,33 @@
     background: #FFF;
     border-right: 1px solid #CCC;
     .nav-link {
-        color: #333;
+        color: #333!important;
         &.active {
             background: #F7F7F7;
-            color: #333;
+            color: #333!important;
             font-weight: bold;
             border-right: 1px solid #CCC
         }
         &:hover {
             background: #09F;
-            color: #FFF;
+            color: #FFF!important;
+        }
+    }
+    .nav-dropdown.open {
+        background: #F7F7F7;
+        border-right: 1px solid #CCC;
+        .nav-link {
+            color: #333!important;
+            &.active {
+                background: #F7F7F7;
+                color: #333!important;
+                font-weight: bold;
+                border-right: 1px solid #CCC
+            }
+            &:hover {
+                background: #09F;
+                color: #FFF!important;
+            }
         }
     }
     .sidebar-minimizer {

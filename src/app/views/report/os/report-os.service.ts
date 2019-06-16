@@ -4,42 +4,45 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, of, throwError } from 'rxjs'
 import { catchError, tap, map } from 'rxjs/operators'
 
-import { IReport } from './Report'
+import { IReportOs } from './ReportOs'
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReportService {
+export class ReportOsService {
 
-  private reportsUrl = 'http://localhost:3000/relatorio'
+  private reportsUrl = 'http://localhost:3000/relatorio/os'
 
   constructor(private http: HttpClient) { }
 
-  getReports(): Observable<IReport[]> {
-    return this.http.get<IReport[]>(this.reportsUrl)
+  getReports(status: string, data_inicio: string, data_fim: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.reportsUrl}/${status}/${data_inicio}/${data_fim}`;
+    console.log(url)
+    return this.http.get<any>(url)
       .pipe(
-        tap(data => console.log('All: ' + JSON.stringify(data))),
+        tap(data => console.log('Reports: ' + JSON.stringify(data))),
         catchError(this.handleError)
-      )
+      );
   }
 
-  getReport(id: number): Observable<IReport> {
+  getReport(id: number): Observable<IReportOs> {
     if (id === 0) {
       return of(this.initializeReport());
     }
     const url = `${this.reportsUrl}/${id}`;
-    return this.http.get<IReport>(url)
+    return this.http.get<IReportOs>(url)
       .pipe(
         tap(data => console.log('getReport: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  createReport(report: IReport): Observable<IReport> {
+  createReport(report: IReportOs): Observable<IReportOs> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     report.id = null;
-    return this.http.post<IReport>(this.reportsUrl, report, { headers: headers })
+    return this.http.post<IReportOs>(this.reportsUrl, report, { headers: headers })
       .pipe(
         tap(data => console.log('createReport: ' + JSON.stringify(data))),
         catchError(this.handleError)
@@ -49,17 +52,17 @@ export class ReportService {
   deleteReport(id: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.reportsUrl}/${id}`;
-    return this.http.delete<IReport>(url, { headers: headers })
+    return this.http.delete<IReportOs>(url, { headers: headers })
       .pipe(
         tap(data => console.log('deleteReport: ' + id)),
         catchError(this.handleError)
       );
   }
 
-  updateReport(report: IReport): Observable<IReport> {
+  updateReport(report: IReportOs): Observable<IReportOs> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.reportsUrl}/${report.id}`;
-    return this.http.put<IReport>(url, report, { headers: headers })
+    return this.http.put<IReportOs>(url, report, { headers: headers })
       .pipe(
         tap(() => console.log('updateReport: ' + report.id)),
         map(() => report),
@@ -83,11 +86,13 @@ export class ReportService {
     return throwError(errorMessage);
   }
 
-  private initializeReport(): IReport {
+  private initializeReport(): IReportOs {
     // Return an initialized object
     return {
       id: 0,
-      nome: null,
+      status: null,
+      data_inicio: null,
+      data_fim: null,
     };
   }
 

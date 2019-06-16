@@ -73,8 +73,16 @@ export const routes: Routes = [
         loadChildren: './views/os/os.module#OsModule'
       },
       {
-        path: 'relatorios',
-        loadChildren: './views/report/report.module#ReportModule'
+        path: 'relatorios/os',
+        loadChildren: './views/report/os/report-os.module#ReportOsModule'
+      },
+      {
+        path: 'relatorios/projetos',
+        loadChildren: './views/report/projects/report-projects.module#ReportProjectsModule'
+      },
+      {
+        path: 'relatorios/usuarios',
+        loadChildren: './views/report/users/report-users.module#ReportUsersModule'
       },
       {
         path: 'logout',
