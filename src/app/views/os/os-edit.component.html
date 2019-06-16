@@ -13,7 +13,7 @@
             <option [value]="null">Selecione...</option>
             <option *ngFor="let agendamento of agendamentos" [value]="agendamento.id"
               [selected]="os.id > 0 && agendamento.atendimento.id === os.agendamento.atendimento.id">
-              #{{agendamento.atendimento.id}} {{agendamento.atendimento.assunto}}
+              Atendimento: {{agendamento.atendimento.id}} | Analista: {{agendamento.usuario.nome}} | Data: {{dateToText(agendamento.data_hora_agendamento) }} | Assunto: {{agendamento.atendimento.assunto}}
             </option>
           </select>
         </div>

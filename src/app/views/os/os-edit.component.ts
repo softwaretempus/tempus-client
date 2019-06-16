@@ -328,6 +328,10 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  dateToText(date: Date): string{
+    return moment(date).format('DD/MM/YYYY');
+  }
+
   onSaveComplete(): void {
     this.osForm.reset();
     this.router.navigate(['/os']);
