@@ -12,7 +12,7 @@
           {{displayMessage.status}}
         </span>
       </div>
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-3">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-2">
         <input type="date" class="form-control mr-sm-2" formControlName="data_inicio" />
         <span class="invalid-feedback">
           {{displayMessage.data_inicio}}
@@ -21,7 +21,7 @@
       <div class="col-xs-6 col-sm-8 col-md-9 col-lg-1">
         <p style="position:relative;top:8px;">até</p>
       </div>
-      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-3">
+      <div class="col-xs-6 col-sm-8 col-md-9 col-lg-2">
         <input type="date" class="form-control mr-sm-2" formControlName="data_fim" />
         <span class="invalid-feedback">
           {{displayMessage.data_fim}}
@@ -31,6 +31,12 @@
         <button class="btn btn-primary mr-3" (click)="getReports()">
           <i class="fa fa-plus fa-lg"></i>
           Gerar
+        </button>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" *ngIf="reports && reports.body && reports.body.length">
+        <button class="btn btn-primary mr-3" (click)="getPDF()">
+          <i class="fa fa-file-pdf-o fa-lg"></i>
+          PDF
         </button>
       </div>
     </div>
@@ -78,7 +84,7 @@
                 <p class="mb-0">
                   <span>Término</span><br>
                   <small class="text-muted">
-                    {{ convertDate(report.data_hora_fim) }}
+                    {{ convertDate(report.data_hora_final) }}
                   </small>
                 </p>
               </div>

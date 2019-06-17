@@ -6,7 +6,7 @@ import { GenericValidator } from '../../shared/generic.validator';
 import { ToastrService } from 'ngx-toastr';
 
 import { ReportProjectsService } from './report-projects.service';
-import { IReportProjects } from './ReportProjects';
+import * as jsPDF from 'jspdf'
 
 import * as moment from 'moment';
 
@@ -19,7 +19,7 @@ export class ReportProjectsComponent implements OnInit {
   title: string = 'Relatorios'
   errorMessage: string
   reportsForm: FormGroup
-  reports: any[] = []
+  reports: any = []
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
@@ -73,6 +73,53 @@ export class ReportProjectsComponent implements OnInit {
 
   convertDate(data: Date): string {
     return moment(data).format('DD/MM/YYYY HH:mm')
+  }
+
+  getPDF(){
+    
+    const data_inicio = moment(this.reportsForm.get('data_inicio').value).format('DD/MM/YYYY');
+    const data_fim = moment(this.reportsForm.get('data_fim').value).format('DD/MM/YYYY');
+
+    let doc = new jsPDF()
+
+    let linha = 10;
+    
+    // Cabeçalho
+    doc.setLineWidth(0.5);
+    doc.line(20, linha, 200, linha);
+    linha += 10;
+    
+    doc.setFontSize(14);
+    doc.text(`Relatório de Horas por Projeto`, 105 , linha, null, null, 'center');
+    linha += 5;
+    
+    doc.setFontSize(10);
+    doc.text(`Período: ${data_inicio} a ${data_fim}`, 105 , linha, null, null, 'center');
+    linha += 5;
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, linha, 200, linha);
+    
+    linha += 10;
+    doc.setFontSize(10);
+    let cols = [20, 40, 140];
+    let headers = ['Código', 'Nome', 'Total de Horas'];
+
+    for(let h = 0; h < headers.length; h++){
+      doc.text(headers[h], cols[h], linha);
+    }
+
+    linha += 10;
+    
+    this.reports.body.forEach(r =>{
+      doc.text(r.id.toString(), cols[0], linha);
+      doc.text(r.nome, cols[1], linha);
+      doc.text(r.total.toString(), cols[2], linha);
+      linha += 10;
+    })
+    
+    doc.save('report.pdf')
+
   }
 
 }

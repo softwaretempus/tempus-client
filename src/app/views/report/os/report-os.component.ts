@@ -7,8 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ReportOsService } from './report-os.service';
 import { IReportOs } from './ReportOs';
-
 import * as moment from 'moment';
+import * as jsPDF from 'jspdf'
 
 @Component({
   selector: 'app-report',
@@ -19,7 +19,7 @@ export class ReportOsComponent implements OnInit {
   title: string = 'Relatorios'
   errorMessage: string
   reportsForm: FormGroup
-  reports: any[] = []
+  reports: any = []
   filteredList: IReportOs[]
   _listFilter: string = ''
 
@@ -87,6 +87,59 @@ export class ReportOsComponent implements OnInit {
 
   convertDate(data: Date): string {
     return moment(data).format('DD/MM/YYYY HH:mm')
+  }
+
+  getPDF(){
+
+    const status = this.reportsForm.get('status').value
+    const data_inicio = moment(this.reportsForm.get('data_inicio').value).format('DD/MM/YYYY');
+    const data_fim = moment(this.reportsForm.get('data_fim').value).format('DD/MM/YYYY');
+
+    let doc = new jsPDF()
+
+    let linha = 10;
+    
+    // Cabeçalho
+    doc.setLineWidth(0.5);
+    doc.line(20, linha, 200, linha);
+    linha += 10;
+    
+    doc.setFontSize(14);
+    doc.text(`Relatório de Ordens de Serviço ${status}s`, 105 , linha, null, null, 'center');
+    linha += 5;
+    
+    doc.setFontSize(10);
+    doc.text(`Período: ${data_inicio} a ${data_fim}`, 105 , linha, null, null, 'center');
+    linha += 5;
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, linha, 200, linha);
+    
+    linha += 10;
+    doc.setFontSize(10);
+    let cols = [20, 40, 120, 140, 170];
+    let headers = ['Número', 'Descrição', 'Data', 'Hora Início', 'Hora Fim'];
+
+    for(let h = 0; h < headers.length; h++){
+      doc.text(headers[h], cols[h], linha);
+    }
+
+    linha += 10;
+    
+    this.reports.body.forEach(r =>{
+      doc.text(r.id.toString(), cols[0], linha);
+      doc.text(r.descricao, cols[1], linha);
+      let data = moment(r.data_hora_inicio).format('DD/MM/YYYY');
+      doc.text(data, cols[2], linha);
+      let hora_inicio = moment(r.data_hora_inicio).format('HH:mm');
+      doc.text(hora_inicio, cols[3], linha);
+      let hora_fim = moment(r.data_hora_final).format('HH:mm');
+      doc.text(hora_fim, cols[4], linha);
+      linha += 10;
+    })
+    
+    doc.save('report.pdf')
+
   }
 
 }
