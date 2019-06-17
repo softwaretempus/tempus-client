@@ -44,7 +44,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
   userSkills: any[] = [];
 
   customers: ICustomer[] = [];
-  customer;
+  customer: any;
 
   user: IUser;
   superior: any;
@@ -414,8 +414,10 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     let selected = parseInt(event.target.value)
     this.customer = this.customers.map((customer) => {
       if (customer.id === selected) {
+        console.log(customer)
         this.customer = customer
-        //customer.map(c => { return c })
+        this.user.cliente = customer
+        return customer
       }
     });
   }
