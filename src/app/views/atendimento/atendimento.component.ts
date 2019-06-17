@@ -38,13 +38,20 @@ export class AtendimentoComponent implements OnInit {
   async deleteAtendimento(atendimento: IAtendimento) {
     if (confirm(`Deseja realmente excluir o atendimento "${atendimento.assunto}"?`)) {
       await this.atendimentoService.deleteAtendimento(atendimento.id)
-        .subscribe(
-          () => this.onSaveComplete(),
-          (error: any) => this.showError('Algo está errado. Tente mais tarde.')
-        );
-      this.showSuccess('Atendimento removido da base de dados.')
-      this.atendimentos.splice(atendimento.id, 1);
-      console.log(this.atendimentos)
+      .subscribe(
+        () => { 
+          this.showSuccess('Atendimento removido da base de dados.')
+          this.atendimentos.splice(atendimento.id, 1);
+          this.onSaveComplete()
+        },
+        (error: any) =>  {
+          if(error){
+            this.showError(error);
+          }else{
+            this.showError('Algo está errado. Tente mais tarde.')
+          }
+        } 
+      );
     }
   }
 

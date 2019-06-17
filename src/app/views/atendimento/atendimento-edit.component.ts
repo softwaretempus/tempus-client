@@ -131,10 +131,18 @@ export class AtendimentoEditComponent implements OnInit, AfterViewInit, OnDestro
       if (confirm(`Deseja realmente excluir o atendimento "${this.atendimento.assunto}"?`)) {
         this.atendimentoService.deleteAtendimento(this.atendimento.id)
           .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) =>  this.showError('Algo está errado. Tente mais tarde.')
+            () => { 
+              this.showSuccess('Atendimento removido da base de dados.')
+              this.onSaveComplete()
+            },
+            (error: any) =>  {
+              if(error){
+                this.showError(error);
+              }else{
+                this.showError('Algo está errado. Tente mais tarde.')
+              }
+            } 
           );
-        this.showSuccess('Atendimento removido da base de dados.')
       }
     }
   }
