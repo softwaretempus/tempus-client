@@ -6,6 +6,7 @@ import {IAgendamento } from './Agendamento';
 import {IUser} from '../user/User';
 import {UserService} from '../user/user.service';
 import {AgendamentoService} from './agendamento.service';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
@@ -51,6 +52,7 @@ export class AgendamentoComponent implements OnInit {
               atendimentoService: AtendimentoService,
               userService: UserService,
               agendamentoService: AgendamentoService,
+              private toastr: ToastrService,
               private fb: FormBuilder
   ){
     
@@ -276,9 +278,16 @@ export class AgendamentoComponent implements OnInit {
           await this.atualizaGrid()
           this.limpa();
           modal.close('Close click');
+          this.showSuccess('Agendamento incluído com sucesso');
           
         },
-        (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+        (error: any) =>  {
+          if(error){
+            this.showError(error);
+          }else{
+            this.showError('Algo está errado. Tente mais tarde.')
+          }
+        } 
       );
     }else{
       
@@ -291,9 +300,16 @@ export class AgendamentoComponent implements OnInit {
           await this.atualizaGrid();
           this.limpa();
           modal.close('Close click');
+          this.showSuccess('Agendamento alterado com sucesso');
           
         },
-        (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+        (error: any) =>  {
+          if(error){
+            this.showError(error);
+          }else{
+            this.showError('Algo está errado. Tente mais tarde.')
+          }
+        } 
       );
 
     }
@@ -310,9 +326,16 @@ export class AgendamentoComponent implements OnInit {
         await this.atualizaGrid();
         this.limpa();
         modal.close('Close click');
+        this.showSuccess('Agendamento excluído com sucesso');
         
       },
-      (error: any) =>  alert('Algo está errado. Tente mais tarde.')
+      (error: any) =>  {
+        if(error){
+          this.showError(error);
+        }else{
+          this.showError('Algo está errado. Tente mais tarde.')
+        }
+      } 
     );
   }
 
@@ -330,6 +353,14 @@ export class AgendamentoComponent implements OnInit {
     this.agendamentoSelecionado = null;
     this.modalOpen = false;
     this.editar = false;
+  }
+
+  showError(msg) {
+    this.toastr.error(msg, 'Erro!');
+  }
+
+  showSuccess(msg) {
+    this.toastr.success(msg, 'Sucesso!');
   }
 
 }
