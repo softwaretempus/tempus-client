@@ -257,7 +257,13 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.onSaveComplete();
                 }
               },
-              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              } 
             );
         } else {
           this.osService.updateOs(p)
@@ -266,14 +272,21 @@ export class OsEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 if(p.status === 'Em aprovação'){
                   this.osService.solicitarAprovacao(p.id).subscribe(() =>{
                     this.onSaveComplete();
+                    this.showSuccess('Ordem de serviço enviada para aprovacao com sucesso')
                   });
                 }else{
+                  this.showSuccess('Ordem de serviço alterada na base de dados.');
                   this.onSaveComplete();
                 }
               },
-              (error: any) => this.showError('Algo está errado. Tente mais tarde.')
-            );
-          this.showSuccess('Ordem de serviço alterada na base de dados.')
+              (error: any) =>  {
+                if(error){
+                  this.showError(error);
+                }else{
+                  this.showError('Algo está errado. Tente mais tarde.')
+                }
+              } 
+            );          
         }
         
       } else {
