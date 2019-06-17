@@ -415,7 +415,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customer = this.customers.map((customer) => {
       if (customer.id === selected) {
         this.customer = customer
-        customer.map(c => { return c })
+        //customer.map(c => { return c })
       }
     });
   }
