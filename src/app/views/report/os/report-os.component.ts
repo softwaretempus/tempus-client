@@ -95,6 +95,9 @@ export class ReportOsComponent implements OnInit {
     const data_inicio = moment(this.reportsForm.get('data_inicio').value).format('DD/MM/YYYY');
     const data_fim = moment(this.reportsForm.get('data_fim').value).format('DD/MM/YYYY');
 
+    let logo = new Image();
+    logo.src = 'assets/img/brand/logo.png';
+    
     let doc = new jsPDF()
 
     let linha = 10;
@@ -104,7 +107,10 @@ export class ReportOsComponent implements OnInit {
     doc.line(20, linha, 200, linha);
     linha += 10;
     
-    doc.setFontSize(14);
+    // logo
+    doc.addImage(logo, 'PNG', 25, 13, 30, 13)
+    
+    doc.setFontSize(13);
     doc.text(`Relatório de Ordens de Serviço ${status}s`, 105 , linha, null, null, 'center');
     linha += 5;
     

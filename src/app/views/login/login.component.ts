@@ -83,7 +83,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
     ).subscribe(res => {
       if (res.status_code == 200) {
         localStorage.setItem("token", res.token);
-        this.router.navigate(['/usuarios'])
+        localStorage.setItem("nome_usuario", res.user.nome);
+        localStorage.setItem("email_usuario", res.user.email);
+        localStorage.setItem("perfil_usuario", res.user.perfil);
+        localStorage.setItem("id_usuario", res.user.id);
+
+        if(res.user.perfil === 1)
+          this.router.navigate(['/os'])
+        else
+          this.router.navigate(['/usuarios'])
+
         this.toastr.success('Autenticação realizada com sucesso', 'Tudo Pronto!');
       }
       if (res.status_code == 400) {

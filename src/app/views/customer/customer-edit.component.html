@@ -34,7 +34,7 @@
         <label class="col-md-2 col-form-label" for="customerAddressId">Endereço</label>
         <div class="col-md-8">
           <input class="form-control" id="customerAddressId" type="text" formControlName="endereco"
-            [ngClass]="{'is-invalid': displayMessage.endereco }" readonly="readonly" />
+            [ngClass]="{'is-invalid': displayMessage.endereco }" />
           <span class="invalid-feedback">
             {{displayMessage.endereco}}
           </span>
@@ -67,7 +67,7 @@
         <label class="col-md-2 col-form-label" for="customerBairroId">Bairro</label>
         <div class="col-md-8">
           <input class="form-control" id="customerBairroId" type="text" formControlName="bairro"
-            [ngClass]="{'is-invalid': displayMessage.bairro }" readonly="readonly"/>
+            [ngClass]="{'is-invalid': displayMessage.bairro }" />
           <span class="invalid-feedback">
             {{displayMessage.bairro}}
           </span>
@@ -78,7 +78,7 @@
         <label class="col-md-2 col-form-label" for="customerCidadeId">Cidade</label>
         <div class="col-md-8">
           <input class="form-control" id="customerCidadeId" type="text" formControlName="cidade"
-            [ngClass]="{'is-invalid': displayMessage.cidade }" readonly="readonly" />
+            [ngClass]="{'is-invalid': displayMessage.cidade }"  />
           <span class="invalid-feedback">
             {{displayMessage.cidade}}
           </span>
@@ -89,7 +89,7 @@
         <label class="col-md-2 col-form-label" for="customerUFId">UF</label>
         <div class="col-md-8">
           <input class="form-control" id="customerUFId" type="text" formControlName="uf"
-            [ngClass]="{'is-invalid': displayMessage.uf }" readonly="readonly"/>
+            [ngClass]="{'is-invalid': displayMessage.uf }" />
           <span class="invalid-feedback">
             {{displayMessage.uf}}
           </span>

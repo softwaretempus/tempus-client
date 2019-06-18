@@ -15,6 +15,10 @@ export class LogoutComponent implements OnInit {
 
     if (confirm(`Deseja realmente sair da aplicação? Clique 'OK' para sair ou 'Cancelar' para permanecer.`)) {
       localStorage.removeItem('token')
+      localStorage.removeItem("nome_usuario");
+      localStorage.removeItem("email_usuario");
+      localStorage.removeItem("perfil_usuario");
+      localStorage.removeItem("id_usuario");
       this.router.navigate(['/login'])
       this.toastr.success('Até a próxima!', 'Sessão encerrada!');
     }

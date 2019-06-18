@@ -79,14 +79,20 @@ export class ReportUsersComponent implements OnInit {
 
     let doc = new jsPDF()
 
+    let logo = new Image();
+    logo.src = 'assets/img/brand/logo.png';
+
     let linha = 10;
     
     // Cabeçalho
     doc.setLineWidth(0.5);
     doc.line(20, linha, 200, linha);
     linha += 10;
+
+    // logo
+    doc.addImage(logo, 'PNG', 25, 13, 30, 13)
     
-    doc.setFontSize(14);
+    doc.setFontSize(13);
     doc.text(`Relatório de Horas por Usuário`, 105 , linha, null, null, 'center');
     linha += 5;
     

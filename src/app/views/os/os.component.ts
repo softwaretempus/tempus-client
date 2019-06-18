@@ -82,13 +82,34 @@ export class OsComponent implements OnInit {
   }
 
   getOss(): void {
+
+    let perfil = localStorage.getItem('perfil_usuario');
+    let id = parseInt(localStorage.getItem('id_usuario'));
+
     this.osService.getOss().subscribe(
       oss => {
-        this.oss = oss
-        this.filteredOss = this.oss
+        let os = oss as any[];
+        if(perfil === '1'){
+          this.oss = os.filter( o => {
+            return o.agendamento.id_usuario === id;
+          });
+        }else{
+          this.oss = oss;
+        }
+        this.filteredOss = this.oss;
+        
       },
       error => this.errorMessage = <any>error
     )
+  }
+
+  getDescricao(os: IOs){
+    let max = 35;
+    if(os.descricao.length <= max){
+      return os.descricao;
+    }else{
+      return os.descricao.substr(0,max) + '...';
+    }
   }
 
   showSuccess(msg) {

@@ -4,7 +4,7 @@
     class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
     <div class="row">
       <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
-        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pelo nome..." />
+        <input type="search" class="form-control mr-sm-2" [(ngModel)]="listFilter" placeholder="Busque pela descricao..." />
       </div>
       <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
         <button class="btn btn-primary mr-3" [routerLink]="['/os/0/edicao']">
@@ -20,7 +20,7 @@
       <a class="list-item">
         <div class="row">
           <div class="col-md-8 col-lg-4">
-            <span class="text-primary"># {{os.id}}</span>
+            <span class="text-primary"># {{os.id}} - {{getDescricao(os)}}</span>
             <p class="mb-0">
               <small class="text-muted">
                 {{os.status}}
