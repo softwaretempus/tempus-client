@@ -89,6 +89,15 @@ export class ReportOsComponent implements OnInit {
     return moment(data).format('DD/MM/YYYY HH:mm')
   }
 
+  getDescricao(report: any){
+    let max = 35;
+    if(report.descricao.length <= max){
+      return report.descricao;
+    }else{
+      return report.descricao.substr(0,max) + '...';
+    }
+  }
+
   getPDF(){
 
     const status = this.reportsForm.get('status').value
@@ -134,7 +143,7 @@ export class ReportOsComponent implements OnInit {
     
     this.reports.body.forEach(r =>{
       doc.text(r.id.toString(), cols[0], linha);
-      doc.text(r.descricao, cols[1], linha);
+      doc.text(this.getDescricao(r), cols[1], linha);
       let data = moment(r.data_hora_inicio).format('DD/MM/YYYY');
       doc.text(data, cols[2], linha);
       let hora_inicio = moment(r.data_hora_inicio).format('HH:mm');
